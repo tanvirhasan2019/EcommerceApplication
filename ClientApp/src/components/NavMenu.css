@@ -1,0 +1,38 @@
+﻿
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+html {
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.custom-icon {
+    color: #4267B2;
+    
+}
+    .custom-icon:hover {
+        color: #051942;
+        cursor: pointer;
+        
+    }
+*{
+    font-family: 'Open Sans', sans-serif;
+}
+.nav-header{
+    width:100%;
+    margin:auto;
+}
