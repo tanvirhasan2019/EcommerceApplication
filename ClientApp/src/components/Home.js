@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
 import ControlledCarousel from './HomeComponents/ControlledCarousel';
-import Tabs from './HomeComponents/ScrollableTabsButtonForce';
+import Tabs from './MainHome';
 import CustomVideo from './HomeComponents/customVideo';
 import PaginationExampleCompact from './HomeComponents/PaginationExampleCompact';
 import FooterLayout from './FooterLayout';
@@ -9,16 +9,13 @@ import Layout from './Layout';
 import './HomeComponents/Home.scss';
 
 
-
 import men from "./HomeComponents/images-com/men.mp4";
 import women from "./HomeComponents/images-com/videoWomen.mp4";
 import electronic from "./HomeComponents/images-com/electronics.mp4";
 
 
-export class Home extends Component {
-    static displayName = Home.name;
-   
-
+export  class Home extends Component {
+ 
     render() {
 
         const text1 = "Chase the vision, not the money, the money will end up following you";
@@ -71,3 +68,5 @@ export class Home extends Component {
     );
   }
 }
+
+

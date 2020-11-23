@@ -33,7 +33,7 @@ namespace EcommerceApp.Controllers
 
         [HttpPost]
         [Route("CreateProduct")]
-        public ActionResult CreateProduct([FromBody] Productnew products)
+        public object CreateProduct([FromBody] Productnew products)
         {
 
             try
@@ -79,19 +79,26 @@ namespace EcommerceApp.Controllers
                     _context.SaveChanges();
 
                     // return Ok("DATA SAVED SUCCESSFULLY");
-                    return Content("DATA SAVED SUCCESSFULLY");
+                    //return Content("DATA SAVED SUCCESSFULLY");
+                    // return Json(new Response { Id = 123, Name = "Hero" });
+                  //  return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-               // return Ok("SOMETHING WENT WRONG");
-                return Content("SOMETHING WENT WRONG");
+                // return Ok("SOMETHING WENT WRONG");
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
+                /* return new Response
+                 {
+                     Status = "FAILED",
+                     Message = "SOMETHING WENT WRONG"
+                 };*/
 
             }
 
             // return Ok("SOMETHING WENT WRONG");
-            return Content("SOMETHING WENT WRONG");
+            return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
         }
 
 

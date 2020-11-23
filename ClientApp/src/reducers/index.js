@@ -3,13 +3,16 @@ import character from "./character";
 import characters from "./characters";
 import location from "./location";
 import persons from "./persons";
-import AddReducer from './Formdata';
+import products from "./Products";
+//import AddReducer from './AdminCreateProduct';
+import createproduct from './AdminCreateProduct';
 
 export default combineReducers({
   character,
   characters,
   location,
-    persons,
-    AddReducer
+  persons,
+  createproduct,
+  products
 
 });

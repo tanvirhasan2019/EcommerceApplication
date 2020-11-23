@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
-import { MenImageData} from '../../../../actions/Formdata';
+import { ProductImageData} from '../../../../actions/AdminCreateProduct';
 
 function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -24,7 +24,7 @@ class PicturesWall extends React.Component {
             previewImage: '',
             previewTitle: '',
             fileList: [
-
+               
             ],
         };
        
@@ -50,8 +50,8 @@ class PicturesWall extends React.Component {
 
     handleChange = ({ fileList }) => this.setState(
         { fileList }, () => {
-            const { MenImageData } = this.props;
-            MenImageData(this.state.fileList);
+            const { ProductImageData } = this.props;
+            ProductImageData(this.state.fileList);
         }
 
     );
@@ -97,7 +97,7 @@ class PicturesWall extends React.Component {
 
 
 const mapDispatchToProps = (dispatch) => ({
-    MenImageData: (fileList) => dispatch(MenImageData(fileList)),
+    ProductImageData: (fileList) => dispatch(ProductImageData(fileList)),
    
 });
 

@@ -1,12 +1,12 @@
 ﻿
-export function MenRootData(values) {
+export function ProductRootData(values) {
     return {
         type: 'ROOT',
         Payload: values,
     };
 }
 
-export function MenImageData(values) {
+export function ProductImageData(values) {
     return {
         type: 'IMAGE',
         Payload: values,

@@ -1,29 +1,19 @@
-﻿import React, { Component, useState } from 'react';
+﻿import React, { Component} from 'react';
 import PicturesWall from './PicturesWall';
-import { atob } from 'atob';
+
 import './MenCategory.scss';
 
-import { Form, Input, InputNumber, Button } from 'antd';
+import { Form, Input, InputNumber} from 'antd';
 import { Select, Tag } from 'antd';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import { toaster } from 'evergreen-ui';
 
 import { connect } from 'react-redux';
-import { MenRootData, decreaseAction } from '../../../../actions/Formdata';
+import { ProductRootData} from '../../../../actions/AdminCreateProduct';
 import authService from '../../../api-authorization/AuthorizeService';
 
- /*function _base64ToArrayBuffer(base64) {
-    var binary_string = window.atob(base64);
-   // var binary_string = window.atob(decodeURIComponent(base64));
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-        bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-}
-*/
+ 
 const layout = {
     labelCol: {
         span: 8,
@@ -58,11 +48,11 @@ class MenCategory extends Component {
    
     onFinish(values) {
 
-        const { MenRootData} = this.props;
+        const {ProductRootData} = this.props;
        
 
        // console.log(values);
-        MenRootData(values);
+        ProductRootData(values);
 
         
        // console.log(JSON.stringify(Data));
@@ -82,12 +72,11 @@ class MenCategory extends Component {
         console.log("Token Data here : " + token);
 
         const { Data} = this.props;
-        
+       
 
-         const ProductImage = [           
-             {
-                
-                 img1: Data.Img[0].thumbUrl
+        const ProductImage = [
+             {     
+                img1: Data.Img[0].thumbUrl
              },        
              {
                  img2: Data.Img[1].thumbUrl
@@ -123,24 +112,21 @@ class MenCategory extends Component {
             }), 
         })
             .then(response => response.json())
-            .then(data => {
-                toaster.danger(
-                    ''+data
+            .then(Response => {
+                toaster.success(
+                    '' + Response.status
                 )
-                console.log('Success:', data);
-               
+                console.log('Success:', Response);
 
-                
             })
             .catch((error) => {
-              
+
                 console.error('Error:', error);
                 toaster.danger(
                     'Something went wrong trying to create your audience'
                 )
             });
-
-        console.log("Posted after pass data :" + Data.Root.user.title);  
+       // console.log("Posted after pass data :" + Data.Root.user.title);  
 
       
     }
@@ -301,14 +287,14 @@ function handleChange(value) {
 
 const mapStateToProps = (state) => ({
 
-    Data:state.AddReducer
+    Data: state.createproduct
     
 });
 
 
 const mapDispatchToProps = (dispatch) => ({
-    MenRootData: (values) => dispatch(MenRootData(values)),
-    decreaseAction: () => dispatch(decreaseAction()),
+    ProductRootData: (values) => dispatch(ProductRootData(values)),
+    //decreaseAction: () => dispatch(decreaseAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenCategory);

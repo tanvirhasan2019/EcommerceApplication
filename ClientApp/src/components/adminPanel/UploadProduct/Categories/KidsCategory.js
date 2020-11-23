@@ -8,6 +8,10 @@ import { Select, Tag } from 'antd';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
 
+import { toaster } from 'evergreen-ui';
+import { connect } from 'react-redux';
+import { ProductRootData } from '../../../../actions/AdminCreateProduct';
+import authService from '../../../api-authorization/AuthorizeService';
 
 
 
@@ -37,7 +41,7 @@ const options_size = [{ value: 'small' }, { value: 'medium' }, { value: 'large' 
 
 
 
-export default class KidsCategory extends Component {
+ class KidsCategory extends Component {
     constructor(props) {
         super(props);
 
@@ -52,9 +56,86 @@ export default class KidsCategory extends Component {
     }
 
 
+    handleSubmit(values) {
 
-    handleSubmit(event) {
+        const { ProductRootData } = this.props;
 
+
+        // console.log(values);
+        ProductRootData(values);
+
+
+        // console.log(JSON.stringify(Data));
+
+        //SEND TO SERVER
+        this.SubmiData();
+
+
+    }
+
+
+    async SubmiData() {
+
+
+        const token = await authService.getAccessToken();
+        console.log("Token Data here : " + token);
+
+        const { Data } = this.props;
+
+
+        const ProductImage = [
+            {
+                img1: Data.Img[0].thumbUrl
+            },
+            {
+                img2: Data.Img[1].thumbUrl
+            },
+            {
+                img3: Data.Img[2].thumbUrl
+            },
+            {
+                img4: Data.Img[3].thumbUrl
+            },
+            {
+                img5: Data.Img[4].thumbUrl
+            }
+        ]
+
+        console.log(ProductImage)
+
+
+        fetch('Admin/CreateProduct', {
+            method: 'POST', // or 'PUT'
+            headers: !token ? {} : {
+                'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+
+                'title': Data.Root.user.title,
+                'description': Data.Root.user.description,
+                'quantity': Data.Root.user.quantity,
+                'price': Data.Root.user.price,
+                'category': "ELECTRONICS",
+                'subcategory': Data.Root.user.subcategory,
+                'Img': ProductImage
+            }),
+        })
+            .then(response => response.json())
+            .then(Response => {
+                toaster.success(
+                    '' + Response.status
+                )
+                console.log('Success:', Response);
+
+            })
+            .catch((error) => {
+
+                console.error('Error:', error);
+                toaster.danger(
+                    'Something went wrong trying to create your audience'
+                )
+            });
+       // console.log("Posted after pass data :" + Data.Root.user.title);
 
 
     }
@@ -71,7 +152,7 @@ export default class KidsCategory extends Component {
                     KIDS ITEM
                 </div>
                 <Form.Item
-                    name={['user', 'name']}
+                    name={['user', 'title']}
                     label="Product Title"
                     rules={[
                         {
@@ -81,8 +162,20 @@ export default class KidsCategory extends Component {
                 >
                     <Input />
                 </Form.Item>
+                <Form.Item
 
-                <Form.Item name={['user', 'introduction']} label="DESCRIPTION"
+                    name={['user', 'subcategory']}
+                    label="Sub-Category"
+
+                    rules={[
+                        {
+                            required: true,
+                        },
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item name={['user', 'description']} label="DESCRIPTION"
 
                     rules={[
                         {
@@ -94,7 +187,7 @@ export default class KidsCategory extends Component {
                 </Form.Item>
 
                 <Form.Item
-                    name={['user', 'age']}
+                    name={['user', 'price']}
                     label="PRICE"
                     rules={[
                         {
@@ -110,7 +203,7 @@ export default class KidsCategory extends Component {
 
 
                 <Form.Item
-                    name={['user', 'Quantity']}
+                    name={['user', 'quantity']}
                     label="QUANTITY"
                     rules={[
                         {
@@ -190,3 +283,16 @@ function tagRenderColor(props) {
 function handleChange(value) {
     console.log(`selected ${value}`);
 }
+const mapStateToProps = (state) => ({
+
+    Data: state.createproduct
+
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+    ProductRootData: (values) => dispatch(ProductRootData(values)),
+    //decreaseAction: () => dispatch(decreaseAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(KidsCategory);

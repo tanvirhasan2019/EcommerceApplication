@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿//import React{ useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,6 +17,8 @@ import KidsItem from './NewFolder/KidsItem';
 import ElectronicItem from './NewFolder/ElectronicItem';
 import StationaryItem from './NewFolder/StationaryItem';
 
+import { connect } from 'react-redux';
+import { fetchProducts } from '../../actions/Products';
 
 
 import Box from '@material-ui/core/Box';
@@ -67,12 +70,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ScrollableTabsButtonForce() {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+     const [value, setValue, fetchProducts] = React.useState(0);
+
+     //const { fetchProducts } = this.props;
+     //fetchProducts();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-    };
+     };
 
+    
     return (
         <div className={classes.root}>
             <AppBar position="static" color="default">
@@ -225,3 +232,4 @@ export default function ScrollableTabsButtonForce() {
         </div>
     );
 }
+

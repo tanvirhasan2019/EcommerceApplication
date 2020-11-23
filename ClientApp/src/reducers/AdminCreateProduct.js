@@ -2,35 +2,53 @@
     value: 0,
 };
 
-const FirstState = {
-    valueMen:[]
-};
-
+const ImgInitial= [
+    {
+        thumbUrl:''
+    }
+    ,
+    {
+        thumbUrl: ''
+    }
+    ,
+    {
+        thumbUrl: ''
+    }
+    ,
+    {
+        thumbUrl: ''
+    },
+    {
+        thumbUrl: ''
+    }
+]
 
 const Menitem = {
     Root: [],
     Img: [
         {
-            thumbUrl:""
-        },
-        {
-            thumbUrl: ""
-        },
-        {
-            thumbUrl: ""
-        },
-        {
-            thumbUrl: ""
-        },
-        {
-            thumbUrl: ""
+            thumbUrl: ''
         }
-
+        ,
+        {
+            thumbUrl: ''
+        }
+        ,
+        {
+            thumbUrl: ''
+        }
+        ,
+        {
+            thumbUrl: ''
+        },
+        {
+            thumbUrl: ''
+        }
     ]
 
 };
 
-export default function Formdata(state = Menitem, action) {
+export default function AdminCreateProduct(state = Menitem, action) {
     switch (action.type) {
         case 'ROOT':
            // return { ...state, Menitem: action.Payload };
@@ -42,7 +60,8 @@ export default function Formdata(state = Menitem, action) {
         case 'IMAGE':
             // return { ...state, Menitem: action.Payload };
             return {
-                ...state, Img: action.Payload
+                //...state, Img:action.Payload
+                ...state, Img: Object.assign({}, ImgInitial, action.Payload)
 
             };
 
