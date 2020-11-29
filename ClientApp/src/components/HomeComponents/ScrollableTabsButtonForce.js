@@ -68,20 +68,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ScrollableTabsButtonForce() {
+function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
     const classes = useStyles();
-     const [value, setValue, fetchProducts] = React.useState(0);
+  
+    const [value, setValue] = React.useState(0);
+   
 
-     //const { fetchProducts } = this.props;
-     //fetchProducts();
+   // const { AllPrducts } = this.props;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-     };
+    };
+
+    useEffect(() => {
+        fetchProducts()
+            .catch(error => {
+                console.log("Loading authors failed: " + error);
+            });
+    }, [])
+   
 
     
-    return (
-        <div className={classes.root}>
+     return (
+         <div className={classes.root}>
+            
             <AppBar position="static" color="default">
                 <Tabs
                     value={value}
@@ -105,7 +115,14 @@ export default function ScrollableTabsButtonForce() {
             <TabPanel value={value} index={0}>
 
                 <div className="container">
-                    <div className="card-deck">
+                    <div className="card-deck">                   
+                          
+                         {
+                             allProducts.isLoading === false && allProducts.isLoading !== undefined &&
+                             console.log("LOADING ... " + allProducts.data[0].title)
+
+                         }
+                            
 
                 <StationaryItem />
                 <MenItems />
@@ -232,4 +249,21 @@ export default function ScrollableTabsButtonForce() {
         </div>
     );
 }
+const mapStateToProps = (state) => ({
+
+
+   
+   // isLoading: state.products.isLoading,
+    allProducts: state.products
+
+});
+
+
+
+const mapDispatchToProps = {
+    fetchProducts
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ScrollableTabsButtonForce);
+//const ScrollableTabsButtonForce = connect(mapStateToProps, mapDispatchToProps)(_AuthorsPage)
 

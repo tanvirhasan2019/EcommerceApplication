@@ -43,7 +43,7 @@ export const fetchProducts = () => async dispatch => {
         );
         return dispatch({
             type: FETCH_PRODUCTS_SUCCESS,
-            data: response.data
+            data: response.data.data
           
         });
     } catch (err) {

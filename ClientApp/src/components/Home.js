@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
 import ControlledCarousel from './HomeComponents/ControlledCarousel';
-import Tabs from './MainHome';
+import Tabs from './HomeComponents/ScrollableTabsButtonForce';
 import CustomVideo from './HomeComponents/customVideo';
 import PaginationExampleCompact from './HomeComponents/PaginationExampleCompact';
 import FooterLayout from './FooterLayout';

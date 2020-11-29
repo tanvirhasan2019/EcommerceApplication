@@ -39,19 +39,7 @@ namespace EcommerceApp.Controllers
             var productList = await _context.Products.ToListAsync();
           
 
-         /*   var obj = new CustomProductImage();
-            foreach(var x in productImage)
-            {
-                obj.id = x.id;
-                obj.productid = x.productid;
-                obj.img1 = System.Text.Encoding.Default.GetString(x.img1);
-                obj.img2 = System.Text.Encoding.Default.GetString(x.img2);
-                obj.img3 = System.Text.Encoding.Default.GetString(x.img3); 
-                obj.img4 = System.Text.Encoding.Default.GetString(x.img4); 
-                obj.img5 = System.Text.Encoding.Default.GetString(x.img5);
-
-            };*/
-           
+        
             return Ok(new { data = productList });      
         }
     
