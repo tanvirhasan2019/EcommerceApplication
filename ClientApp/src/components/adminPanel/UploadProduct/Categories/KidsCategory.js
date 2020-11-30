@@ -115,7 +115,7 @@ const options_size = [{ value: 'small' }, { value: 'medium' }, { value: 'large' 
                 'description': Data.Root.user.description,
                 'quantity': Data.Root.user.quantity,
                 'price': Data.Root.user.price,
-                'category': "ELECTRONICS",
+                'category': "KIDS",
                 'subcategory': Data.Root.user.subcategory,
                 'Img': ProductImage
             }),

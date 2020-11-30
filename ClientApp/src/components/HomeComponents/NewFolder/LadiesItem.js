@@ -12,11 +12,16 @@ import RadioColor from '../NewFolder/RadioButtonColor';
 class LadiesItem extends Component {
 
     render() {
-
+        let titleImage = " ";
+        if (this.props.value.img !== null) {
+            titleImage = atob(this.props.value.img[0].img1);
+        } else {
+            titleImage = require('../images-com/NewFolder/ladies.jpg');
+        }
         return (
             <div className="col-sm-6 col-md-4 card-items">
                 <div className="card shadow mb-5 bg-white rounded">
-                    <img className="card-img-top" src={img3} alt="Card image cap" />
+                    <img className="card-img-top" src={titleImage} alt="Card image cap" />
                     <div className="card-body">
                         <h5 className="card-title">Card title</h5>
                         <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>

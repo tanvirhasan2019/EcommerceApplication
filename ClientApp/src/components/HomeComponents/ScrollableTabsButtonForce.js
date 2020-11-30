@@ -87,7 +87,25 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
             });
     }, [])
    
+    function SwitchCase(props) {
+        switch (props.value.category) {
+            case 'GENTS':
+                return <MenItems key={props.value.id} value={props.value} />;
+            case 'KIDS':
+                return <KidsItem key={props.value.id} value={props.value}/>;
+            case 'ELECTRONICS':
+                return <ElectronicItem key={props.value.id} value={props.value}/>;
+            case 'LADIES':
+                return <LadiesItem key={props.value.id} value={props.value}/>;
+            case 'STATIONARY':
+                return <StationaryItem key={props.value.id} value={props.value}/>;
+            
+            default:
+                return null;
+        }
+    }
 
+    
     
      return (
          <div className={classes.root}>
@@ -119,24 +137,19 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
                           
                          {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
-                             console.log("LOADING ... " + allProducts.data[0].title)
-
-                         }
                             
+                             allProducts.data.map(item => 
+                                 <SwitchCase value={item} />
+                                // console.log("IMG URL "+item.img[0].img1)
+                               /* item.img !== null ? item.img.map(data =>
 
-                <StationaryItem />
-                <MenItems />
-                <LadiesItem />
-                <ElectronicItem />
-                <KidsItem />
-                <LadiesItem />
-                <StationaryItem />
-                <KidsItem />
-                <MenItems />
-                <StationaryItem />
-                <MenItems />
-                <StationaryItem />
+                                     console.log("IMG URL " + data.img1)
 
+                                 ) :null*/
+                             )
+                   
+                         }
+                 
 
                     </div>
                 </div>
@@ -145,22 +158,14 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
             <TabPanel value={value} index={1}>
 
                 <div className="container">
-                    <div className="card-deck">
-               
-                    <MenItems />
-                    <MenItems />
-                    <MenItems />
-                    <MenItems />
-                    <MenItems />
-                    <MenItems />
-                    <MenItems />
-                    <MenItems />
-                    <MenItems />
-                    <MenItems />
-                    <MenItems />
-                    <MenItems />
+                     <div className="card-deck">
+                         {
+                             allProducts.isLoading === false && allProducts.isLoading !== undefined &&
+                             allProducts.data.map(item =>
+                                 item.category ==='GENTS'? < SwitchCase value = { item } />:null
+                             )
 
-               
+                         }
                     </div>
                 </div>
                   
@@ -171,20 +176,13 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
                 <div className="container">
                     <div className="card-deck">
 
-                        <LadiesItem />
-                        <LadiesItem />
-                        <LadiesItem />
-                        <LadiesItem />
-                        <LadiesItem />
-                        <LadiesItem />
-                        <LadiesItem />
-                        <LadiesItem />
-                        <LadiesItem />
-                        <LadiesItem />
-                        <LadiesItem />
-                        
-                       
+                         {
+                             allProducts.isLoading === false && allProducts.isLoading !== undefined &&
+                             allProducts.data.map(item =>
+                                 item.category === 'LADIES' ? < SwitchCase value={item} /> : null
+                             )
 
+                         }
 
                     </div>
                 </div>
@@ -196,15 +194,13 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
                 <div className="container">
                     <div className="card-deck">
 
-                        <KidsItem />
-                        <KidsItem />
-                        <KidsItem />
-                        <KidsItem />
-                        <KidsItem />
-                        <KidsItem />
-                        <KidsItem />
-                        <KidsItem />
-                        <KidsItem />
+                         {
+                             allProducts.isLoading === false && allProducts.isLoading !== undefined &&
+                             allProducts.data.map(item =>
+                                 item.category === 'KIDS' ? < SwitchCase value={item} /> : null
+                             )
+
+                         }
 
                     </div>
                 </div>
@@ -213,16 +209,13 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
                 <div className="container">
                     <div className="card-deck">
 
-                        <ElectronicItem />
-                        <ElectronicItem />
-                        <ElectronicItem />
-                        <ElectronicItem />
-                        <ElectronicItem />
-                        <ElectronicItem />
-                        <ElectronicItem />
-                        <ElectronicItem />
-                        <ElectronicItem />
+                         {
+                             allProducts.isLoading === false && allProducts.isLoading !== undefined &&
+                             allProducts.data.map(item =>
+                                 item.category === 'ELECTRONICS' ? < SwitchCase value={item} /> : null
+                             )
 
+                         }
                     </div>
                 </div>
       </TabPanel>
@@ -230,16 +223,13 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
                 <div className="container">
                     <div className="card-deck">
 
-                        <StationaryItem />
-                        <StationaryItem />
-                        <StationaryItem />
-                        <StationaryItem />
-                        <StationaryItem />
-                        <StationaryItem />
-                        <StationaryItem />
-                        <StationaryItem />
-                        <StationaryItem />
-                        <StationaryItem />
+                         {
+                             allProducts.isLoading === false && allProducts.isLoading !== undefined &&
+                             allProducts.data.map(item =>
+                                 item.category === 'STATIONARY' ? < SwitchCase value={item} /> : null
+                             )
+
+                         }
 
                       
                     </div>
@@ -249,6 +239,8 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
         </div>
     );
 }
+
+
 const mapStateToProps = (state) => ({
 
 

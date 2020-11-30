@@ -5,7 +5,19 @@ import RadioButtonGrp from './NewFolder/RadioButtonGrp';
 import RadioColor from './NewFolder/RadioButtonColor';
 import ModelMenProduct from './NewFolder/ModalMenProduct';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { Collapse } from 'antd';
+import { SettingOutlined } from '@ant-design/icons';
 
+const { Panel } = Collapse;
+
+/*const genExtra = () => (
+    <SettingOutlined
+        onClick={event => {
+            // If you don't want click extra trigger collapse, you can prevent this:
+            event.stopPropagation();
+        }}
+    />
+);*/
 export class MenItems extends Component {
 
     handleSubmit(event) {
@@ -14,17 +26,41 @@ export class MenItems extends Component {
 
     }
     render() {
+
+        //const img11 = this.props.img
+        var titleImage ='';
+        if (this.props.value.img !== null) {
+          
+
+             titleImage = atob(this.props.value.img[0].img1);
+          
+            
+        } else {
+            titleImage = require('./images-com/NewFolder/gents.jpg');
+        }
+        
+
+
         return (
             <div className="col-sm-6 col-md-4 card-items">
                 <div className="card shadow mb-5 bg-white rounded">
-                    <img className="card-img-top" src={img3} alt="Card image cap" />
+                    <img className="card-img-top" src={titleImage} alt="Card image cap" />
                     <div className="card-body">
-                        <h5 className="card-title">Card title</h5>
-                        <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                        <h5 className="card-title">{this.props.value.title}</h5>
+
                     </div>
 
+                    
+                    <Collapse className="card-footer" style={{ margin: '0px', padding: '0px', border:'none' }}
+                          >
+                        <Panel className="description-text card-footer" header="DESCRIPTION" key="1" style={{ margin: '0px', padding: '0px', width:'100%', borderRadius:'0px' }} >
+                            <div>{this.props.value.description}</div>
+                        </Panel>
+                        </Collapse>
+                   
+
                     <div className="card-footer">
-                        <p className="price-text">BDT: 200</p>
+                        <p className="price-text">{this.props.value.price}</p>
                     </div>
 
 
