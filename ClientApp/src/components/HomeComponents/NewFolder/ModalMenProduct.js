@@ -9,7 +9,7 @@ const ModalMenProduct = () => {
     return (
         <>
             <Button type="primary" onClick={() => setVisible(true)} style={{ width: '100%', backgroundColor: 'white', color:'#424242',border:'none' }}>
-                <span><i><VisibilityIcon style={{ textAlign: 'center', marginRight: '10px' }}/></i></span> QUICK VIEW
+                <span><i><VisibilityIcon style={{ textAlign: 'center', marginRight: '10px', color: 'rgba(255, 23, 68, 0.90)' }} /></i></span> <span style={{color: 'rgba(255, 23, 68, 0.90)'}}>QUICK VIEW</span>
       </Button>
             
             <Modal

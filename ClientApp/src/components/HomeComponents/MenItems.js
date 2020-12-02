@@ -6,6 +6,7 @@ import RadioColor from './NewFolder/RadioButtonColor';
 import ModelMenProduct from './NewFolder/ModalMenProduct';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Collapse } from 'antd';
+import addToCart from '../HomeComponents/NewFolder/cartItemStore';
 import { SettingOutlined } from '@ant-design/icons';
 
 const { Panel } = Collapse;
@@ -44,7 +45,7 @@ export class MenItems extends Component {
         return (
             <div className="col-sm-6 col-md-4 card-items">
                 <div className="card shadow mb-5 bg-white rounded">
-                    <img className="card-img-top" src={titleImage} alt="Card image cap" />
+                    <img className="card-img-top" src={titleImage} alt="NO IMAGE" />
                     <div className="card-body">
                         <h5 className="card-title">{this.props.value.title}</h5>
 
@@ -53,34 +54,23 @@ export class MenItems extends Component {
                     
                     <Collapse className="card-footer" style={{ margin: '0px', padding: '0px', border:'none' }}
                           >
-                        <Panel className="description-text card-footer" header="DESCRIPTION" key="1" style={{ margin: '0px', padding: '0px', width:'100%', borderRadius:'0px' }} >
+                        <Panel className="description-text card-footer" header="DESCRIPTION" key="1">
                             <div>{this.props.value.description}</div>
                         </Panel>
                         </Collapse>
                    
 
                     <div className="card-footer">
-                        <p className="price-text">{this.props.value.price}</p>
+                        <p className="price-text">BDT : {this.props.value.price} /-</p>
                     </div>
 
-
-                    <div className="card-footer">
-                        <div className="row d-flex justify-content-around">
-                            <div className="size-text align-items-center">SIZE</div>
-                            <RadioButtonGrp className="align-items-center" />
-                        </div>
-                    </div>
-
-                    <div className="card-footer">
-                        <div className="d-flex justify-content-around">
-                            <div className="align-self-center color-text">COLOR</div>
-                            <RadioColor className="align-self-center" />
-                        </div>
-                    </div>
 
                     <div className="card-footer" style={{ margin: '0px', padding: '0px' }}>
 
-                        <button type="button" class="cart-btn"><span><i><ShoppingCartIcon style={{ textAlign: 'center', marginRight: '10px' }} /></i></span>ADD TO CART</button>
+                        <button onClick={() =>addToCart(this.props.value.id, 1)}
+                            type="button" class="cart-btn"><span><i>
+                            <ShoppingCartIcon style={{ textAlign: 'center', marginRight: '10px' }} /></i>
+                        </span>ADD TO CART</button>
 
                     </div>
 
