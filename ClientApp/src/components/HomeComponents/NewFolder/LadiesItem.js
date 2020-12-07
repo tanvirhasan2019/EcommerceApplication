@@ -51,7 +51,8 @@ class LadiesItem extends Component {
 
                     <div className="card-footer" style={{ margin: '0px', padding: '0px' }}>
 
-                        <ModelMenProduct className="view-btn" />
+                        <ModelMenProduct className="view-btn" data={this.props.value} header={this.props.value.title} />                                                     
+                          
                     </div>
 
 

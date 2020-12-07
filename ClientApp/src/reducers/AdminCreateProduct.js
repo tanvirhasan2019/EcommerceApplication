@@ -4,22 +4,22 @@
 
 const ImgInitial= [
     {
-        thumbUrl:''
+        originFileObj:''
     }
     ,
     {
-        thumbUrl: ''
+        originFileObj: ''
     }
     ,
     {
-        thumbUrl: ''
+        originFileObj: ''
     }
     ,
     {
-        thumbUrl: ''
+        originFileObj: ''
     },
     {
-        thumbUrl: ''
+        originFileObj: ''
     }
 ]
 
@@ -27,22 +27,22 @@ const Menitem = {
     Root: [],
     Img: [
         {
-            thumbUrl: ''
+            originFileObj: ''
         }
         ,
         {
-            thumbUrl: ''
+            originFileObj: ''
         }
         ,
         {
-            thumbUrl: ''
+            originFileObj: ''
         }
         ,
         {
-            thumbUrl: ''
+            originFileObj: ''
         },
         {
-            thumbUrl: ''
+            originFileObj: ''
         }
     ]
 

@@ -26,9 +26,12 @@ class PicturesWall extends React.Component {
             fileList: [
                
             ],
+
+            newImg:''
+           
         };
        
-
+       
     }
 
    
@@ -36,34 +39,57 @@ class PicturesWall extends React.Component {
     handleCancel = () => this.setState({ previewVisible: false });
 
     handlePreview = async file => {
+
+        //console.log("re " + JSON.stringify(file.url));
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj);
+          // console.log("CONDITION RUNS ALL TIME" + JSON.stringify( getBase64(file.originFileObj)))
+            
         }
 
         this.setState({
             previewImage: file.url || file.preview,
             previewVisible: true,
             previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
-        });
+        })
+       
        
     };
 
-    handleChange = ({ fileList }) => this.setState(
+  
+
+     handleChange = ({ fileList }) => this.setState(
         { fileList }, () => {
+
+
+            // this.New();
             const { ProductImageData } = this.props;
             ProductImageData(this.state.fileList);
-        }
-
+        }            
+    
     );
-  
+
+    async New() {
+
+        if (this.state.fileList.length > 0) {
+            console.log("ON CHANGE " + await getBase64(this.state.fileList[0].originFileObj));
+            this.setState({
+                newImg: await getBase64(this.state.fileList[0].originFileObj)
+            })
+
+        }
+    }
     
 
-
-
+   
     render() {
-        const { previewVisible, previewImage, fileList, previewTitle } = this.state;
+        const { previewVisible, previewImage, fileList, previewTitle} = this.state;
+       // console.log("PREVIEW IMAGE " + previewImage);
+        // console.log("Original Image " +atob(previewImage))
+        if (fileList.length > 0) {
+           
+        }
        
-
         const uploadButton = (
             <div>
                 <PlusOutlined />
@@ -76,7 +102,7 @@ class PicturesWall extends React.Component {
                 <Upload
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                     listType="picture-card"
-                    fileList={fileList}
+                    fileList={fileList}                    
                     onPreview={this.handlePreview}
                     onChange={this.handleChange}
                 >

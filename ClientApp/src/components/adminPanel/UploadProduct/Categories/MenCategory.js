@@ -36,6 +36,15 @@ const validateMessages = {
 const options_color = [{ value: 'silver' }, { value: 'red' }, { value: 'green' }, { value: 'black' }];
 const options_size = [{ value: 'small' }, { value: 'medium' }, { value: 'large' }];
 
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
 class MenCategory extends Component {
     constructor(props) {
         super(props);
@@ -63,7 +72,7 @@ class MenCategory extends Component {
       
     }
 
-   
+ 
    
     async SubmiData() {
 
@@ -72,23 +81,25 @@ class MenCategory extends Component {
         console.log("Token Data here : " + token);
 
         const { Data} = this.props;
-       
+
+
+      //  console.log("ORIGINAL IMAGE URL " + JSON.stringify(getBase64(Data.Img[0].originFileObj)));
 
         const ProductImage = [
              {     
-                img1: Data.Img[0].thumbUrl
+                img1: Data.Img[0]
              },        
              {
-                 img2: Data.Img[1].thumbUrl
+                 img2: Data.Img[1]
              },
              {
-                 img3: Data.Img[2].thumbUrl
+                 img3: Data.Img[2]
              },
              {
-                 img4: Data.Img[3].thumbUrl
+                 img4: Data.Img[3]
              },
              {
-                 img5: Data.Img[4].thumbUrl
+                 img5: Data.Img[4]
              }       
          ]
 
