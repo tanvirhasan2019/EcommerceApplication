@@ -70,13 +70,13 @@ export default class MenModalCustom extends Component {
         return (
             <div className="container"
                 style={{
-                    width: '100%', backgroundColor: 'white', height: '80vh',
+                    width: '100%', backgroundColor: 'white', height: 'auto',
                     margin: '0px', padding:'0px'
                 }}>
 
-                <div className="row" style={{ margin: '0px', padding: '0px', height: '100%' }}>
+                <div className="row" style={{ margin: '0px', padding: '0px', height: 'auto'}}>
                    
-                    <div className="col-md-2 d-flex flex-column justify-content-around" style={{ height: '100%'}} >
+                    <div className="col-md-2 d-flex flex-column justify-content-around" style={{ height: '80vh'}} >
 
                         <img onClick={this.SelectImage.bind(this, img1)} src={img1 || Noimg} alt="NO IMAGE" className="img-thumbnail all-img" style={{height:'20%'}} />
                         <img onClick={this.SelectImage.bind(this, img2)} src={img2 || Noimg} alt="NO IMAGE" className="img-thumbnail all-img" style={{ height: '20%' }} />
@@ -104,9 +104,10 @@ export default class MenModalCustom extends Component {
                             <div className="align-self-center" style={{ marginRight: '10px' }} >QUANTITY </div>
                             <InputNumber size="large" min={1} max={10} defaultValue={1} onChange={onChange} style={{ marginRight: '10px' }} />
 
-                            <Fab variant="extended" color="primary" aria-label="add" style={{ border:'none' }}>
-                                <NavigationIcon className="ShoppingCart" onClick={() =>
+                            <Fab variant="extended" color="primary" aria-label="add" style={{ border: 'none' }}>
+                                <NavigationIcon  className="ShoppingCart" onClick={() =>
                                     toaster.success(
+                                        
                                         'Item Added to Cart',
                                         {
                                             duration: 5
@@ -119,23 +120,20 @@ export default class MenModalCustom extends Component {
                             </Fab>
                         </div>
 
-                        <div className="price-text">PRODUCT INFO </div>
+                        <div>
+                            <div className="price-text">PRODUCT INFO </div>
+                            <div className="justify-content-start">
+                             <div className="row" style={{ fontSize: '1rem' }}>
+                                    {this.props.value.title}
+                                </div>
+                              <div className="row" style={{ fontSize: '.9rem', marginTop: '10px' }}>
+                                    {this.props.value.description}
+                               </div>
 
 
-                        <div className="justify-content-start">
-
-                            <div className="row" style={{ fontSize: '1rem' }}>                               
-                                {this.props.value.title}
-                            </div>
-                            
-                           
-
-                            <div className="row" style={{ fontSize: '.9rem', marginTop: '10px' }}>
-                                {this.props.value.description}
-                            </div>
-
-                            
+                         </div>
                         </div>
+                      
                     </div>
 
                 </div>

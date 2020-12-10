@@ -37,6 +37,14 @@ const options_color = [{ value: 'silver' }, { value: 'red' }, { value: 'green' }
 const options_size = [{ value: 'small' }, { value: 'medium' }, { value: 'large' }];
 
 
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
 
 
  class StationaryCategory extends Component {
@@ -81,23 +89,73 @@ const options_size = [{ value: 'small' }, { value: 'medium' }, { value: 'large' 
         const { Data } = this.props;
 
 
+        let x1 = '', x2 = '', x3 = '', x4 = '', x5 = '';
+
+        try {
+            if (await getBase64(Data.Img[0].originFileObj) !== undefined || await getBase64(Data.Img[0].originFileObj) !== null) {
+                x1 = await getBase64(Data.Img[0].originFileObj);
+            }
+        } catch{
+            x1 = '';
+        }
+
+
+        try {
+            if (await getBase64(Data.Img[1].originFileObj) !== undefined || await getBase64(Data.Img[1].originFileObj) !== null) {
+                x2 = await getBase64(Data.Img[1].originFileObj);
+            }
+        } catch{
+            x2 = '';
+        }
+
+        try {
+            if (await getBase64(Data.Img[2].originFileObj) !== undefined || await getBase64(Data.Img[2].originFileObj) !== null) {
+                x3 = await getBase64(Data.Img[2].originFileObj);
+            }
+        } catch{
+            x3 = '';
+        }
+
+        try {
+            if (await getBase64(Data.Img[3].originFileObj) !== undefined || await getBase64(Data.Img[3].originFileObj) !== null) {
+                x4 = await getBase64(Data.Img[3].originFileObj);
+            }
+        } catch{
+            x4 = '';
+        }
+
+        try {
+
+            if (await getBase64(Data.Img[4].originFileObj) !== undefined || await getBase64(Data.Img[4].originFileObj) !== null) {
+                x5 = await getBase64(Data.Img[4].originFileObj);
+            }
+
+        } catch{
+            x5 = '';
+        }
+
+
+
         const ProductImage = [
             {
-                img1: Data.Img[0].thumbUrl
+                img1: x1
+
             },
             {
-                img2: Data.Img[1].thumbUrl
+                img2: x2
             },
             {
-                img3: Data.Img[2].thumbUrl
+                img3: x3
             },
             {
-                img4: Data.Img[3].thumbUrl
+                img4: x4
             },
             {
-                img5: Data.Img[4].thumbUrl
+                img5: x5
             }
+
         ]
+
 
         console.log(ProductImage)
 

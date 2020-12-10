@@ -16,6 +16,8 @@ import LadiesItem from './NewFolder/LadiesItem';
 import KidsItem from './NewFolder/KidsItem';
 import ElectronicItem from './NewFolder/ElectronicItem';
 import StationaryItem from './NewFolder/StationaryItem';
+import GentsItem from './NewFolder/GentsItem';
+
 
 import { connect } from 'react-redux';
 import { fetchProducts } from '../../actions/Products';
@@ -23,7 +25,10 @@ import { fetchProducts } from '../../actions/Products';
 
 import Box from '@material-ui/core/Box';
 
-import { MenItems } from '../HomeComponents/MenItems';
+
+
+
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -90,7 +95,7 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
     function SwitchCase(props) {
         switch (props.value.category) {
             case 'GENTS':
-                return <MenItems key={props.value.id} value={props.value} />;
+                return <GentsItem key={props.value.id} value={props.value} />;
             case 'KIDS':
                 return <KidsItem key={props.value.id} value={props.value}/>;
             case 'ELECTRONICS':
@@ -133,20 +138,18 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
             <TabPanel value={value} index={0}>
 
                 <div className="container">
-                    <div className="card-deck">                   
+                     <div className="card-deck"> 
+                         {
+                             allProducts.isLoading
+                         }
                           
                          {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
                             
                              allProducts.data.map(item => 
-                                 <SwitchCase value={item} />
-                                // console.log("IMG URL "+item.img[0].img1)
-                               /* item.img !== null ? item.img.map(data =>
-
-                                     console.log("IMG URL " + data.img1)
-
-                                 ) :null*/
-                             )
+                                 <SwitchCase value={item} /> 
+                               
+                             ) 
                    
                          }
                  
@@ -160,6 +163,8 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
                 <div className="container">
                      <div className="card-deck">
                          {
+                             
+
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
                              allProducts.data.map(item =>
                                  item.category ==='GENTS'? < SwitchCase value = { item } />:null
@@ -242,10 +247,7 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
 
 
 const mapStateToProps = (state) => ({
-
-
-   
-   // isLoading: state.products.isLoading,
+  
     allProducts: state.products
 
 });
@@ -257,5 +259,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScrollableTabsButtonForce);
-//const ScrollableTabsButtonForce = connect(mapStateToProps, mapDispatchToProps)(_AuthorsPage)
+
 

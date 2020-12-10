@@ -23,9 +23,9 @@ function ModalMenProduct(props) {
                 onCancel={() => setVisible(false)}
                 width={'95%'}
             >
-               
-                <MenModalCustom value={props.data}/>
-               
+                 
+                   <MenModalCustom value={props.data}/>
+                 
 
             </Modal>
                

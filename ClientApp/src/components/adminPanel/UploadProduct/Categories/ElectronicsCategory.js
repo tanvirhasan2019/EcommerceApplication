@@ -39,6 +39,14 @@ const options_color = [{ value: 'silver' }, { value: 'red' }, { value: 'green' }
 const options_size = [{ value: 'small' }, { value: 'medium' }, { value: 'large' }];
 
 
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
 
 
 

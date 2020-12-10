@@ -6,13 +6,22 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import addToCart from '../NewFolder/cartItemStore';
-
+import { connect } from 'react-redux';
+import { cartUpdate } from '../../../actions/cartItem';
 import { Collapse } from 'antd';
 
 const { Panel } = Collapse;
 
 class StationaryItem extends Component {
+    cartCall = () => {
 
+        console.log("BUTTON CLICK CART CALL ");
+        addToCart(this.props.value.id, 1);
+        this.props.cartUpdate();
+        console.log("BUTTON CLICK CART CALL END ");
+
+
+    }
     render() {
         let titleImage = " ";
         if (this.props.value.img !== null) {
@@ -43,7 +52,7 @@ class StationaryItem extends Component {
 
                     <div className="card-footer" style={{ margin: '0px', padding: '0px' }}>
 
-                        <button onClick={() => addToCart(this.props.value.id, 1)}
+                        <button onClick={this.cartCall}
                             type="button" class="cart-btn"><span><i><ShoppingCartIcon style={{ textAlign: 'center', marginRight: '10px' }} /></i></span>ADD TO CART
                         </button>
 
@@ -51,7 +60,7 @@ class StationaryItem extends Component {
 
                     <div className="card-footer" style={{ margin: '0px', padding: '0px' }}>
 
-                        <ModelMenProduct className="view-btn" />
+                        <ModelMenProduct className="view-btn" data={this.props.value} header={this.props.value.title} />                                                     
                     </div>
 
 
@@ -60,4 +69,15 @@ class StationaryItem extends Component {
 
         );
     }
-} export default StationaryItem
+}
+const mapStateToProps = (state) => ({
+
+    Data: state.cartUpdate
+
+});
+const mapDispatchToProps = {
+    cartUpdate
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StationaryItem);
+

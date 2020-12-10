@@ -2,7 +2,7 @@
 import '.././MenItems.scss'
 
 import addToCart from '../NewFolder/cartItemStore';
-import img3 from '../images-com/NewFolder/kids.jpg';
+
 
 import ModelMenProduct from './ModalMenProduct';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -12,12 +12,12 @@ import { connect } from 'react-redux';
 import { cartUpdate } from '../../../actions/cartItem';
 
 const { Panel } = Collapse;
-class KidsItem extends Component {
+class GentsItem extends Component {
     cartCall = () => {
 
         addToCart(this.props.value.id, 1);
         this.props.cartUpdate();
-       
+
     }
     render() {
         let titleImage = " ";
@@ -32,7 +32,7 @@ class KidsItem extends Component {
                     <img className="card-img-top" src={titleImage} alt="NO IMAGE" />
                     <div className="card-body">
                         <h5 className="card-title">{this.props.value.title}</h5>
-                        
+
                     </div>
                     <Collapse className="card-footer" style={{ margin: '0px', padding: '0px', border: 'none' }}
                     >
@@ -56,8 +56,8 @@ class KidsItem extends Component {
 
                     <div className="card-footer" style={{ margin: '0px', padding: '0px' }}>
 
-                        
-                        <ModelMenProduct className="view-btn" data={this.props.value} header={this.props.value.title} />                                                     
+
+                        <ModelMenProduct className="view-btn" data={this.props.value} header={this.props.value.title} />
 
                     </div>
 
@@ -77,4 +77,4 @@ const mapDispatchToProps = {
     cartUpdate
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(KidsItem);
+export default connect(mapStateToProps, mapDispatchToProps)(GentsItem);

@@ -7,12 +7,21 @@ import ShopTwoIcon from '@material-ui/icons/ShopTwo';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import MessageIcon from '@material-ui/icons/Message';
-
-
+import Badge from '@material-ui/core/Badge';
+import { withStyles } from '@material-ui/core/styles';
 import './NavMenu.css';
-import { Searchitem } from './Searchitem';
 
- export class NavMenu extends Component {
+
+const StyledBadge = withStyles((theme) => ({
+    badge: {
+        right: -3,
+        top: 13,
+        border: `2px solid ${theme.palette.background.paper}`,
+        padding: '0 4px',
+    },
+}))(Badge);
+
+export class NavMenu extends Component {
   static displayName = NavMenu.name;
 
   constructor (props) {
@@ -20,9 +29,12 @@ import { Searchitem } from './Searchitem';
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
-      collapsed: true
+        collapsed: true,
+       
     };
-  }
+     }
+
+     
 
   toggleNavbar () {
     this.setState({
@@ -30,24 +42,28 @@ import { Searchitem } from './Searchitem';
     });
   }
 
-  render () {
-      return (
-          <header className="nav-header">
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3 light">
+     render() {
+         let Len = this.props.cartSize;
+         if (Len < 0) {
+             Len=0
+         }
+         return (
+             <header className="nav-header">
+                 <Navbar className="navbar-expand-sm fixed-top navbar-light bg-light navbar-toggleable-sm ng-white border-bottom box-shadow mb-3 light">
                 <Container>
                     <NavbarBrand tag={Link} to="/"><ShopTwoIcon className="custom-icon" style={{ fontSize: '30px' }}/></NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
-              <ul className="navbar-nav flex-grow">
-                <NavItem>
-                    <NavLink>
-                        <Searchitem/>
-                    </NavLink>
-                </NavItem>
-
-
+              <ul className="navbar-nav flex-grow">            
                             <NavItem>
-                                <NavLink tag={Link} to="/cart-item"> <ShoppingCartIcon  className="custom-icon" style={{ fontSize:'30px' }} /></NavLink>
+                                  <NavLink tag={Link} to="/cart-item">
+
+                                      <StyledBadge badgeContent={Len} color="secondary">
+                                          <ShoppingCartIcon className="custom-icon" style={{ fontSize: '30px' }} />
+                                      </StyledBadge>
+                                     
+
+                                  </NavLink>
                             </NavItem>
                             <NavItem>
                                   <NavLink tag={Link} to="/post-data">
@@ -73,3 +89,4 @@ import { Searchitem } from './Searchitem';
     );
   }
 } 
+

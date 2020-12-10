@@ -1,29 +1,26 @@
 ﻿import React, { Component, Fragment } from 'react';
-import '../HomeComponents/MenItems.scss';
-import img3 from './images-com/NewFolder/gents.jpg';
-import RadioButtonGrp from './NewFolder/RadioButtonGrp';
-import RadioColor from './NewFolder/RadioButtonColor';
-import ModelMenProduct from './NewFolder/ModalMenProduct';
+import '.././MenItems.scss'
+import ModelMenProduct from './ModalMenProduct';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Collapse } from 'antd';
-import addToCart from '../HomeComponents/NewFolder/cartItemStore';
-import { SettingOutlined } from '@ant-design/icons';
+import addToCart from '../NewFolder/cartItemStore';
+
+
+
+import { connect } from 'react-redux';
+import cartUpdate from '../../../actions/cartItem';
 
 const { Panel } = Collapse;
 
-/*const genExtra = () => (
-    <SettingOutlined
-        onClick={event => {
-            // If you don't want click extra trigger collapse, you can prevent this:
-            event.stopPropagation();
-        }}
-    />
-);*/
-export class MenItems extends Component {
+class MenItems extends Component {
+    cartCall = () => {
 
+        addToCart(this.props.value.id, 1);
+        this.props.cartUpdate();
+
+    }
     handleSubmit(event) {
 
-        
 
     }
     render() {
@@ -67,7 +64,7 @@ export class MenItems extends Component {
 
                     <div className="card-footer" style={{ margin: '0px', padding: '0px' }}>
 
-                        <button onClick={() =>addToCart(this.props.value.id, 1)}
+                        <button onClick={this.cartCall}
                             type="button" class="cart-btn"><span><i>
                             <ShoppingCartIcon style={{ textAlign: 'center', marginRight: '10px' }} /></i>
                         </span>ADD TO CART</button>
@@ -76,7 +73,7 @@ export class MenItems extends Component {
 
                     <div className="card-footer" style={{ margin: '0px', padding: '0px' }}>
 
-                        <ModelMenProduct className="view-btn" />
+                        <ModelMenProduct className="view-btn" data={this.props.value} header={this.props.value.title} />                                                     
                     </div>
 
 
@@ -86,3 +83,13 @@ export class MenItems extends Component {
         );
     }
 }
+const mapStateToProps = (state) => ({
+
+    Data: state.cartUpdate
+
+});
+const mapDispatchToProps = {
+    cartUpdate
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenItems);

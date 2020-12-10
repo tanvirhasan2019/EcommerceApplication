@@ -1,5 +1,11 @@
+
+// IMPORT ALL CSS FILES  
+
 import 'bootstrap/dist/css/bootstrap.css';
 import 'semantic-ui-css/semantic.min.css';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import React from 'react';
 import { Provider } from "react-redux";
 import ReactDOM from 'react-dom';

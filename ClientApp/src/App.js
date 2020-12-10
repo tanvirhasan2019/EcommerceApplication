@@ -32,7 +32,6 @@ export default class App extends Component {
               <Route path='/fetch-data' component={FetchData} />
               <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
             
-             
               <Route strict exact path='/temp' component={Temp} />
               <Route strict exact path='/dashboard' component={dashboard} />
              
