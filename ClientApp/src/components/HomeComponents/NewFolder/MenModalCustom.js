@@ -91,7 +91,7 @@ export default class MenModalCustom extends Component {
 
                 <div className="row" style={{ margin: '0px', padding: '0px', height: 'auto' }}>
 
-                    <div className="col-md-2 d-flex flex-column justify-content-around" style={{ height: '80vh' }} >
+                    <div className="col-md-2 col-sm-2 d-flex flex-column justify-content-around" style={{ height: '80vh' }} >
 
                         <img onClick={this.SelectImage.bind(this, img1)} src={img1 || Noimg} alt="NO IMAGE" className="img-thumbnail" style={{ height:'20%' }} />
                         <img onClick={this.SelectImage.bind(this, img2)} src={img2 || Noimg} alt="NO IMAGE" className="img-thumbnail" style={{ height: '20%' }}  />
@@ -101,14 +101,14 @@ export default class MenModalCustom extends Component {
 
                     </div>
 
-                    <div className="col-md-6 d-flex justify-content-around selected-img">
+                    <div className="col-md-6 col-sm-10 d-flex justify-content-around selected-img">
 
 
                         {
                             (window.innerWidth <= 768) ? <GlassMagnifier
                                 imageSrc={this.state.selectedImage || img1 || Noimg} style={{ width: '100%'}}
                                 imageAlt="SOMETHING WENT WRONG"
-                                magnifierSize="30%"
+                                magnifierSize="25%"
 
                             /> : <SideBySideMagnifier style={{ width: '100%'}}
                                 imageSrc={this.state.selectedImage || img1 || Noimg}
@@ -128,17 +128,8 @@ export default class MenModalCustom extends Component {
                             <div className="align-self-center" style={{ marginRight: '10px' }} >QUANTITY </div>
                             <InputNumber size="large" min={1} max={10} defaultValue={1} onChange={onChange} style={{ marginRight: '10px' }} />
 
-                            <Fab variant="extended" color="primary" aria-label="add" style={{ border: 'none' }}>
-                                <NavigationIcon className="ShoppingCart" onClick={() =>
-                                    toaster.success(
-
-                                        'Item Added to Cart',
-                                        {
-                                            duration: 5
-                                        }
-                                    )
-                                }
-
+                            <Fab classname="add-to-cart-button" variant="extended" color="primary" aria-label="add" style={{ border: 'none' }}>
+                                <NavigationIcon
                                 />
                                 ADD TO CART
                             </Fab>

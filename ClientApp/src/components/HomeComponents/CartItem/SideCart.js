@@ -48,7 +48,7 @@ class SideCart extends Component {
                                                 color="secondary"
                                                 startIcon={<DeleteIcon />}
                                                 >
-                                                Delete
+                                                Remove
                                              </Button>
                                         </div>
 
