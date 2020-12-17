@@ -4,10 +4,10 @@ import img3 from '../images-com/NewFolder/ladies.jpg';
 import ModelMenProduct from './ModalMenProduct';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import addToCart from '../NewFolder/cartItemStore';
-import { Collapse} from 'antd';
 import { connect } from 'react-redux';
 import { cartUpdate } from '../../../actions/cartItem';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import { Collapse } from 'antd';
 
 const { Panel } = Collapse;
 
@@ -21,7 +21,7 @@ class LadiesItem extends Component {
         }
         addToCart(this.props.value.id, 1, this.props.value.title, img);
         this.props.cartUpdate();
-       
+
 
 
     }
@@ -36,7 +36,7 @@ class LadiesItem extends Component {
         return (
             <div className="col-sm-6 col-md-4 card-items">
 
-                
+
                 <ToastContainer
                     position="top-left"
                     autoClose={5000}
@@ -54,7 +54,7 @@ class LadiesItem extends Component {
                     <img className="card-img-top" src={titleImage} alt="NO IMAGE" />
                     <div className="card-body">
                         <h5 className="card-title">{this.props.value.title}</h5>
-                        
+
                     </div>
 
                     <Collapse className="card-footer" style={{ margin: '0px', padding: '0px', border: 'none' }}
@@ -72,22 +72,17 @@ class LadiesItem extends Component {
 
                     <div className="card-footer" style={{ margin: '0px', padding: '0px' }}>
 
-                        <button onClick={this.cartCall}                          
+                        <button onClick={this.cartCall}
                             type="button" class="cart-btn"><span><i><ShoppingCartIcon
                                 style={{ textAlign: 'center', marginRight: '10px' }} /></i></span>ADD TO CART
                         </button>
-
-
-                        
-
                     </div>
 
                     <div className="card-footer" style={{ margin: '0px', padding: '0px' }}>
 
-                       <ModelMenProduct className="view-btn" data={this.props.value} header={this.props.value.title} />                                                     
-                          
-                    </div>
+                        <ModelMenProduct className="view-btn" data={this.props.value} header={this.props.value.title} />
 
+                    </div>
 
                 </div>
             </div>
@@ -103,4 +98,4 @@ const mapDispatchToProps = {
     cartUpdate
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LadiesItem);
+ export default connect(mapStateToProps, mapDispatchToProps)(LadiesItem);

@@ -6,35 +6,21 @@ import { toaster } from 'evergreen-ui';
 
 import NavigationIcon from '@material-ui/icons/Navigation';
 import Fab from '@material-ui/core/Fab';
-import { SideBySideMagnifier, GlassMagnifier, TOUCH_ACTIVATION } from "react-image-magnifiers";
+import { SideBySideMagnifier} from "react-image-magnifiers";
 
-
-export default class MenModalCustom extends Component {
+export default class ChildModalCustom extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedImage: '',
-            windowWidth: window.innerWidth 
+            selectedImage:''
         }
 
     }
 
-    handleResize = (e) => {
-        this.setState({ windowWidth: window.innerWidth });
-    };
-
-    componentDidMount() {
-        window.addEventListener("resize", this.handleResize);
-    }
-
-    componentWillUnmount() {
-        window.addEventListener("resize", this.handleResize);
-    } 
-
     SelectImage = (url) => {
         this.setState(
             {
-                selectedImage: url
+                selectedImage : url
             }, () => {
                 console.log("URL SELECTED " + this.state.selectedImage);
             }
@@ -46,10 +32,9 @@ export default class MenModalCustom extends Component {
         // let { selectedImage } = this.props.value.img[0].img1;
         //let selectedImage = " ";
         //let { selectedImage } = this.state;
-        const { windowWidth } = this.state; 
-        let img1 = '', img2 = '', img3 = '', img4 = '', img5 = '';
+        let img1 = '', img2 = '', img3 = '', img4 = '', img5='';
         let Noimg = require('../images-com/img1.jpg');
-        
+
         if (this.props.value.img !== null) {
 
 
@@ -74,9 +59,9 @@ export default class MenModalCustom extends Component {
                 img5 = atob(this.props.value.img[0].img5);
             }
 
+           
 
-
-
+          
 
         } else {
             //selectedImage = require('../images-com/img1.jpg');
@@ -86,38 +71,29 @@ export default class MenModalCustom extends Component {
             <div className="container"
                 style={{
                     width: '100%', backgroundColor: 'white', height: 'auto',
-                    margin: '0px', padding: '0px'
+                    margin: '0px', padding:'0px'
                 }}>
 
-                <div className="row" style={{ margin: '0px', padding: '0px', height: 'auto' }}>
+                <div className="row" style={{ margin: '0px', padding: '0px', height: 'auto'}}>
+                   
+                    <div className="col-md-2 d-flex flex-column justify-content-around" style={{ height: '80vh'}} >
 
-                    <div className="col-md-2 d-flex flex-column justify-content-around" style={{ height: '80vh' }} >
-
-                        <img onClick={this.SelectImage.bind(this, img1)} src={img1 || Noimg} alt="NO IMAGE" className="img-thumbnail" style={{ height:'20%' }} />
-                        <img onClick={this.SelectImage.bind(this, img2)} src={img2 || Noimg} alt="NO IMAGE" className="img-thumbnail" style={{ height: '20%' }}  />
-                        <img onClick={this.SelectImage.bind(this, img3)} src={img3 || Noimg} alt="NO IMAGE" className="img-thumbnail" style={{ height: '20%' }} />
-                        <img onClick={this.SelectImage.bind(this, img4)} src={img4 || Noimg} alt="NO IMAGE" className="img-thumbnail" style={{ height: '20%' }}  />
-                        <img onClick={this.SelectImage.bind(this, img5)} src={img5 || Noimg} alt="NO IMAGE" className="img-thumbnail" style={{ height: '20%' }} />
+                        <img onClick={this.SelectImage.bind(this, img1)} src={img1 || Noimg} alt="NO IMAGE" className="img-thumbnail all-img" style={{height:'20%'}} />
+                        <img onClick={this.SelectImage.bind(this, img2)} src={img2 || Noimg} alt="NO IMAGE" className="img-thumbnail all-img" style={{ height: '20%' }} />
+                        <img onClick={this.SelectImage.bind(this, img3)} src={img3 || Noimg} alt="NO IMAGE" className="img-thumbnail all-img" style={{ height: '20%' }}/>
+                        <img onClick={this.SelectImage.bind(this, img4)} src={img4 || Noimg} alt="NO IMAGE" className="img-thumbnail all-img" style={{ height: '20%' }}/>
+                        <img onClick={this.SelectImage.bind(this, img5)} src={img5 || Noimg} alt="NO IMAGE" className="img-thumbnail all-img" style={{ height: '20%' }}/>
 
                     </div>
-
-                    <div className="col-md-6 d-flex justify-content-around selected-img">
-
-
-                        {
-                            (window.innerWidth <= 768) ? <GlassMagnifier
-                                imageSrc={this.state.selectedImage || img1 || Noimg} style={{ width: '100%'}}
-                                imageAlt="SOMETHING WENT WRONG"
-                                magnifierSize="30%"
-
-                            /> : <SideBySideMagnifier style={{ width: '100%'}}
-                                imageSrc={this.state.selectedImage || img1 || Noimg}
-                                imageAlt="NO IMAGE"
-                               
-
-                                />
-                        }
-                       
+                   
+                    <div className="col-md-6 d-flex justify-content-around selected-img" style={{ width: '100%', height: 'auto' }}>
+                        <SideBySideMagnifier style={{ width: '100%', height:'100%' }}
+                            imageSrc={this.state.selectedImage || img1 || Noimg}
+                            imageAlt="NO IMAGE"
+                           
+                           
+                        />
+                        
                     </div>
 
                     <div className="col-md-4 d-flex flex-column justify-content-around">
@@ -129,9 +105,9 @@ export default class MenModalCustom extends Component {
                             <InputNumber size="large" min={1} max={10} defaultValue={1} onChange={onChange} style={{ marginRight: '10px' }} />
 
                             <Fab variant="extended" color="primary" aria-label="add" style={{ border: 'none' }}>
-                                <NavigationIcon className="ShoppingCart" onClick={() =>
+                                <NavigationIcon  className="ShoppingCart" onClick={() =>
                                     toaster.success(
-
+                                        
                                         'Item Added to Cart',
                                         {
                                             duration: 5
@@ -147,22 +123,22 @@ export default class MenModalCustom extends Component {
                         <div>
                             <div className="price-text">PRODUCT INFO </div>
                             <div className="justify-content-start">
-                                <div className="row" style={{ fontSize: '1rem' }}>
+                             <div className="row" style={{ fontSize: '1rem' }}>
                                     {this.props.value.title}
                                 </div>
-                                <div className="row" style={{ fontSize: '.9rem', marginTop: '10px' }}>
+                              <div className="row" style={{ fontSize: '.9rem', marginTop: '10px' }}>
                                     {this.props.value.description}
-                                </div>
+                               </div>
 
 
-                            </div>
+                         </div>
                         </div>
-
+                      
                     </div>
 
                 </div>
             </div>
-
+                      
         );
     }
 }

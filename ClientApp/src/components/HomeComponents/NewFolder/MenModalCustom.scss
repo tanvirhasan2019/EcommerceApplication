@@ -1,26 +1,17 @@
-﻿.all-img
-{
-    width:100%;
-    height:auto !important;
-}
-.selected-img .img-thumbnail {
-    max-width: 100%;
-    height: auto;
-}
-.price-text{
-    text-align:center;
-    font-size:1.5rem;
-    color:#808080;
-    border-bottom:2px solid rgba(128, 128, 128, 0.84);
+﻿
+
+
+.price-text {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #808080;
+   
 }
 
-@media screen and (min-width: 768px) {
-   .ant-modal-content{
-        height: 1000px !important; /* New width for default modal */
+@media screen and (max-width: 768px) {
+    .ant-modal-content {
+        height: 1400px !important; 
     }
-   img{
-       height:50px;
-       width:50px
-
-   }
+   
 }
+

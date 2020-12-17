@@ -1,4 +1,5 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Arizonia&family=Oswald:wght@300&family=Rochester&display=swap');
+
 section, div {
     margin: 0px;
     padding: 0px;
@@ -6,14 +7,10 @@ section, div {
 
 @media only screen and (max-width: 768px) {
 
-    .carousel-div{
+    .carousel-div {
         background-color: black;
-        height:70vh;  
-       
-
+        height: 70vh;
     }
-         
-       
 }
 /* .category {
     //background-color: silver;
@@ -81,11 +78,9 @@ section, div {
     box-shadow: 2px 2px rgba(196, 202, 206, 0.55);
     //background-size: cover;
     //object-fit: cover;
-
-  //  background: #0f0c29; /* fallback for old browsers */
-   // background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); /* Chrome 10-25, Safari 5.1-6 */
-   // background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
+    //  background: #0f0c29; /* fallback for old browsers */
+    // background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); /* Chrome 10-25, Safari 5.1-6 */
+    // background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background-repeat: no-repeat;
     background-size: cover;
     background-image: linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(6, 6, 7, 0.73)), url('images-com/bg.jpg');
@@ -107,6 +102,6 @@ section, div {
     font-size:20px;
     font-style:italic;
     align-items: center; /** Y-axis align **/
-  //  justify-content: center; /** X-axis align **/
-   // padding:5px;
+//  justify-content: center; /** X-axis align **/
+// padding:5px;
 //}

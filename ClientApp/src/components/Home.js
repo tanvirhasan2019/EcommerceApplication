@@ -5,6 +5,9 @@ import Tabs from './HomeComponents/ScrollableTabsButtonForce';
 import PaginationExampleCompact from './HomeComponents/PaginationExampleCompact';
 import FooterLayout from './FooterLayout';
 import Layout from './Layout';
+
+import CartButton from './HomeComponents/CartItem/CartButton';
+
 import './HomeComponents/Home.scss';
 
 
@@ -34,7 +37,9 @@ export class Home extends Component {
                   </div>
               </div>
 
-
+                
+                <CartButton />
+                
               
               <div className="row">
                   <PaginationExampleCompact />

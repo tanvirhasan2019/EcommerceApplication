@@ -12,11 +12,8 @@ import ChildCareIcon from '@material-ui/icons/ChildCare';
 import ImportantDevicesIcon from '@material-ui/icons/ImportantDevices';
 import StoreIcon from '@material-ui/icons/Store';
 
-import LadiesItem from './NewFolder/LadiesItem';
-import KidsItem from './NewFolder/KidsItem';
-import ElectronicItem from './NewFolder/ElectronicItem';
-import StationaryItem from './NewFolder/StationaryItem';
-import GentsItem from './NewFolder/GentsItem';
+import ProductsList from './NewFolder/ProductsList';
+
 
 
 import { connect } from 'react-redux';
@@ -92,7 +89,7 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
             });
     }, [])
    
-    function SwitchCase(props) {
+   /* function SwitchCase(props) {
         switch (props.value.category) {
             case 'GENTS':
                 return <GentsItem key={props.value.id} value={props.value} />;
@@ -108,7 +105,7 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
             default:
                 return null;
         }
-    }
+    } */
 
     
     
@@ -147,7 +144,7 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
                             
                              allProducts.data.map(item => 
-                                 <SwitchCase value={item} /> 
+                                 <ProductsList value={item} /> 
                                
                              ) 
                    
@@ -167,7 +164,7 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
 
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
                              allProducts.data.map(item =>
-                                 item.category ==='GENTS'? < SwitchCase value = { item } />:null
+                                 item.category === 'GENTS' ? < ProductsList value = { item } />:null
                              )
 
                          }
@@ -184,7 +181,7 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
                          {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
                              allProducts.data.map(item =>
-                                 item.category === 'LADIES' ? < SwitchCase value={item} /> : null
+                                 item.category === 'LADIES' ? <ProductsList value={item} /> : null
                              )
 
                          }
@@ -202,7 +199,7 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
                          {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
                              allProducts.data.map(item =>
-                                 item.category === 'KIDS' ? < SwitchCase value={item} /> : null
+                                 item.category === 'KIDS' ? <ProductsList value={item} /> : null
                              )
 
                          }
@@ -217,7 +214,7 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
                          {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
                              allProducts.data.map(item =>
-                                 item.category === 'ELECTRONICS' ? < SwitchCase value={item} /> : null
+                                 item.category === 'ELECTRONICS' ? <ProductsList value={item} /> : null
                              )
 
                          }
@@ -231,7 +228,7 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
                          {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
                              allProducts.data.map(item =>
-                                 item.category === 'STATIONARY' ? < SwitchCase value={item} /> : null
+                                 item.category === 'STATIONARY' ? <ProductsList value={item} /> : null
                              )
 
                          }

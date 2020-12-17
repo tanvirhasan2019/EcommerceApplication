@@ -16,3 +16,94 @@
 
    
 }
+
+.cart_button_reminder {
+    width: 80px;
+    height: 90px;
+    position: fixed;
+    top: 50%;
+    right: 15px;
+    background-color: rgb(255, 255, 255);
+    z-index: 2;
+    box-shadow: 1px 2px 2px #808080;
+
+    .cart_button_reminder :hover {
+        cursor:pointer;
+    }
+        
+        .top {
+        background-color: rgba(88, 81, 81, 0.78);
+        height: 70%;
+        width: 100%;
+
+        h2 {
+            color: white;
+            font-size: small;
+            text-align: center;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+        }
+
+        .button_image {
+            text-align: center;
+
+            .crt-icon {
+                color: #FDD670;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    }
+
+    .bottom {
+        .bottom-price {
+            text-align: center;
+            color: black;
+            font-size: medium;
+            margin-top: 5px;
+        }
+    }
+}
+.cart_button_reminder:hover {
+    animation: bounce 2s;
+
+    .bottom-price {
+        transform: scale(1.5);
+    }
+}
+
+//BOUNCE FRAME
+@keyframes bounce {
+  
+    0% {
+        -webkit-transform: translateY(-20px);
+        transform: translateY(-20px);
+    }
+    10% {
+        -webkit-transform: translateY(20px);
+        transform: translateY(20px);
+    }
+
+    20% {
+        -webkit-transform: translateY(-0px);
+        transform: translateY(-10px);
+    }
+
+
+    40% {
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+    }
+
+   
+
+
+    80% {
+        -webkit-transform: translateY(-5px);
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(5px);
+    }
+}
