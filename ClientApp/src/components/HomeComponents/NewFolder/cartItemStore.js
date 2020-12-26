@@ -1,14 +1,14 @@
 ﻿
-import { ToastContainer,  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import React, { Component } from 'react';
 
-export default function addToCart(id, quantity,title, img) {
+export default function addToCart(id, quantity, title, img, price) {
     
 
     let customDesign =
         <div className='row' style={{ textAlign:'center' }}>
             <img style={{ width: '50px', height: '50px' }} src={img} alt=' ' />
-            <p style={{ marginLeft:'5px' }}>title</p>
+            <p style={{ marginLeft: '5px' }}>{title}</p>
         </div>;
 
 
@@ -25,7 +25,7 @@ export default function addToCart(id, quantity,title, img) {
         })
 
       
-        var updatedData = { id: id, quantity: matchCart[0].quantity + quantity }
+        var updatedData = { id: id, quantity: matchCart[0].quantity + quantity, price: price }
 
         //PUSH THE UPDATE DATA AND REMOVE OLD ONE
         unmatchCart.push(updatedData);
@@ -38,7 +38,7 @@ export default function addToCart(id, quantity,title, img) {
 
     try {
 
-        var data ={ id: id, quantity: quantity }
+        var data ={ id: id, quantity: quantity, price:price }
 
       
         var oldproduct = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];

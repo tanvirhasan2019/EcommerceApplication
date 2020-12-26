@@ -19,27 +19,47 @@ class SideCart extends Component {
         }
     }
     render() {
+        let { CartData, allProducts, cartUpdate } = this.props;
+       // console.log('CART  DATA  FROM CartButtn -- ' + JSON.stringify(CartData));
+        let count = 0;
+        let products = [];
 
-       
-        
-        var productStore = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+        try {
 
+            if (CartData.Count > 0) {
+                count = CartData.Count;
+
+               if(allProducts.isLoading === false && allProducts.isLoading !== undefined)    
+               {
+                  // let result = result1.filter(o1 => result2.some(o2 => o1.id === o2.id));
+                  products = allProducts.data.filter(item => CartData.List.some(item2=>item.id === item2.id))   
+               }
+            }else
+                 {
+                  count = 0;
+                 }
+        }catch{
+           
+            cartUpdate();
+
+        }
+       // console.log("Filter Data from list to cart -- " + JSON.stringify(products));
                 return (
                     <CartWrapper show={this.props.cartOpen}>
                         <ul>
-                            {productStore.map(item => {
+                            {products.map(item => {
                                 return (
                                     <li key={item.id} className="cart-item mb-4">
                                         <img
                                             width="35"
                                             // src={`../${item.image}`}
-                                            src={imgTemp}
+                                            src={atob(item.img[0].img1)}
                                             alt="cart item image"
                                         />
                                         <div className="mt-3">
-                                            <h6 className="text-uppercase"> title </h6>
+                                            <h6 className="text-uppercase"> { item.title} </h6>
                                             <h6 className="text-title text-capitalize">
-                                                Quan : {item.quantity}
+                                                Quan : {count}
                                             </h6>
                                         </div>
                                         <div>
@@ -102,7 +122,8 @@ const CartWrapper = styled.div`
 
 const mapStateToProps = (state) => ({
 
-    cartLen: state.cartUpdate.cartLen
+    CartData: state.cartUpdate.data,
+    allProducts: state.products
 
 });
 

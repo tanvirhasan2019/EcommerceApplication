@@ -1,11 +1,19 @@
 ﻿
-
-
+.custom-filed {
+    width: 60px;
+    font-size: large;
+    color: white;
+    border: none;
+    background-color: #3f51b5;
+    text-align:center;
+}
+.button-inc-dec {
+   margin-right:40px;
+}
 .price-text {
     text-align: center;
     font-size: 1.5rem;
     color: #808080;
-   
 }
 
 @media screen and (max-width: 768px) {
@@ -14,6 +22,10 @@
     }
     .MuiFab-extended{
         padding:0px !important;
+        margin:auto !important;
+    }
+    .button-inc-dec {
+        margin: auto !important;
     }
 }
 

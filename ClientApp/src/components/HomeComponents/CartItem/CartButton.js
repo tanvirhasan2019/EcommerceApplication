@@ -2,10 +2,11 @@
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import './CustomizeProduct.scss';
 import SideCart from '../CartItem/SideCart';
-import styled from "styled-components";
+import { cartUpdate } from '../../../actions/cartItem';
+import { connect } from 'react-redux';
 
 
-export default class CartButton extends Component {
+class CartButton extends Component {
 
     constructor(props) {
         super(props);
@@ -14,7 +15,7 @@ export default class CartButton extends Component {
 
     Show = () => {
 
-        console.log("---- show Button called");
+      
         this.setState({
             ShowSideCart: !this.state.ShowSideCart
         })
@@ -24,14 +25,33 @@ export default class CartButton extends Component {
    
     render() {
        
-       
-      // console.log("SIDE CART " + this.state.ShowSideCart);
-       
+
+        let { CartData, cartUpdate } = this.props;
+        console.log('CART  DATA  FROM CartButtn -- ' + JSON.stringify(CartData));
+        let count=0;
+        let totalPrice = 0;
+
+
+        try {
+            if (CartData.Count > 0) {
+                count = CartData.Count;
+                totalPrice = CartData.Cost;
+            } else {
+                count = 0;
+            }
+        } catch{
+            //count = 0;
+           // console.log("Layout Catch called");
+            cartUpdate();
+
+        }
 
         return (
             <> 
 
                 {
+                    count>0 ? 
+                    
                     this.state.ShowSideCart ? <SideCart cartOpen={this.state.ShowSideCart} Show={this.Show} /> :
 
                         (
@@ -41,14 +61,14 @@ export default class CartButton extends Component {
                                     <div className="button_image">
                                         <ShoppingBasketIcon className="crt-icon" />
                                     </div>
-                                    <h2>5  ITEMS </h2>
+                                    <h2>{count} items</h2>
 
                                 </div>
                                 <div className="bottom">
-                                    <h2 className="bottom-price"> 100 $  </h2>
+                                        <h2 className="bottom-price"> {totalPrice} </h2>
                                 </div>
                             </div>
-                        )
+                        ) :null
                 }
 
           
@@ -58,4 +78,14 @@ export default class CartButton extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+
+    CartData: state.cartUpdate.data
+
+});
+const mapDispatchToProps = {
+    cartUpdate
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartButton);
 

@@ -1,20 +1,26 @@
 ﻿import React, { Component, Fragment } from 'react';
 import './MenModalCustom.scss';
 import img2 from '../images-com/img2.jpg';
-import { InputNumber } from 'antd';
+import { notification } from 'antd';
 import { toaster } from 'evergreen-ui';
 
 import NavigationIcon from '@material-ui/icons/Navigation';
 import Fab from '@material-ui/core/Fab';
 import { SideBySideMagnifier, GlassMagnifier, TOUCH_ACTIVATION } from "react-image-magnifiers";
 
+import addToCart from '../NewFolder/cartItemStore';
 
-export default class MenModalCustom extends Component {
+import IncButton from './IncDecButton';
+import { connect } from 'react-redux';
+import { cartUpdate } from '../../../actions/cartItem';
+
+ class MenModalCustom extends Component {
     constructor(props) {
         super(props);
         this.state = {
             selectedImage: '',
-            windowWidth: window.innerWidth 
+            windowWidth: window.innerWidth,
+            count:1
         }
 
     }
@@ -36,10 +42,51 @@ export default class MenModalCustom extends Component {
             {
                 selectedImage: url
             }, () => {
-                console.log("URL SELECTED " + this.state.selectedImage);
+               // console.log("URL SELECTED " + this.state.selectedImage);
             }
         )
     }
+
+    cartCall = () => {
+
+        let img = '';
+        if (this.props.value.img !== null) {
+            img = atob(this.props.value.img[0].img1);
+        }
+        addToCart(this.props.value.id, this.state.count, this.props.value.title, img, this.props.value.price);
+        this.props.cartUpdate();
+
+
+    }
+
+    increase = () => {
+      
+        this.setState({ count: this.state.count + 1 })      
+       
+    }
+
+    decrease = () => {
+       
+      
+        if (this.state.count > 1) {    
+            this.setState({ count: this.state.count - 1 })
+        } else {
+            let titleN = this.props.value.title;
+            notification['warning']({
+                message: ' ' + titleN,
+                description:
+                    'PLEASE CHOOSE VALID NUMBER',
+                placement: 'bottomRight',
+                duration:2,
+               
+               
+                });
+            }
+
+        }
+
+    
+     
 
     render() {
 
@@ -125,10 +172,11 @@ export default class MenModalCustom extends Component {
                         <div className="price-text">PRICE : 200.0 BDT</div>
 
                         <div className="row flex-row justify-content-start">
-                            <div className="align-self-center" style={{ marginRight: '10px' }} >QUANTITY </div>
-                            <InputNumber size="large" min={1} max={10} defaultValue={1} onChange={onChange} style={{ marginRight: '10px' }} />
 
-                            <Fab classname="add-to-cart-button" variant="extended" color="primary" aria-label="add" style={{ border: 'none' }}>
+                            <IncButton increase={this.increase} decrease={this.decrease} onChange={this.state.count} />
+
+                            <Fab onClick={this.cartCall} classname="add-to-cart-button" variant="extended" color="primary" aria-label="add" style={{ border: 'none' }}>
+                                
                                 <NavigationIcon
                                 />
                                 ADD TO CART
@@ -157,6 +205,17 @@ export default class MenModalCustom extends Component {
         );
     }
 }
+
+
+const mapStateToProps = (state) => ({
+
+
+});
+const mapDispatchToProps = {
+    cartUpdate
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenModalCustom);
 
 function onChange(value) {
     console.log('changed', value);

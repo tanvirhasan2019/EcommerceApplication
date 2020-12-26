@@ -17,7 +17,10 @@ import ProductsList from './NewFolder/ProductsList';
 
 
 import { connect } from 'react-redux';
+
 import { fetchProducts } from '../../actions/Products';
+import { cartUpdate } from '../../actions/cartItem';
+
 
 
 import Box from '@material-ui/core/Box';
@@ -70,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
+function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
     const classes = useStyles();
   
     const [value, setValue] = React.useState(0);
@@ -109,9 +112,12 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts}) {
 
     
     
-     return (
-         <div className={classes.root}>
-            
+    return (
+       
+        <div className={classes.root}>
+
+          
+
             <AppBar position="static" color="default">
                 <Tabs
                     value={value}
@@ -253,7 +259,11 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     fetchProducts
+  
+
 };
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScrollableTabsButtonForce);
 

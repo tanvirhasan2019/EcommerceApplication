@@ -9,7 +9,13 @@ import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import MessageIcon from '@material-ui/icons/Message';
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
+
 import './NavMenu.css';
+
+
+import { connect } from 'react-redux';
+import { cartUpdate } from '../actions/cartItem';
+
 
 
 const StyledBadge = withStyles((theme) => ({
@@ -21,7 +27,7 @@ const StyledBadge = withStyles((theme) => ({
     },
 }))(Badge);
 
-export class NavMenu extends Component {
+ export class NavMenu extends Component {
   static displayName = NavMenu.name;
 
   constructor (props) {
@@ -44,9 +50,7 @@ export class NavMenu extends Component {
 
      render() {
          let Len = this.props.cartSize;
-         if (Len < 0) {
-             Len=0
-         }
+        
          return (
              <header className="nav-header">
                  <Navbar className="navbar-expand-sm fixed-top navbar-light bg-light navbar-toggleable-sm ng-white border-bottom box-shadow mb-3 light">

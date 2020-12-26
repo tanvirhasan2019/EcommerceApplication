@@ -8,11 +8,24 @@ import addToCart from '../NewFolder/cartItemStore';
 import { Collapse } from 'antd';
 import { connect } from 'react-redux';
 import { cartUpdate } from '../../../actions/cartItem';
-import { ToastContainer} from 'react-toastify';
+//import { cartWithId } from '../../../actions/cartItem';
+import { ToastContainer } from 'react-toastify';
+import IncDec from './IncDecButton';
+
+import { notification } from 'antd';
+
 
 const { Panel } = Collapse;
 
 class ProductsList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            count: 1,
+            cartQuantity:0
+        }
+
+    }
 
     cartCall = () => {
 
@@ -20,14 +33,73 @@ class ProductsList extends Component {
         if (this.props.value.img !== null) {
             img = atob(this.props.value.img[0].img1);
         }
-        addToCart(this.props.value.id, 1, this.props.value.title, img);
+        addToCart(this.props.value.id, 1, this.props.value.title, img, this.props.value.price);
         this.props.cartUpdate();
 
 
 
     }
 
+    increase = () => {
+      //  console.log("Increase button pressed " +ItemsFound);
+        let img = '';
+        if (this.props.value.img !== null) {
+            img = atob(this.props.value.img[0].img1);
+        }
+        addToCart(this.props.value.id, 1, this.props.value.title, img, this.props.value.price);
+        this.props.cartUpdate();
+        this.setState({ cartQuantity: this.state.cartQuantity + 1 }) 
+
+    }
+
+    decrease = (ItemsFound) => {
+        console.log("Decrease button pressed " +ItemsFound);
+
+        if (ItemsFound === 0) {
+
+            let titleN = this.props.value.title;
+            notification['warning']({
+                message: ' ' + titleN,
+                description:
+                    'PLEASE CHOOSE VALID NUMBER',
+                placement: 'bottomRight',
+                duration: 2
+            })
+        }
+
+        else {
+            let img = '';
+            if (this.props.value.img !== null) {
+                img = atob(this.props.value.img[0].img1);
+            }
+            addToCart(this.props.value.id, -1, this.props.value.title, img, this.props.value.price);
+            this.props.cartUpdate();
+        } 
+      
+    }
+
+
     render() {
+        let { CartData } = this.props;
+        let itemsQuantity = 0;
+        let ItemsFound = 0;
+        try {
+            if (CartData.Count > 0) {
+                itemsQuantity = CartData.List.find(x => x.id === this.props.value.id);
+                ItemsFound = itemsQuantity.quantity;
+            } else {
+                itemsQuantity = 0;
+            }
+        } catch{
+            //count = 0;
+            //console.log("Layout Catch called");
+            itemsQuantity = 0;
+
+        }
+
+      
+        console.log("id across quantity-- " + JSON.stringify(itemsQuantity)); 
+
         let titleImage = " ";
         if (this.props.value.img !== null) {
             titleImage = atob(this.props.value.img[0].img1);
@@ -40,7 +112,7 @@ class ProductsList extends Component {
 
                 <ToastContainer
                     position="top-left"
-                    autoClose={5000}
+                    autoClose={4000}
                     hideProgressBar={false}
                     newestOnTop={false}
                     closeOnClick
@@ -71,12 +143,16 @@ class ProductsList extends Component {
                     </div>
 
 
-                    <div className="card-footer" style={{ margin: '0px', padding: '0px' }}>
+                    <div className="card-footer" style={{ margin: '0px', padding: '0px', backgroundColor:'rgb(63, 81, 181)', border:'none' }}>
 
-                        <button onClick={this.cartCall}
-                            type="button" class="cart-btn"><span><i><ShoppingCartIcon
+                        {ItemsFound > 0 ? <IncDec increase={() => this.increase()} decrease={() => this.decrease(ItemsFound)} onChange={ItemsFound} /> : 
+
+                            <button onClick={this.cartCall}
+                            type="button" className="cart-btn"><span><i><ShoppingCartIcon
                                 style={{ textAlign: 'center', marginRight: '10px' }} /></i></span>ADD TO CART
-                        </button>
+
+                            </button>
+                        }
                     </div>
 
                     <div className="card-footer" style={{ margin: '0px', padding: '0px' }}>
@@ -92,7 +168,10 @@ class ProductsList extends Component {
 }
 const mapStateToProps = (state) => ({
 
-    Data: state.cartUpdate
+   // Data: state.cartUpdate,
+  //  Quan: state.cartWithId.quantity
+  //  Quan:state
+    CartData: state.cartUpdate.data
 
 });
 const mapDispatchToProps = {

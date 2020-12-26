@@ -9,12 +9,28 @@ import { cartUpdate } from '../actions/cartItem';
   static displayName = Layout.name;
 
      render() {
-         let { cartLen, cartUpdate } = this.props;
-         console.log('LAYOUT -- ' + cartLen);
-         cartUpdate();
+         let { CartSize, cartUpdate } = this.props;
+         console.log('CART  DATA  FROM LAYOUT -- ' + JSON.stringify(CartSize));
+         let count;
+
+         
+
+         try {
+             if (CartSize.Count > 0) {
+                 count = CartSize.Count;
+             } else {
+                 count = 0;
+             }
+         } catch{
+             //count = 0;
+             console.log("Layout Catch called");
+             cartUpdate();
+
+         }
+         //cartUpdate();
       return (
           <Fragment>
-              <NavMenu cartSize={cartLen} />
+              <NavMenu cartSize={count} />
               <div className="container-fluid layout" style={{ marginTop:'60px' }}>
                {this.props.children}
              </div>
@@ -28,7 +44,7 @@ import { cartUpdate } from '../actions/cartItem';
 
 const mapStateToProps = (state) => ({
 
-    cartLen: state.cartUpdate.cartLen
+    CartSize: state.cartUpdate.data
 
 });
 
