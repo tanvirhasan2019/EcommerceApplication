@@ -18,11 +18,26 @@ class SideCart extends Component {
 
         }
     }
+
+    deleteItem = (id) => {
+
+        console.log('DELETE BUTTON PRESSED' +id);
+        var all_cart_data = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+        console.log('CART DATA before ' + JSON.stringify(all_cart_data));
+        let unmatchCart = all_cart_data.filter(item => {
+            return item.id != id
+        })
+        console.log('CART DATA after unmatch' + JSON.stringify(unmatchCart));
+        localStorage.setItem('cart', JSON.stringify(unmatchCart));
+        this.props.cartUpdate();
+
+    }
     render() {
         let { CartData, allProducts, cartUpdate } = this.props;
-       // console.log('CART  DATA  FROM CartButtn -- ' + JSON.stringify(CartData));
+        console.log('CART  DATA  FROM sidecart -- ' + JSON.stringify(CartData));
         let count = 0;
         let products = [];
+        let Quantity = [];
 
         try {
 
@@ -31,9 +46,30 @@ class SideCart extends Component {
 
                if(allProducts.isLoading === false && allProducts.isLoading !== undefined)    
                {
-                  // let result = result1.filter(o1 => result2.some(o2 => o1.id === o2.id));
-                  products = allProducts.data.filter(item => CartData.List.some(item2=>item.id === item2.id))   
-               }
+                   allProducts.data.map(item => CartData.List.some(item2 => {
+
+                       if (item.id === item2.id) {
+                           products.push({
+
+                               id: item2.id,
+                               quantity: item2.quantity,
+                               title: item.title, 
+                               Img: item.img[0].img1,
+                               price : item.price
+                           })
+                       }
+                   }
+
+                   ))
+                   
+                  
+                   // let result = result1.filter(o1 => result2.some(o2 => o1.id === o2.id));
+                  // products = allProducts.data.filter(item => CartData.List.some(item2 => item.id === item2.id)) 
+                  // Quantity = CartData.List.filter(item => products.filter(item2 => item.id === item2.id))
+                }
+
+               
+
             }else
                  {
                   count = 0;
@@ -43,27 +79,33 @@ class SideCart extends Component {
             cartUpdate();
 
         }
-       // console.log("Filter Data from list to cart -- " + JSON.stringify(products));
-                return (
+
+
+       // console.log("Filter Data from Quantity array -- " + JSON.stringify(products));
+        return (
+
+            
                     <CartWrapper show={this.props.cartOpen}>
+                       
                         <ul>
-                            {products.map(item => {
+                            {products.map((item, index) => {
                                 return (
                                     <li key={item.id} className="cart-item mb-4">
                                         <img
                                             width="35"
                                             // src={`../${item.image}`}
-                                            src={atob(item.img[0].img1)}
+                                            src={atob(item.Img)}
                                             alt="cart item image"
                                         />
                                         <div className="mt-3">
-                                            <h6 className="text-uppercase"> { item.title} </h6>
+                                            <h6 className="text-uppercase"> {item.title} </h6>
                                             <h6 className="text-title text-capitalize">
-                                                Quan : {count}
+                                                {item.quantity} x {item.price} = {item.quantity*item.price}
                                             </h6>
                                         </div>
                                         <div>
                                             <Button
+                                                onClick={()=>this.deleteItem(item.id)}
                                                 variant="contained"
                                                 color="secondary"
                                                 startIcon={<DeleteIcon />}
@@ -78,19 +120,24 @@ class SideCart extends Component {
                             })}
                         </ul>
                         <h4 className="text-capitalize text-main">
-                            cart total : $200
+                            cart total : {CartData.Cost } $
                         </h4>
-                        <div className="text-center my-5">
-                            <Link to="/cart" className="main-link">
-                                cart page
+                        <div className="text-center my-5 row">
+                   
+                            <ArrowForwardIosIcon className="sidecart-close" onClick={this.props.Show} />
+
+                            <Link to="/cart-item" className="main-link">
+                            cart page
                             </Link>
+                       
                         </div>
 
 
-                        <ArrowForwardIosIcon className="sidecart-close" onClick={this.props.Show} />
+                        
                        
-                    </CartWrapper>
-                    
+                </CartWrapper>
+
+                   
                 );
    
      }
@@ -102,7 +149,7 @@ const CartWrapper = styled.div`
   width: 100%;
   height: 100%;
   background: #fafafa;
-  z-index: 2;
+  z-index: 11;
   transform: ${props => (props.show ? "translateX(0)" : "translateX(100%)")};
   border-left: 4px solid #5fb7ea;
   transition: all 0.3s ease-in-out;

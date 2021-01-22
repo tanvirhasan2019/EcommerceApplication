@@ -68,7 +68,7 @@ class CartButton extends Component {
                                         <h2 className="bottom-price"> {totalPrice} </h2>
                                 </div>
                             </div>
-                        ) :null
+                        ) : null
                 }
 
           

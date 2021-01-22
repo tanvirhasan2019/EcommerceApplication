@@ -4,12 +4,30 @@ import BreadCumbCart from './IconBreadcrumbs';
 import Fab from '@material-ui/core/Fab';
 import PaymentIcon from '@material-ui/icons/Payment';
 import GentsProductCart from './GentsProductCart';
-import StationaryProductCart from './StationaryProductCart';
+import ProductlistinCart from './ProductlistinCart';
 import Layout from '../../Layout';
+import { connect } from 'react-redux';
 
 import './CartHeader.scss';
+
  class CartItems extends Component {
-    render() {
+     render() {
+         let { CartData } = this.props;
+         let cost;
+         try {
+
+               if (CartData.Count > 0) {
+                   cost = CartData.Cost;
+
+                }
+               else{
+                   cost = 0;
+                }
+         } catch{
+             cost = 0;
+
+              } 
+
         return (
             <Layout>
 
@@ -24,26 +42,19 @@ import './CartHeader.scss';
                 </div>
 
                 <div className="row">
-                    <div className="col-md-8">
-                        <GentsProductCart />
-                        <StationaryProductCart />
-
-                        <button type="button" className="btn btn-primary btn-lg btn-block">
-                            Update Cart
-                        </button>
+                    <div className="col-md-8 col-sm">
+                       
+                        <ProductlistinCart />           
                     </div>
 
-                    <div className="col-md-4"
-                        style={{ width: '100%', height:'200px' }}>
+                    <div className="col-md-4 col-sm"
+                        style={{ width: '100%', height: '200px', position: 'fixed', right:'8px' }}>
 
                         <div className="d-flex flex-column justify-content-center align-items-center" style={{
                             width: '100%', height: '100%', backgroundColor: 'white',
                             marginTop: '10px', boxShadow:'3px 3px 3px 3px rgba(225, 218, 218, 0.64)'
                         }}>
-                            <p className="Total-price-text" style={{ fontSize: '2rem' }}>Total 200.0 BDT </p>
-
-
-                          
+                            <p className="Total-price-text" style={{ fontSize: '2rem' }}>Total {cost} Taka</p>
 
                             <Link to="/checkout" > <Fab variant="extended" color="primary" aria-label="add"
                                 style={{width:'100%'}}
@@ -66,4 +77,17 @@ import './CartHeader.scss';
         );
     }
 }
-export default CartItems
+
+
+const mapStateToProps = (state) => ({
+
+    CartData: state.cartUpdate.data,
+   
+
+});
+
+const mapDispatchToProps = {
+    
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartItems);

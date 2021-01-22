@@ -59,9 +59,9 @@ class ProductsList extends Component {
 
             let titleN = this.props.value.title;
             notification['warning']({
-                message: ' ' + titleN,
+                message: 'Please order minimun 1 item' + titleN,
                 description:
-                    'PLEASE CHOOSE VALID NUMBER',
+                    '',
                 placement: 'bottomRight',
                 duration: 2
             })

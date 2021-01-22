@@ -50,8 +50,7 @@ export default function addToCart(id, quantity, title, img, price) {
 
             oldproduct.push(data)
             localStorage.setItem('cart', JSON.stringify(oldproduct))
-           
-            //alert("ITEM first time ADDED");
+                     
             toast.info(customDesign, {
                 position: "top-left",
                 autoClose: 4000,
@@ -62,13 +61,8 @@ export default function addToCart(id, quantity, title, img, price) {
                 progress: undefined,
             });
            
-          
-
-          
-
-        } else if (oldproduct.find((p) => p.id === id)) {
-                       
-            // alert("ITEM ALREADY ADDED");
+             
+        } else if (oldproduct.find((p) => p.id === id)) {                                
             console.log("OLD PRODUCT -- " + JSON.stringify(oldproduct));
             updateCart(oldproduct);
 
@@ -80,21 +74,11 @@ export default function addToCart(id, quantity, title, img, price) {
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-            });
-
-            
+            });  
          }
-        
-       
-      
     }catch (err) {
-        alert("SOMETHING WENT WENT WRONG");
-        console.log(err);
-       
-    }
-
-
-    
+        alert("SOMETHING WENT WENT WRONG");  
+    }   
 }
 
 

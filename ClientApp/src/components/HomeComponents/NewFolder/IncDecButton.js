@@ -27,7 +27,7 @@ export default function IncDecButton(props) {
    
 
     return (
-        <div className="d-flex justify-content-center button-inc-dec">
+        <div className="d-flex justify-content-center button-inc-dec" style={{ backgroundColor:'#3f51b5'}}>
             <button style={{ backgroundColor: '#3f51b5', border: 'none' }} onClick={props.decrease}
                 className="fa fa-minus fa-inverse"></button>
             <input

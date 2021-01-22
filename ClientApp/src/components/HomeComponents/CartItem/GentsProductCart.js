@@ -15,11 +15,11 @@ class GentsProductCart extends Component {
         return (
             <Fragment>
 
-                <div className="row product-back">
+                <div className="row product-back" style={{margin:'0px'}}>
 
-                <div className="col-md-3">
-                    <img src={demoImg} className="rounded float-left cart-image" alt="..." />
-                </div>
+                    <div className="col-md-3">
+                        <img src={demoImg} className="rounded float-left cart-image" alt="..." />
+                    </div>
                     <div className="col-md-6 d-flex flex-column justify-content-around">
 
 

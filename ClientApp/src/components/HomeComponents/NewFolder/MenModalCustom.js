@@ -173,7 +173,8 @@ import { cartUpdate } from '../../../actions/cartItem';
 
                         <div className="row flex-row justify-content-start">
 
-                            <IncButton increase={this.increase} decrease={this.decrease} onChange={this.state.count} />
+                            <IncButton increase={this.increase} decrease={this.decrease} onChange={this.state.count}
+                                style={{marginRight:'40px'}} />
 
                             <Fab onClick={this.cartCall} classname="add-to-cart-button" variant="extended" color="primary" aria-label="add" style={{ border: 'none' }}>
                                 
