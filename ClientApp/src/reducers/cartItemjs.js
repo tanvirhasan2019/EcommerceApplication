@@ -22,14 +22,14 @@ export default function cartUpdate(state = [], action) {
             if (cartData.length > 0) {
                
 
-
-                   cartData.map(item => {
                    
+                   cartData.map(item => {
+                      
                        count += item.quantity;
                        cost += item.quantity * item.price;
-                    console.log("cart reducer id quan - " + item.id + " " + item.quantity);
-                    
-                     Cart.List.push({ id: item.id, quantity: item.quantity });
+                     // console.log("cart reducer id quan - " + item.id + " " + item.quantity);
+
+                       Cart.List.push({ id: item.id, quantity: item.quantity, title: item.title, price:item.price });
                      //console.log("cart reducer map - " + JSON.stringify(Cart));
                     
                 }

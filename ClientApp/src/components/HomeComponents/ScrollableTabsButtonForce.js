@@ -11,6 +11,7 @@ import LocalMallIcon from '@material-ui/icons/LocalMall';
 import ChildCareIcon from '@material-ui/icons/ChildCare';
 import ImportantDevicesIcon from '@material-ui/icons/ImportantDevices';
 import StoreIcon from '@material-ui/icons/Store';
+import Ringloader from './../../components/spinner/Ringloader';
 
 import ProductsList from './NewFolder/ProductsList';
 
@@ -116,8 +117,6 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
        
         <div className={classes.root}>
 
-          
-
             <AppBar position="static" color="default">
                 <Tabs
                     value={value}
@@ -139,12 +138,16 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-
+               
                 <div className="container">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {
+                            allProducts.isLoading ? (<Ringloader />) : (null)
+                        }
+                    </div>
+                    
                      <div className="card-deck"> 
-                         {
-                             allProducts.isLoading
-                         }
+                        
                           
                          {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
@@ -164,6 +167,11 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
             <TabPanel value={value} index={1}>
 
                 <div className="container">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {
+                            allProducts.isLoading ? (<Ringloader />) : (null)
+                        }
+                    </div>
                      <div className="card-deck">
                          {
                              
@@ -182,6 +190,11 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
       </TabPanel>
             <TabPanel value={value} index={2}>
                 <div className="container">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {
+                            allProducts.isLoading ? (<Ringloader />) : (null)
+                        }
+                    </div>
                     <div className="card-deck">
 
                          {
@@ -200,6 +213,11 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
       </TabPanel>
             <TabPanel value={value} index={3}>
                 <div className="container">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {
+                            allProducts.isLoading ? (<Ringloader />) : (null)
+                        }
+                    </div>
                     <div className="card-deck">
 
                          {
@@ -215,6 +233,11 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
       </TabPanel>
             <TabPanel value={value} index={4}>
                 <div className="container">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {
+                            allProducts.isLoading ? (<Ringloader />) : (null)
+                        }
+                    </div>
                     <div className="card-deck">
 
                          {
@@ -229,6 +252,11 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
       </TabPanel>
             <TabPanel value={value} index={5}>
                 <div className="container">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {
+                            allProducts.isLoading ? (<Ringloader />) : (null)
+                        }
+                    </div>
                     <div className="card-deck">
 
                          {
@@ -248,19 +276,14 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
     );
 }
 
-
 const mapStateToProps = (state) => ({
   
     allProducts: state.products
 
 });
 
-
-
 const mapDispatchToProps = {
     fetchProducts
-  
-
 };
 
 

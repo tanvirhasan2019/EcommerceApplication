@@ -5,14 +5,16 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
+import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const products = [
+/*const products = [
     { name: 'Product 1', desc: 'A nice thing', price: '$9.99' },
     { name: 'Product 2', desc: 'Another thing', price: '$3.45' },
     { name: 'Product 3', desc: 'Something else', price: '$6.51' },
     { name: 'Product 4', desc: 'Best thing of all', price: '$14.11' },
     { name: 'Shipping', desc: '', price: 'Free' },
-];
+];*/
 const addresses = ['1 Material-UI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
 const payments = [
     { name: 'Card type', detail: 'Visa' },
@@ -35,23 +37,35 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Review() {
     const classes = useStyles();
+    
+    const CartData = useSelector(state => state.cartUpdate.data);
+    const Shipping_Data = useSelector(state => state.ShippingDetails.data);
+    const Payement_Data = useSelector(state => state.CreditCardDetails.data);
+    
+   
+    console.log('DATA FROM USESELECTOR - ' + JSON.stringify(CartData));
+    console.log('DATA FROM USESELECTOR SHIPPING  - ' + JSON.stringify(Shipping_Data));
+    console.log('DATA FROM USESELECTOR PAYEMENT - ' + JSON.stringify(Payement_Data));
+   
+   
 
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
                 Order summary
+              
       </Typography>
             <List disablePadding>
-                {products.map((product) => (
-                    <ListItem className={classes.listItem} key={product.name}>
-                        <ListItemText primary={product.name} secondary={product.desc} />
-                        <Typography variant="body2">{product.price}</Typography>
+                {CartData.List.map(item =>
+                    <ListItem className={classes.listItem} key={item.id}>
+                        <ListItemText primary={item.title} />
+                        <Typography className={classes.total} variant="body2">{item.price} /-</Typography>
                     </ListItem>
-                ))}
+                )}
                 <ListItem className={classes.listItem}>
                     <ListItemText primary="Total" />
                     <Typography variant="subtitle1" className={classes.total}>
-                        $34.06
+                        {CartData.Cost}/-BDT
           </Typography>
                 </ListItem>
             </List>
@@ -84,3 +98,4 @@ export default function Review() {
         </React.Fragment>
     );
 }
+

@@ -7,6 +7,8 @@ import products from "./Products";
 import cartUpdate from './cartItemjs';
 //import AddReducer from './AdminCreateProduct';
 import createproduct from './AdminCreateProduct';
+import ShippingDetails from './ShippingDetails';
+import CreditCardDetails from './CreditCardDetails';
 
 export default combineReducers({
   character,
@@ -15,6 +17,8 @@ export default combineReducers({
   persons,
   createproduct,
     products,
-    cartUpdate
+    cartUpdate,
+    ShippingDetails,
+    CreditCardDetails
 
 });

@@ -51,15 +51,12 @@ class ProductlistinCart extends Component {
 
     }
 
-    deleteItem = (id) => {
+   deleteItem = (id) => {
 
-        console.log('DELETE BUTTON PRESSED' + id);
         var all_cart_data = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-        console.log('CART DATA before ' + JSON.stringify(all_cart_data));
         let unmatchCart = all_cart_data.filter(item => {
             return item.id != id
         })
-        console.log('CART DATA after unmatch' + JSON.stringify(unmatchCart));
         localStorage.setItem('cart', JSON.stringify(unmatchCart));
         this.props.cartUpdate();
 

@@ -25,7 +25,7 @@ export default function addToCart(id, quantity, title, img, price) {
         })
 
       
-        var updatedData = { id: id, quantity: matchCart[0].quantity + quantity, price: price }
+        var updatedData = { id: id, quantity: matchCart[0].quantity + quantity, price: price, title:title }
 
         //PUSH THE UPDATE DATA AND REMOVE OLD ONE
         unmatchCart.push(updatedData);
@@ -38,7 +38,7 @@ export default function addToCart(id, quantity, title, img, price) {
 
     try {
 
-        var data ={ id: id, quantity: quantity, price:price }
+        var data = { id: id, quantity: quantity, price: price, title: title }
 
       
         var oldproduct = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
