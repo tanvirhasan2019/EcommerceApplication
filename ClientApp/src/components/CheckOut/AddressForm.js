@@ -23,6 +23,8 @@ export default function AddressForm() {
 
     const [formData, updateFormData] = React.useState(initialFormData);
     const dispatch = useDispatch();
+    dispatch(ShippingData_Add(formData))
+
     const handleChange = (e) => {
         updateFormData({
             ...formData,

@@ -13,6 +13,11 @@ import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
 import Layout from '../Layout';
+import { useSelector } from 'react-redux';
+import authService from '../api-authorization/AuthorizeService';
+import { toaster } from 'evergreen-ui';
+
+
 
 function Copyright() {
     return (
@@ -83,8 +88,67 @@ export default function Checkout() {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
 
+    const CartData = useSelector(state => state.cartUpdate.data);
+    const Shipping_Data = useSelector(state => state.ShippingDetails.data);
+    const Payement_Data = useSelector(state => state.CreditCardDetails.data);
+
     const handleNext = () => {
         setActiveStep(activeStep + 1);
+        if (activeStep === steps.length - 1) {
+
+            console.log('PLACE ORDER FINAL');
+            post_to_server();
+           
+        }
+    };
+
+    async function post_to_server(){
+
+        const token = await authService.getAccessToken();
+        console.log("Token Data here : " + token);
+
+        var productid = [];
+        var quantity = [];
+        var price = [];
+
+        CartData.List.map(item => {
+            productid.push(item.id);
+            quantity.push(item.quantity);
+            price.push(item.price);
+        }
+
+        )
+
+        fetch('ClientOrder/PlaceOrder', {
+            method: 'POST', // or 'PUT'
+            headers: !token ? {} : {
+                'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
+            },
+
+            body: JSON.stringify({
+
+                'productid': productid,
+                'quantity': quantity,
+                'price': price,
+                'payementType': 'VISA',
+
+            }),
+        })
+            .then(response => response.json())
+            .then(Response => {
+                toaster.success(
+                    '' + Response.status
+                )
+                console.log('Success:', Response);
+
+            })
+            .catch((error) => {
+
+                console.error('Error:', error);
+                toaster.danger(
+                    'Something went wrong trying to create your audience'
+                )
+            });
     };
 
     const handleBack = () => {

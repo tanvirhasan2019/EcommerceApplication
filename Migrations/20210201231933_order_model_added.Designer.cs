@@ -4,14 +4,16 @@ using EcommerceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210201231933_order_model_added")]
+    partial class order_model_added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,48 +86,6 @@ namespace EcommerceApp.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("EcommerceApp.Models.ClientOrder", b =>
-                {
-                    b.Property<int>("orderid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("dateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("userid")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("orderid");
-
-                    b.ToTable("ClientOrder");
-                });
-
-            modelBuilder.Entity("EcommerceApp.Models.OrderDetails", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("orderid")
-                        .HasColumnType("int");
-
-                    b.Property<double>("price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("productid")
-                        .HasColumnType("int");
-
-                    b.Property<int>("quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("OrderDetails");
-                });
-
             modelBuilder.Entity("EcommerceApp.Models.Product", b =>
                 {
                     b.Property<int>("id")
@@ -192,27 +152,6 @@ namespace EcommerceApp.Migrations
                     b.HasIndex("productid");
 
                     b.ToTable("ProductImage");
-                });
-
-            modelBuilder.Entity("EcommerceApp.Models.Transaction", b =>
-                {
-                    b.Property<int>("trsansactionid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("amount")
-                        .HasColumnType("float");
-
-                    b.Property<int>("orderid")
-                        .HasColumnType("int");
-
-                    b.Property<string>("payementType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("trsansactionid");
-
-                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>

@@ -5,7 +5,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
-import { connect } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 /*const products = [
@@ -41,14 +40,12 @@ export default function Review() {
     const CartData = useSelector(state => state.cartUpdate.data);
     const Shipping_Data = useSelector(state => state.ShippingDetails.data);
     const Payement_Data = useSelector(state => state.CreditCardDetails.data);
-    
-   
+
     console.log('DATA FROM USESELECTOR - ' + JSON.stringify(CartData));
     console.log('DATA FROM USESELECTOR SHIPPING  - ' + JSON.stringify(Shipping_Data));
     console.log('DATA FROM USESELECTOR PAYEMENT - ' + JSON.stringify(Payement_Data));
    
    
-
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
@@ -74,24 +71,44 @@ export default function Review() {
                     <Typography variant="h6" gutterBottom className={classes.title}>
                         Shipping
           </Typography>
-                    <Typography gutterBottom>John Smith</Typography>
-                    <Typography gutterBottom>{addresses.join(', ')}</Typography>
+                    <Typography gutterBottom>{Shipping_Data.firstName + ' ' + Shipping_Data.lastName}</Typography>
+                    <Typography gutterBottom>{Shipping_Data.address1 + ' ' + Shipping_Data.city + ' ' + Shipping_Data.zip + ' ' + Shipping_Data.country + ' ' +Shipping_Data.state}</Typography>
                 </Grid>
                 <Grid item container direction="column" xs={12} sm={6}>
                     <Typography variant="h6" gutterBottom className={classes.title}>
                         Payment details
           </Typography>
                     <Grid container>
-                        {payments.map((payment) => (
-                            <React.Fragment key={payment.name}>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom>{payment.name}</Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom>{payment.detail}</Typography>
-                                </Grid>
-                            </React.Fragment>
-                        ))}
+                        
+
+                        <React.Fragment key={1}>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom>Card holder</Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom>{Payement_Data.cardName}</Typography>
+                            </Grid>
+                        </React.Fragment>
+
+                        <React.Fragment key={2}>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom>Card number</Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom>{Payement_Data.cardNumber}</Typography>
+                            </Grid>
+                        </React.Fragment>
+
+
+                        <React.Fragment key={3}>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom>Expiry date</Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography gutterBottom>{Payement_Data.expDate}</Typography>
+                            </Grid>
+                        </React.Fragment>
+
                     </Grid>
                 </Grid>
             </Grid>

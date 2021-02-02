@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using EcommerceApp.Data;
 using EcommerceApp.Models;
@@ -42,8 +43,47 @@ namespace EcommerceApp.Controllers
         
             return Ok(new { data = productList });      
         }
-    
-    }  
+
+
+
+
+        [HttpPost]
+        [Route("PlaceOrder")]
+        public object PlaceOrder([FromBody] Productnew products)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    var product = new Product
+                    {
+                      
+                    };
+                    _context.Products.Add(product);
+                    _context.SaveChanges();
+
+                    Product pr = new Product();
+                    int FK_imageId = product.id;
+
+                    var product_image = new ProductImage
+                    {
+                      
+                    };
+                    _context.ProductImage.Add(product_image);
+                    _context.SaveChanges();                  
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });                
+            }
+            return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
+        }
+
+    }
+ 
 
     public class CustomProductImage
     {

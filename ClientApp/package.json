@@ -12,6 +12,7 @@
     "atob": "^2.1.2",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.3",
+    "credit-card-type": "^9.1.0",
     "evergreen-ui": "^5.1.2",
     "hooks": "^0.3.2",
     "jquery": "^3.4.1",

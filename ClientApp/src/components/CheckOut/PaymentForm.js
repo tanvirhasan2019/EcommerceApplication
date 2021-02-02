@@ -9,6 +9,7 @@ import { CreditCard_Add } from './../../actions/CreditCardDetails';
 
 
 const PayementFormData = Object.freeze({
+    cardName:"",
     cardNumber: "",
     cvv: "",
     expDate: ""
@@ -18,6 +19,7 @@ export default function PaymentForm() {
 
     const [formData, updateFormData] = React.useState(PayementFormData);
     const dispatch = useDispatch();
+    dispatch(CreditCard_Add(formData))
     const handleChange = (e) => {
         updateFormData({
             ...formData,
@@ -36,7 +38,7 @@ export default function PaymentForm() {
       </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
-                    <TextField required id="cardName" label="Name on card" fullWidth autoComplete="cc-name" />
+                    <TextField required name="cardName" id="cardName" onChange={handleChange} label="Name on card" fullWidth autoComplete="cc-name" />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField
