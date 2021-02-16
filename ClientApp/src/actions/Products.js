@@ -34,10 +34,12 @@ export const fetchProducts = () => async dispatch => {
             "Product/GetProducts"
         )
 
-      
+        
         return dispatch({
             type: FETCH_PRODUCTS_SUCCESS,
             data: payload */
+
+        //console.log('REDUX ACTION FETCH IS CALLED')
         const response = await axios.get(
             "Product/GetProducts"
         );

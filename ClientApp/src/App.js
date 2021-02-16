@@ -13,6 +13,8 @@ import { CustomLayout } from './components/CustomLayout';
 import CartItem from './components/HomeComponents/CartItem/CartItems';
 import Checkout from '././components/CheckOut/Checkout';
 import EditPost from './components/HomeComponents/Post/EditPost';
+import BlogPage from './components/HomeComponents/Post/BlogSection';
+import MyStatefulEditor from './components/HomeComponents/Post/MyStatefulEditor';
 import './custom.css'
 
 export default class App extends Component {
@@ -28,7 +30,8 @@ export default class App extends Component {
               <Route exact path='/' component={Home} />
               <Route path='/cart-item' component={CartItem} /> 
               <Route path='/checkout' component={Checkout} /> 
-              <Route path='/post-data' component={EditPost} /> 
+              <Route path='/blog-page' component={BlogPage} /> 
+              <Route path='/post-editor' component={MyStatefulEditor} /> 
               <Route path='/fetch-data' component={FetchData} />
               <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
             

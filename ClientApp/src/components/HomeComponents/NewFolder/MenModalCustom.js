@@ -90,10 +90,8 @@ import { cartUpdate } from '../../../actions/cartItem';
 
     render() {
 
-        // let { selectedImage } = this.props.value.img[0].img1;
-        //let selectedImage = " ";
-        //let { selectedImage } = this.state;
-        const { windowWidth } = this.state; 
+       
+      
         let img1 = '', img2 = '', img3 = '', img4 = '', img5 = '';
         let Noimg = require('../images-com/img1.jpg');
         
@@ -169,19 +167,21 @@ import { cartUpdate } from '../../../actions/cartItem';
 
                     <div className="col-md-4 d-flex flex-column justify-content-around">
 
-                        <div className="price-text">PRICE : 200.0 BDT</div>
+                        <div className="price-text">PRICE {this.props.value.price} /-BDT</div>
 
-                        <div className="row flex-row justify-content-start">
-
-                            <IncButton increase={this.increase} decrease={this.decrease} onChange={this.state.count}
-                                style={{marginRight:'40px'}} />
-
-                            <Fab onClick={this.cartCall} classname="add-to-cart-button" variant="extended" color="primary" aria-label="add" style={{ border: 'none' }}>
+                        <div className="row flex-row justify-content-center">
+                            <div style={{ margin: '20px', height:'48px' }}>
+                                <IncButton style={{height:'48px'}} increase={this.increase} decrease={this.decrease} onChange={this.state.count}
+                                    />
+                            </div>
+                            <div style={{ margin: '20px' }}>
+                            <Fab  onClick={this.cartCall} classname="add-to-cart-button" variant="extended" color="primary" aria-label="add" style={{ border: 'none' }}>
                                 
                                 <NavigationIcon
                                 />
                                 ADD TO CART
                             </Fab>
+                            </div>
                         </div>
 
                         <div>

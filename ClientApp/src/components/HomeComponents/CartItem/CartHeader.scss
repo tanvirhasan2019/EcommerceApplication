@@ -3,20 +3,15 @@
     height: 200px;
     width: 100%;
     margin: 0px;
-
-    
-
     .text-header {
         font-size: 2rem;
         color: white;
     }
-
     .text-sub-header {
         font-size: 1rem;
         color: white;
     }
 }
-
 .sidecart-close {
     width: 100px;
     height: 100px;
@@ -28,13 +23,21 @@
 .sidecart-close :hover{
     cursor:pointer;
 }
-
 .cart-item {
     padding: 5px;
     box-shadow: 0px .5px .5px rgba(128, 128, 128, 0.85);
 }
-
 .cart-item:hover {
-  
     transform: scaleX(1.1);
+}
+
+
+@media screen and (max-width: 768px) {
+    .total-price-display{
+        bottom:5px;
+        position:absolute;
+    }
+    .cart-item-list{
+        bottom:200px;
+    }
 }

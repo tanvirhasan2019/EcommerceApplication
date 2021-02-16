@@ -35,6 +35,7 @@ namespace EcommerceApp.Controllers
         [Route("PlaceOrder")]
         public object PlaceOrder([FromBody] CustomOrder order)
         {
+            int order_id_send_client = 0;
             try
             {
                 if (ModelState.IsValid)
@@ -87,6 +88,28 @@ namespace EcommerceApp.Controllers
                     _context.SaveChanges();
 
 
+
+                    var shipping = new ShippingDetails
+
+                    {
+                        orderid = ordeID,
+                        firstname = order.firstname,
+                        lastname = order.lastname,
+                        address1 =order.address1,
+                        address2 = order.address2,
+                        phonenumber =order.phonenumber,
+                        city =order.city,
+                        country =order.country,
+                        zip =order.zip
+                    };
+
+
+                    _context.ShippingDetails.Add(shipping);
+                    _context.SaveChanges();
+
+                    order_id_send_client = ordeID;
+
+
                 }
             }
             catch (Exception e)
@@ -95,7 +118,7 @@ namespace EcommerceApp.Controllers
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
             }
 
-        return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
+        return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS", ORDER_ID= order_id_send_client });
 
         }
 
@@ -107,6 +130,15 @@ namespace EcommerceApp.Controllers
             public List<int> quantity { get; set; }
             public List<double> price { get; set; }
             public string payementType { get; set; }
+
+            public string firstname { get; set; }
+            public string lastname { get; set; }
+            public string address1 { get; set; }
+            public string address2 { get; set; }
+            public string phonenumber { get; set; }
+            public string city { get; set; }
+            public string country { get; set; }
+            public string zip { get; set; }
         
     }
 }

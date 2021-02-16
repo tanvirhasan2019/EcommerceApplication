@@ -23,5 +23,7 @@ namespace EcommerceApp.Data
         public DbSet<ClientOrder> ClientOrder { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Transaction> Transaction { get; set; }
+
+        public DbSet<ShippingDetails> ShippingDetails { get; set; }
     }
 }

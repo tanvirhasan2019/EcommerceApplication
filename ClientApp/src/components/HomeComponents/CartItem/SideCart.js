@@ -48,7 +48,7 @@ class SideCart extends Component {
                {
                    allProducts.data.map(item => CartData.List.some(item2 => {
 
-                       if (item.id === item2.id) {
+                       if (item.id === item2.id && (item2.quantity>0)) {
                            products.push({
 
                                id: item2.id,

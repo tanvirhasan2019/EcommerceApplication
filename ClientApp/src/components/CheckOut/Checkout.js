@@ -87,6 +87,10 @@ function getStepContent(step) {
 export default function Checkout() {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
+    const [orderid, setorderid] = React.useState(0);
+    const [error, setError] = React.useState(false);
+
+    
 
     const CartData = useSelector(state => state.cartUpdate.data);
     const Shipping_Data = useSelector(state => state.ShippingDetails.data);
@@ -119,36 +123,56 @@ export default function Checkout() {
 
         )
 
-        fetch('ClientOrder/PlaceOrder', {
-            method: 'POST', // or 'PUT'
-            headers: !token ? {} : {
-                'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
-            },
+        if (!token) {
+            setError(true)
+        } else {
 
-            body: JSON.stringify({
 
-                'productid': productid,
-                'quantity': quantity,
-                'price': price,
-                'payementType': 'VISA',
 
-            }),
-        })
-            .then(response => response.json())
-            .then(Response => {
-                toaster.success(
-                    '' + Response.status
-                )
-                console.log('Success:', Response);
+            fetch('ClientOrder/PlaceOrder', {
+                method: 'POST', // or 'PUT'
+                headers: !token ? {} : {
+                    'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
+                },
 
+                body: JSON.stringify({
+
+                    'productid': productid,
+                    'quantity': quantity,
+                    'price': price,
+                    'payementType': 'VISA',
+                    'firstname': Shipping_Data.firstName,
+                    'lastname': Shipping_Data.lastName,
+                    'address1': Shipping_Data.address1,
+                    'address2': Shipping_Data.address2,
+                    'city': Shipping_Data.city,
+                    'zip': Shipping_Data.zip,
+                    'country': Shipping_Data.country,
+                    'phonenumber': Shipping_Data.phonenumber,
+
+
+                }),
             })
-            .catch((error) => {
+                .then(response => response.json())
+                .then(Response => {
+                    setorderid(Response.ordeR_ID)
 
-                console.error('Error:', error);
-                toaster.danger(
-                    'Something went wrong trying to create your audience'
-                )
-            });
+                    console.log('ORDER ID FROM SERVER ', Response.ordeR_ID);
+
+                    toaster.success(
+                        'ORDER PLACED SUCCESSFULLY'
+                    )
+                    console.log('Success:', Response);
+
+                })
+                .catch((error) => {
+                    setError(true)
+                    console.error('Error:', error);
+                    toaster.danger(
+                        'Something went wrong trying to create your audience'
+                    )
+                });
+        }
     };
 
     const handleBack = () => {
@@ -176,16 +200,29 @@ export default function Checkout() {
                         ))}
                     </Stepper>
                     <React.Fragment>
-                        {activeStep === steps.length ? (
-                            <React.Fragment>
-                                <Typography variant="h5" gutterBottom>
-                                    Thank you for your order.
-                </Typography>
-                                <Typography variant="subtitle1">
-                                    Your order number is #2001539. We have emailed your order confirmation, and will
-                                    send you an update when your order has shipped.
-                </Typography>
-                            </React.Fragment>
+                                {activeStep === steps.length ? (
+
+
+                                    error ? <React.Fragment>
+                                        <Typography variant="h5" gutterBottom>
+                                            Something Went Wrong
+                                        </Typography> </React.Fragment> :
+
+                                        (
+                                            <React.Fragment>
+                                                <Typography variant="h5" gutterBottom>
+                                                    Thank you for your order.
+                                                </Typography>
+                                                <Typography variant="subtitle1">
+                                                    Your order number is {orderid}. We have emailed your order confirmation, and will
+                                                    send you an update when your order has shipped.
+                                                 </Typography>
+                                            </React.Fragment>
+                                            
+                                       )
+
+                                       
+
                         ) : (
                                 <React.Fragment>
                                     {getStepContent(activeStep)}

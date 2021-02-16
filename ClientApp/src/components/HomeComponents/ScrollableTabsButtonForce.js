@@ -20,14 +20,10 @@ import ProductsList from './NewFolder/ProductsList';
 import { connect } from 'react-redux';
 
 import { fetchProducts } from '../../actions/Products';
-import { cartUpdate } from '../../actions/cartItem';
 
 
 
 import Box from '@material-ui/core/Box';
-
-
-
 
 
 
@@ -74,17 +70,68 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
+
+
+function ScrollableTabsButtonForce({ pageNumber, cart_size, allProducts, fetchProducts, filterPrice, filterProduct}) {
+
     const classes = useStyles();
-  
+    //const CartData = useSelector(state => state.products.data);
+    var filteredProducts = []
+    var paginationPrducts=[]
+
     const [value, setValue] = React.useState(0);
+  
    
 
-   // const { AllPrducts } = this.props;
+    if (allProducts.isLoading === false && allProducts.isLoading !== undefined) {
+
+
+        if (filterProduct.length > 0 || filterPrice.min !== 0 || filterPrice.max !== 100000) {
+
+
+            allProducts.data.map(item => {
+                if (((item.title.toLowerCase().includes(filterProduct.toLowerCase()) ||
+                    item.category.toLowerCase().includes(filterProduct.toLowerCase()) ||
+                    item.subcategory.toLowerCase().includes(filterProduct.toLowerCase())) &&
+                    (item.price >= filterPrice.min && item.price <= filterPrice.max))) {
+
+                     filteredProducts.push(item);
+                        
+                }
+            });
+           
+            cart_size(filteredProducts.length)
+            
+
+        } else {
+            allProducts.data.map(item => {
+
+                filteredProducts.push(item);
+            });
+
+            cart_size(filteredProducts.length)
+
+        }
+    }
+
+    if (pageNumber > 1) {
+        filteredProducts.slice((pageNumber * 10)-10, pageNumber * 10).map(item => {
+            paginationPrducts.push(item)
+        });
+
+    } else {
+        filteredProducts.slice(0, 11).map(item => {
+            paginationPrducts.push(item)
+        });
+    }
+
+    
+    
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
 
     useEffect(() => {
         fetchProducts()
@@ -93,30 +140,11 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
             });
     }, [])
    
-   /* function SwitchCase(props) {
-        switch (props.value.category) {
-            case 'GENTS':
-                return <GentsItem key={props.value.id} value={props.value} />;
-            case 'KIDS':
-                return <KidsItem key={props.value.id} value={props.value}/>;
-            case 'ELECTRONICS':
-                return <ElectronicItem key={props.value.id} value={props.value}/>;
-            case 'LADIES':
-                return <LadiesItem key={props.value.id} value={props.value}/>;
-            case 'STATIONARY':
-                return <StationaryItem key={props.value.id} value={props.value}/>;
-            
-            default:
-                return null;
-        }
-    } */
+ 
 
-    
-    
     return (
        
         <div className={classes.root}>
-
             <AppBar position="static" color="default">
                 <Tabs
                     value={value}
@@ -150,10 +178,10 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
                         
                           
                          {
-                             allProducts.isLoading === false && allProducts.isLoading !== undefined &&
+                            allProducts.isLoading === false && allProducts.isLoading !== undefined &&
                             
-                             allProducts.data.map(item => 
-                                 <ProductsList value={item} /> 
+                            paginationPrducts.map(item => 
+                                <ProductsList value={item} key={item.id} /> 
                                
                              ) 
                    
@@ -169,7 +197,7 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
                 <div className="container">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {
-                            allProducts.isLoading ? (<Ringloader />) : (null)
+                            allProducts.isLoading ? (<Ringloader key={1} />) : (null)
                         }
                     </div>
                      <div className="card-deck">
@@ -177,8 +205,8 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
                              
 
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
-                             allProducts.data.map(item =>
-                                 item.category === 'GENTS' ? < ProductsList value = { item } />:null
+                            filteredProducts.map(item =>
+                                item.category === 'GENTS' ? < ProductsList value={item} key={item.id} />:null
                              )
 
                          }
@@ -192,15 +220,15 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
                 <div className="container">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {
-                            allProducts.isLoading ? (<Ringloader />) : (null)
+                            allProducts.isLoading ? (<Ringloader key={1} />) : (null)
                         }
                     </div>
                     <div className="card-deck">
 
                          {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
-                             allProducts.data.map(item =>
-                                 item.category === 'LADIES' ? <ProductsList value={item} /> : null
+                            filteredProducts.map(item =>
+                                item.category === 'LADIES' ? <ProductsList value={item} key={item.id} /> : null
                              )
 
                          }
@@ -215,15 +243,15 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
                 <div className="container">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {
-                            allProducts.isLoading ? (<Ringloader />) : (null)
+                            allProducts.isLoading ? (<Ringloader key={1} />) : (null)
                         }
                     </div>
                     <div className="card-deck">
 
                          {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
-                             allProducts.data.map(item =>
-                                 item.category === 'KIDS' ? <ProductsList value={item} /> : null
+                            filteredProducts.map(item =>
+                                item.category === 'KIDS' ? <ProductsList value={item} key={item.id} /> : null
                              )
 
                          }
@@ -235,15 +263,15 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
                 <div className="container">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {
-                            allProducts.isLoading ? (<Ringloader />) : (null)
+                            allProducts.isLoading ? (<Ringloader key={1} />) : (null)
                         }
                     </div>
                     <div className="card-deck">
 
                          {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
-                             allProducts.data.map(item =>
-                                 item.category === 'ELECTRONICS' ? <ProductsList value={item} /> : null
+                            filteredProducts.map(item =>
+                                item.category === 'ELECTRONICS' ? <ProductsList value={item} key={item.id} /> : null
                              )
 
                          }
@@ -254,15 +282,15 @@ function ScrollableTabsButtonForce({ allProducts, fetchProducts, cartUpdate}) {
                 <div className="container">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {
-                            allProducts.isLoading ? (<Ringloader />) : (null)
+                            allProducts.isLoading ? (<Ringloader key={1} />) : (null)
                         }
                     </div>
                     <div className="card-deck">
 
                          {
                              allProducts.isLoading === false && allProducts.isLoading !== undefined &&
-                             allProducts.data.map(item =>
-                                 item.category === 'STATIONARY' ? <ProductsList value={item} /> : null
+                            filteredProducts.map(item =>
+                                item.category === 'STATIONARY' ? <ProductsList value={item} key={item.id} /> : null
                              )
 
                          }

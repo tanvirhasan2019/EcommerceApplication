@@ -15,7 +15,7 @@ const initialFormData = Object.freeze({
     city: "",
     zip: "",
     country: "",
-    state:""
+    phonenumber:""
     
 });
 
@@ -97,7 +97,7 @@ export default function AddressForm() {
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextField id="state" name="state" label="State/Province/Region" fullWidth onChange={handleChange} />
+                    <TextField id="phonenumber" name="phonenumber" label="Contact/phonenumber" fullWidth onChange={handleChange} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField

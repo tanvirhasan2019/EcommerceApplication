@@ -12,6 +12,7 @@ import StationaryCategory from '../adminPanel/UploadProduct/Categories/Stationar
 import LadiesCategory from '../adminPanel/UploadProduct/Categories/LadiesCategory';
 import KidsCategory from '../adminPanel/UploadProduct/Categories/KidsCategory';
 import ElectronicsCategory from '../adminPanel/UploadProduct/Categories/ElectronicsCategory';
+import ProductTable from './customize_product/ProductTable'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -78,7 +79,7 @@ export default function VerticalTabs() {
                 style={{ fontSize:'2rem' }}
                 >
                 <Tab label="UPLOAD PRODUCT" {...a11yProps(0)} />
-                <Tab label="UPDATE" {...a11yProps(1)} />
+                <Tab label="UPDATE & DELETE" {...a11yProps(1)} />
                 <Tab label="ACCOUNT" {...a11yProps(2)} />
                 <Tab label="TRANSACTION" {...a11yProps(3)} />
                 <Tab label="MESSAGE" {...a11yProps(4)} />
@@ -109,8 +110,11 @@ export default function VerticalTabs() {
                
 
       </TabPanel>
-            <TabPanel value={value} index={1}>
-                Item Two
+            <TabPanel value={value} index={1} style={{ width: '80vw' }}>
+               
+                <div className="form-wrap">
+                    <ProductTable />
+                </div>
       </TabPanel>
             <TabPanel value={value} index={2}>
                 Item Three

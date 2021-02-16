@@ -12,6 +12,7 @@ import { fetchProducts } from '../../../actions/Products';
 import IncDec from '../NewFolder/IncDecButton';
 import addToCart from '../NewFolder/cartItemStore';
 import { notification } from 'antd';
+import custom_loader from '../../../components/spinner/Ringloader';
 
 import './CustomizeProduct.scss';
 
@@ -90,7 +91,7 @@ class ProductlistinCart extends Component {
                 if (allProducts.isLoading === false && allProducts.isLoading !== undefined) {
                     allProducts.data.map(item => CartData.List.some(item2 => {
 
-                        if (item.id === item2.id) {
+                        if (item.id === item2.id && item2.quantity>0) {
                             products.push({
 
                                 id: item2.id,
@@ -116,8 +117,8 @@ class ProductlistinCart extends Component {
 
         return (
             <Fragment>
-                {
-                    products.map(item =>
+                    
+                {   products.map(item =>
                         <div className="row product-back" style={{ marginBottom: '15px', marginLeft:'0px' }}>
 
                             <div className="col-md com-sm" style={{ paddingLeft: '0px', paddingRight: '0px' }}>
@@ -145,10 +146,10 @@ class ProductlistinCart extends Component {
                             </div>
 
                             <div className="col-md-3 d-flex flex-column justify-content-around">
-                                <IncDec increase={() => this.increase(item.id, item.price)} decrease={() => this.decrease(item.id, item.price, item.quantity)} onChange={item.quantity} />
+                            <IncDec style={{height:'48px'}} increase={() => this.increase(item.id, item.price)} decrease={() => this.decrease(item.id, item.price, item.quantity)} onChange={item.quantity} />
                                 <Button
                                     onClick={() => this.deleteItem(item.id)}
-                                    style={{ height: '2rem', backgroundColor:'#3f51b5', color:'white' }}
+                                    style={{ height: '48px', backgroundColor:'#3f51b5', color:'white' }}
                                     variant="contained"                                  
                                     startIcon={<DeleteIcon />}
                                 >
@@ -159,7 +160,7 @@ class ProductlistinCart extends Component {
 
                         </div>
 
-                      )
+                     ) 
                 }
 
             </Fragment>

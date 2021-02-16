@@ -1,5 +1,5 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Arizonia&family=Oswald:wght@300&family=Rochester&display=swap');
-
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 section, div {
     margin: 0px;
     padding: 0px;
@@ -12,96 +12,61 @@ section, div {
         height: 70vh;
     }
 }
-/* .category {
-    //background-color: silver;
+
+.search-product {
+   
     width: 100%;
-    height: 350px;
+    height: 100px;
+    padding: 0px;
 
-    .videoTag {
+    .search {
         width: 100%;
-        height: 100%;
-        z-index: 0;
-        object-fit: cover;
-        position: absolute;
-    }
-
-    .overlay {
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.50) ;// rgba(247, 249, 249, 0.49) ;
-        z-index: 1;
-        position: absolute;
-    }
-
-
-    &-header1 {
-        width: 100%;
-        height: 100%;
-        background: rgba(13, 10, 10, 0.88);
-        padding: 0px !important;
-        margin: 0px !important;
         position: relative;
-
-        .video-header {
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            text-align: center;
-            color: black;
-            position: absolute;
-            //vertical-align: middle;
-        }
+        display: flex;
+       
     }
 
-    &-header2 {
-        // padding-top: 30px;
+    .searchTerm {
         width: 100%;
-        height: 100%;
-        background-color: black;
-        padding: 0px !important;
-        margin: 0px !important;
+        border: 3px solid #00B4CC;
+        border-right: none;
+        padding: 5px;
+        height: 40px;
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        color: #9DBFAF;
     }
 
-    &-header3 {
-        //  padding-top: 30px;
-        width: 100%;
-        height: 100%;
-        background-color: black;
-        padding: 0px !important;
-        margin: 0px !important;
+    .searchTerm:focus {
+        color: #00B4CC;
     }
-} */
+
+    .searchButton {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #00B4CC;
+        background: #00B4CC;
+        text-align: center;
+        color: #fff;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+}
+
+ .range-input{
+    width: 98%;
+    height: 100px;
+    padding: 0px;
+    margin: 0px
+}
 .video-content {
     margin-top: 30px;
     margin-bottom: 30px;
-    // background-color: #eceff1;
     box-shadow: 2px 2px rgba(196, 202, 206, 0.55);
-    //background-size: cover;
-    //object-fit: cover;
-    //  background: #0f0c29; /* fallback for old browsers */
-    // background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); /* Chrome 10-25, Safari 5.1-6 */
-    // background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background-repeat: no-repeat;
     background-size: cover;
     background-image: linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(6, 6, 7, 0.73)), url('images-com/bg.jpg');
 }
 
-
-
-
-/* p1 {
-    z-index: 2;
-    text-transform: uppercase;
-    position: absolute;
-    color: white;
-    width: 100%;
-    height: 100%;
-    font-family: 'Oswald', sans-serif;
-    text-align: center;
-    display: flex;
-    font-size:20px;
-    font-style:italic;
-    align-items: center; /** Y-axis align **/
-//  justify-content: center; /** X-axis align **/
-// padding:5px;
-//}

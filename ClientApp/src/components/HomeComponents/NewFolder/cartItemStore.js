@@ -66,15 +66,7 @@ export default function addToCart(id, quantity, title, img, price) {
             console.log("OLD PRODUCT -- " + JSON.stringify(oldproduct));
             updateCart(oldproduct);
 
-            toast.success(customDesign, {
-                position: "bottom-left",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });  
+           
          }
     }catch (err) {
         alert("SOMETHING WENT WENT WRONG");  
