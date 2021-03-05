@@ -3,5 +3,68 @@
     width:100%;
     margin:10px;
     background-color:white;
-    border:2px solid #808080;
+    //border:2px solid #808080;
+}
+
+.header-txt-items{
+    text-align:center;
+    font-size:3rem;
+    color:black;
+    //border-bottom: 2px solid #808080;
+}
+.search-product {
+    width: 100%;
+    height: 100px;
+    padding: 0px;
+
+    .search {
+        width: 100%;
+        position: relative;
+        display: flex;
+    }
+
+    .searchTerm {
+        width: 100%;
+        border: 3px solid #00B4CC;
+        border-right: none;
+        padding: 5px;
+        height: 40px;
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        color: #9DBFAF;
+    }
+
+    .searchTerm:focus {
+        color: #00B4CC;
+    }
+
+    .searchButton {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #00B4CC;
+        background: #00B4CC;
+        text-align: center;
+        color: #fff;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        font-size: 20px;
+    }
+}
+
+.range-input {
+    width: 98%;
+    height: 100px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.list-main{
+    width:100%;
+    margin:10px;
+   height:100%;
+   position:fixed;
+}
+
+.items-main-list{
+    margin-top:10px;
 }
