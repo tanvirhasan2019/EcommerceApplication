@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux';
 const range = len => {
   const arr = []
   for (let i = 0; i < len; i++) {
-    arr.push(i)
+      arr.push(i)
+      console.log('Array i is ', i)
   }
   return arr
 }
@@ -29,21 +30,21 @@ const newPerson = () => {
 
 
 
-export default function makeData(lens, data) {
+//export default function makeData(...lens) {
+function makeData(...lens) {
 
 
- console.log("Data From makeData Function", JSON.stringify(data))
 
-
-  const makeDataLevel = (depth = 0) => {
-    const len = lens[depth]
-    return range(len).map(d => {
-      return {
-        ...newPerson(),
-        subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
-      }
-    })
-  }
+    const makeDataLevel = (depth = 0) => {
+        const len = lens[depth]
+        return range(len).map(d => {
+            return {
+                ...newPerson(),
+                subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+               
+            }
+        })
+    }
 
   return makeDataLevel()
 }

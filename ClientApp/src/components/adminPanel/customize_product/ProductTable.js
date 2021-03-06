@@ -33,12 +33,19 @@ const useStyles = makeStyles({
 
 class ProductTable extends Component {
 
-    render() {
-        let { fetchProducts } = this.props;
-        fetchProducts();
 
-        //let { items } = this.props;
-        var items=[]
+componentDidMount(){
+
+   this.props.fetchProducts();
+
+}
+
+
+    render() {
+      
+
+        let { items } = this.props;
+        //var items=[]
 
         //const items = this.props;
 
