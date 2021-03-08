@@ -2,57 +2,138 @@
 import namor from 'namor'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import EnhancedTable from './EnhancedTable'
-//import makeData from './makeData'
+import { toaster } from 'evergreen-ui'
+//import { confirmWrapper, confirm } from './confirm'
+import authService from '../../api-authorization/AuthorizeService'
+//import { confirm } from "../ShowDialog/Confirmation";
+import { confirm } from "../../ShowDialog/Confirmation";
 
+var list_data = []
 
 const TableList = (props) => {
     const columns = React.useMemo(
         () => [
             {
-                Header: 'First Name',
-                accessor: 'firstName',
+                Header: 'Id',
+                accessor: 'id',
+               
             },
             {
-                Header: 'Last Name',
-                accessor: 'lastName',
+                Header: 'Title',
+                accessor: 'title',
             },
             {
-                Header: 'Age',
-                accessor: 'age',
+                Header: 'Quantity',
+                accessor: 'quantity',
             },
             {
-                Header: 'Visits',
-                accessor: 'visits',
+                Header: 'Update',
+                accessor: 'update',
+                Cell: ({ cell }) => (  
+                    <button value={cell.row.values.id} onClick={()=>UpdateRowId(cell)} type="button"
+                        className="btn btn-outline-success">UPDATE
+                    </button>
+                )
+                
             },
             {
-                Header: 'Status',
-                accessor: 'status',
-            },
-            {
-                Header: 'Profile Progress',
-                accessor: 'progress',
+                Header: 'Delete',
+                accessor: 'delete',
+                Cell: ({ cell }) => (
+                    <button type="button" onClick={() => DeleteRowId(cell)} className="btn btn-outline-danger">
+                        DELETE
+                    </button>
+                )
+               
             },
         ],
         []
     )
 
   
-   
-    
-    console.log('props loading ', props.data.isLoading);
-    
+    const UpdateRowId = (cell) => {
+        console.log('Update press ',  list_data[cell.row.id]);
+    }
+
+    const DeleteRowId = async (cell) => {
+
+
+       
+
+        if (list_data[cell.row.id]) {
+           
+            
+            if (await confirm("Are your sure?")) {
+                //ok//
+                const token = await authService.getAccessToken();
+                console.log("Token Data here : " + token);
+                
+                fetch('Admin/DeleteProductId', {
+                    method: 'POST', // or 'PUT'
+                    headers: !token ? {} : {
+                        'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+
+                        'id': list_data[cell.row.id].id,
+
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(Response => {
+                        toaster.success(
+                            '' + Response.status
+                        )
+                        console.log('Success:', Response);
+
+                    })
+                    .catch((error) => {
+
+                        console.error('Error:', error);
+                        toaster.danger(
+                            'Something went wrong trying to create your audience'
+                        )
+                    });
+
+
+
+
+                //Delet_request(list_data[cell.row.id].id)
+            } else {
+                //No
+            }
+
+
+        }else {
+            //console.log('something went wrong')
+        }
+
+      
+    };
+
+    async function Delet_request(id) {
+
+       
+    }
     //const [data, setData] = React.useState(React.useMemo(() => makeData([],true, 20), []))
     const [data, setData] = React.useState(React.useMemo(() => makeData([], true, 20), []))
 
     useEffect(() => {
 
-        var list_data = []
+        //var list_data = []
         if (props.data.isLoading === false && props.data.isLoading !== undefined) {
 
             props.data.data.map(item => {
-                var temp = { title: item.title, id: item.id }
+                var temp = {
+                    id: item.id,
+                    title: item.title,
+                    quantity: item.quantity,
+                    
+                 
+
+                }
                 list_data.push(temp)
-                console.log('List outside makeData ', temp)
+                
 
             })
            
@@ -60,16 +141,9 @@ const TableList = (props) => {
 
         setData(makeData(list_data, false, 20))
 
-       // setBoards(response);
+       
     }, [props.data]);
 
-
-
-       
-       
-
-
-   
 
     const [skipPageReset, setSkipPageReset] = React.useState(false)
 
@@ -137,17 +211,7 @@ function makeData(list_data, loading, ...lens) {
 
         }
         return makeDataLevel()
-    }
-
-
-
-    //console.log('makeData data all json format is ', JSON.stringify(list_data));
-   // var newPerson=[]
-   // if (list_data.isLoading === false && list_data.isLoading !== undefined) {
-
-      //  console.log('makeData data all json format is ', JSON.stringify(list_data.data));
-
-      
+    }   
                
  }
 
@@ -164,14 +228,14 @@ const range = len => {
 
 const newPerson = (temp) => {
 
-    //console.log('d from makeData pass to newPerson is ', JSON.stringify(list));
+   
+    
     return {
-        firstName:temp.title,
-        lastName: temp.title ,
-        age: 2,
-        visits: temp.title,
-        progress: temp.title ,
-        status:'single'
+        id:temp.id,
+        title: temp.title ,
+        quantity: temp.quantity,
+       
+        
            
     }
 } 
@@ -179,12 +243,10 @@ const newPerson = (temp) => {
 const newPerson2 = (temp) => {
 
     return {
-        firstName: 'null',
-        lastName: 'null',
-        age: 0,
-        visits: 'null',
-        progress: 'null',
-        status: 'null'
+        id: 0,
+        title: 'null',
+        quantity: 0,
+        update: '<div><button type="button" className="btn btn-primary"> Primary</button ></div>'
 
     }
 } 

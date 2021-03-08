@@ -13,6 +13,13 @@ import TablePaginationActions from './TablePaginationActions'
 import TableRow from '@material-ui/core/TableRow'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 import TableToolbar from './TableToolbar'
+import { toaster } from 'evergreen-ui'
+import authService from '../../api-authorization/AuthorizeService'
+//import { confirm } from "../ShowDialog/Confirmation";
+import { confirm } from "../../ShowDialog/Confirmation";
+
+
+
 import {
   useGlobalFilter,
   usePagination,
@@ -168,16 +175,86 @@ const EnhancedTable = ({
     setPageSize(Number(event.target.value))
   }
 
-  const removeByIndexs = (array, indexs) =>
-    array.filter((_, i) => !indexs.includes(i))
+    const removeByIndexs = (array, indexs) => {
+       // array.filter((_, i) => !indexs.includes(i))
 
-  const deleteUserHandler = event => {
-    const newData = removeByIndexs(
-      data,
-      Object.keys(selectedRowIds).map(x => parseInt(x, 10))
-    )
-    setData(newData)
+        //console.log('selected Index before', {array})
+       
+        
+        
+        //console.log('selected Index array is ', array[indexs]);
+    }
+    
+
+    const deleteUserHandler = event => {
+
+       // DELETE API REQUEST HERE 
+        var id_list = []
+        Object.keys(selectedRowIds).map(index => {
+
+            console.log('Selected row id ', index)
+            console.log('Selected data id ', data[index].id)
+            //var temp = { id: data[index].id }
+            id_list.push(data[index].id)
+
+        })
+        if (id_list) {  
+           Delet_request_multiple_id(id_list)
+        }
+    
   }
+    async function Delet_request_multiple_id(list) {
+
+
+        const token = await authService.getAccessToken();
+        console.log("multiple delete request list data : " + JSON.stringify(list));
+
+        if (await confirm("Are your sure?")) {
+
+            fetch('Admin/DeleteMultipleProductId', {
+                method: 'POST', // or 'PUT'
+                headers: !token ? {} : {
+
+                    'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
+                },
+                  body: JSON.stringify({
+  
+                       'id':list
+  
+                  }),
+
+                
+            })
+                .then(response => response.json())
+                .then(Response => {
+                    toaster.success(
+                        '' + Response.status
+                    )
+                    console.log('Success:', Response);
+
+                })
+                .catch((error) => {
+
+                    console.error('Error:', error);
+                    toaster.danger(
+                        'Something went wrong trying to create your audience'
+                    )
+                });
+            //ok//
+           // Delet_request_multiple_id(id_list)
+
+        } else {
+            //No
+        }
+
+
+       // if(!token)
+       
+
+
+
+    }
+
 
   const addUserHandler = user => {
     const newData = data.concat([user])
@@ -190,7 +267,7 @@ const EnhancedTable = ({
       <TableToolbar
         numSelected={Object.keys(selectedRowIds).length}
         deleteUserHandler={deleteUserHandler}
-        addUserHandler={addUserHandler}
+        //addUserHandler={addUserHandler}
         preGlobalFilteredRows={preGlobalFilteredRows}
         setGlobalFilter={setGlobalFilter}
         globalFilter={globalFilter}

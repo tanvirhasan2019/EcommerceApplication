@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using EcommerceApp.Data;
 using EcommerceApp.Models;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
 namespace EcommerceApp.Controllers
 {
@@ -72,40 +74,146 @@ namespace EcommerceApp.Controllers
                            productid = FK_imageId 
                        };
 
-                    //  byte[] img55 = Encoding.ASCII.GetBytes(products.Img[4].img5.ToString());
-                    //  string value = System.Text.Encoding.UTF8.GetString(img55);
+                    
                    
                     _context.ProductImage.Add(product_image);
                     _context.SaveChanges();
 
-                    // return Ok("DATA SAVED SUCCESSFULLY");
-                    //return Content("DATA SAVED SUCCESSFULLY");
-                    // return Json(new Response { Id = 123, Name = "Hero" });
-                  //  return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
+                    
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                // return Ok("SOMETHING WENT WRONG");
+                
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
-                /* return new Response
-                 {
-                     Status = "FAILED",
-                     Message = "SOMETHING WENT WRONG"
-                 };*/
+               
 
             }
-
-            // return Ok("SOMETHING WENT WRONG");
             return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
         }
 
 
+       
+
+        [HttpPost]
+        [Route("DeleteProductId")]
+        public object DeleteProductId([FromBody] Product productid)
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    var id2 = productid.id;
+
+                    
+                    var ProductImage = _context.ProductImage.Where(u => u.productid == productid.id);
+                    foreach (var data in ProductImage)
+                    {
+                        var x = data;
+                        _context.ProductImage.Remove(data);
+                    }
+                    
+                     _context.SaveChanges();
+
+                    var Product = _context.Products.Where(u => u.id == productid.id);
+                    foreach (var data in Product)
+                    {
+                        var x = data;
+                        _context.Products.Remove(data);
+                    }
+                    
+                     _context.SaveChanges();
+
+                   
+
+                }
+            }
+            catch (Exception e)
+            {
+                
+
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" , e= e});
+
+
+            }
+          return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
+        }
+
+
+
+
+
+
+
+        [HttpPost]
+        [Route("DeleteMultipleProductId")]
+        public object DeleteMultipleProductId([FromBody] MultipleProductId multipleProductId)
+        {
+
+            
+            //string json = System.Text.Json.JsonSerializer.Serialize(body);
+            //  var array = JArray.Parse(json);
+           // var siz = body.GetArrayLength();
+           // var data1 = body[0];
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                   // var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                   
+
+
+                   /* var ProductImage = _context.ProductImage.Where(u => u.productid == productid.id);
+                    foreach (var data in ProductImage)
+                    {
+                        var x = data;
+                        _context.ProductImage.Remove(data);
+                    }
+
+                    _context.SaveChanges();
+
+                    var Product = _context.Products.Where(u => u.id == productid.id);
+                    foreach (var data in Product)
+                    {
+                        var x = data;
+                        _context.Products.Remove(data);
+                    }
+
+                    _context.SaveChanges();
+
+                    */
+
+                }
+            }
+            catch (Exception e)
+            {
+
+
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED", e = e });
+
+
+            }
+            return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
+        }
+
+
+
     }
 
+    // DATA BINDING FOR LIST OF PRODUCT ID
 
+    public class MultipleProductId 
+    {   
+       public virtual List<int> id { get; set; }
 
+      
+    }
+
+  
     //PRODUCT CREATION AND BINDING WITH IMAGE
     public class Productnew
     {
