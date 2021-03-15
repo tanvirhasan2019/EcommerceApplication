@@ -45,6 +45,18 @@ namespace EcommerceApp.Controllers
         }
 
 
+        [HttpGet]
+        [Route("GetSingleProduct/{id:int}")]
+        public async Task<IActionResult> GetSingleProduct(int id)
+        {
+
+            var productImage = await _context.ProductImage.Where(c=> c.productid == id).ToListAsync();
+            var productList = await _context.Products.Where(c => c.id == id).ToListAsync();
+
+            return Ok(new { data = productList });
+        }
+
+
 
 
         [HttpPost]

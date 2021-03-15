@@ -209,7 +209,7 @@ const EnhancedTable = ({
         const token = await authService.getAccessToken();
         console.log("multiple delete request list data : " + JSON.stringify(list));
 
-        if (await confirm("Are your sure?")) {
+        if (await confirm("Are you sure want to delete ?")) {
 
             fetch('Admin/DeleteMultipleProductId', {
                 method: 'POST', // or 'PUT'

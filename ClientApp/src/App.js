@@ -9,6 +9,7 @@ import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
 import { dashboard } from './components/adminPanel/dashboard';
+import { updateSingleProduct } from './components/adminPanel/customize_product/updateSingleProduct';
 import { CustomLayout } from './components/CustomLayout';
 import CartItem from './components/HomeComponents/CartItem/CartItems';
 import Checkout from '././components/CheckOut/Checkout';
@@ -34,12 +35,14 @@ export default class App extends Component {
               <Route path='/post-editor' component={MyStatefulEditor} /> 
               <Route path='/fetch-data' component={FetchData} />
               <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
-            
               <Route strict exact path='/temp' component={Temp} />
               <Route strict exact path='/dashboard' component={dashboard} />
-             
+              <Route strict exact path='/update-product/:id' component={updateSingleProduct} />             
 
       </Fragment>
     );
   }
 }
+
+//<Route strict exact path='/update-product/:id' component={updateSingleProduct} />
+

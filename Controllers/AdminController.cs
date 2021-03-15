@@ -94,7 +94,69 @@ namespace EcommerceApp.Controllers
         }
 
 
-       
+
+
+
+        [HttpPost]
+        [Route("UpdateProduct")]
+        public object UpdateProduct([FromBody] Productnew products)
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                    var data = _context.Products.FirstOrDefault(x => x.id == products.id);
+
+                    if (data != null)
+                    {
+
+                        data.title = products.title;
+                        data.description = products.description;
+                        data.category = products.category;
+                        data.subcategory = products.subcategory;
+                        data.quantity = products.quantity;
+                        data.price = products.price;
+                        data.dateTime = DateTime.Now;
+                        data.AddedBy = UserID;
+
+                        
+                    }
+
+
+                    var data2 = _context.ProductImage.FirstOrDefault(x => x.productid == products.id);
+
+                    if (data2 != null)
+                    {
+
+                        data2.img1 = Encoding.ASCII.GetBytes(products.Img[0].img1.ToString());
+                        data2.img2 = Encoding.ASCII.GetBytes(products.Img[1].img2.ToString());
+                        data2.img3 = Encoding.ASCII.GetBytes(products.Img[2].img3.ToString());
+                        data2.img4 = Encoding.ASCII.GetBytes(products.Img[3].img4.ToString());
+                        data2.img5 = Encoding.ASCII.GetBytes(products.Img[4].img5.ToString());
+                          
+
+                    }
+
+                    _context.SaveChanges();
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
+
+
+            }
+            return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
+        }
+
+
 
         [HttpPost]
         [Route("DeleteProductId")]
@@ -154,38 +216,39 @@ namespace EcommerceApp.Controllers
         {
 
             
-            //string json = System.Text.Json.JsonSerializer.Serialize(body);
-            //  var array = JArray.Parse(json);
-           // var siz = body.GetArrayLength();
-           // var data1 = body[0];
 
             try
             {
                 if (ModelState.IsValid)
                 {
-                   // var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+               
+                    for (int i=0; i< multipleProductId.id.Count; i++)
+                    {
+                        var ProductImage = _context.ProductImage.Where(u => u.productid == multipleProductId.id[i]);
+                      
+                        foreach (var data in ProductImage)
+                        {
+                          
+                            _context.ProductImage.Remove(data);
+                        }
+
+                    }
+
+
+                    for (int i = 0; i < multipleProductId.id.Count; i++)
+                    {
+                        var Product = _context.Products.Where(u => u.id == multipleProductId.id[i]);
+                       
+                        foreach (var data in Product)
+                        {
+                            
+                            _context.Products.Remove(data);
+                        }
                    
-
-
-                   /* var ProductImage = _context.ProductImage.Where(u => u.productid == productid.id);
-                    foreach (var data in ProductImage)
-                    {
-                        var x = data;
-                        _context.ProductImage.Remove(data);
                     }
 
                     _context.SaveChanges();
-
-                    var Product = _context.Products.Where(u => u.id == productid.id);
-                    foreach (var data in Product)
-                    {
-                        var x = data;
-                        _context.Products.Remove(data);
-                    }
-
-                    _context.SaveChanges();
-
-                    */
 
                 }
             }
@@ -193,7 +256,7 @@ namespace EcommerceApp.Controllers
             {
 
 
-                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED", e = e });
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED"});
 
 
             }

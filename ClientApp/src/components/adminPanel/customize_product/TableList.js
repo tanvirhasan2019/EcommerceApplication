@@ -6,9 +6,13 @@ import { toaster } from 'evergreen-ui'
 //import { confirmWrapper, confirm } from './confirm'
 import authService from '../../api-authorization/AuthorizeService'
 //import { confirm } from "../ShowDialog/Confirmation";
+import { Link } from 'react-router-dom';
 import { confirm } from "../../ShowDialog/Confirmation";
 
 var list_data = []
+
+//{ list_data[cell.row.id] }
+//onClick={() => UpdateRowId(cell)}
 
 const TableList = (props) => {
     const columns = React.useMemo(
@@ -30,9 +34,14 @@ const TableList = (props) => {
                 Header: 'Update',
                 accessor: 'update',
                 Cell: ({ cell }) => (  
-                    <button value={cell.row.values.id} onClick={()=>UpdateRowId(cell)} type="button"
-                        className="btn btn-outline-success">UPDATE
-                    </button>
+
+                
+                    <Link to={{ pathname: `/update-product/${cell.row.values.id}`}} >
+                        <button value={cell.row.values.id}  type="button"
+                            className="btn btn-outline-success">UPDATE                     
+                        </button>
+                     </Link>
+                    
                 )
                 
             },
@@ -52,18 +61,19 @@ const TableList = (props) => {
 
   
     const UpdateRowId = (cell) => {
-        console.log('Update press ',  list_data[cell.row.id]);
+
+        
+        console.log('Update press ', list_data[cell.row.id]);
+       // <Link to="/update-product/${list_data[cell.row.id]}"> </Link>
     }
 
     const DeleteRowId = async (cell) => {
-
-
-       
+ 
 
         if (list_data[cell.row.id]) {
            
             
-            if (await confirm("Are your sure?")) {
+            if (await confirm("Are your sure want to delete ?")) {
                 //ok//
                 const token = await authService.getAccessToken();
                 console.log("Token Data here : " + token);
