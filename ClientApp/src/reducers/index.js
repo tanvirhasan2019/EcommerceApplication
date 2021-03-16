@@ -9,6 +9,8 @@ import cartUpdate from './cartItemjs';
 import createproduct from './AdminCreateProduct';
 import ShippingDetails from './ShippingDetails';
 import CreditCardDetails from './CreditCardDetails';
+import order from './order';
+import orders from './Orders';
 
 export default combineReducers({
   character,
@@ -19,6 +21,8 @@ export default combineReducers({
     products,
     cartUpdate,
     ShippingDetails,
-    CreditCardDetails
+    CreditCardDetails,
+    order,
+    orders
 
 });

@@ -86,16 +86,96 @@ namespace EcommerceApp.Controllers
                     _context.SaveChanges();                  
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
+               // Console.WriteLine(e);
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });                
             }
             return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
         }
 
+
+
+
+        [HttpGet]
+        [Route("AllOrderList")]
+        public async Task<IActionResult> AllOrderList()
+        {
+
+            try
+            {
+               
+               
+                
+                var OrderDetails = await _context.OrderDetails.ToListAsync();
+                var ShippingDetails = await _context.ShippingDetails.ToListAsync();
+                var Transaction = await _context.Transaction.ToListAsync();
+
+                var ClientOrder = await _context.ClientOrder.ToListAsync();
+
+
+                return Ok(new
+                {
+                    clientorder = ClientOrder,
+                   // orderdetails = OrderDetails,
+                   // transaction = Transaction,
+                   // shippingdetails = ShippingDetails
+                });
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("order errors - ", e);
+                return Ok(new
+                {
+                    status ="ERROR"
+                });
+            }
+           
+
+           
+        }
+
+
+
+        [HttpGet]
+        [Route("GetSingleOrderItem")]
+        public async Task<IActionResult> GetSingleOrderItem()
+        {
+
+            try
+            {
+
+                var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var ClientOrder = await _context.ClientOrder.Where(c => c.userid == UserID).ToListAsync();
+                var OrderDetail = await _context.OrderDetails.ToListAsync();
+                var Transaction = await _context.Transaction.ToListAsync();
+                var ShippingDetails = await _context.ShippingDetails.ToListAsync();
+
+                return Ok(new
+                {
+                    clientorder = ClientOrder,
+                    orderdetails = OrderDetail,
+                    transaction = Transaction,
+                    shippingdetails = ShippingDetails
+                });
+
+            }
+            catch (Exception)
+            {
+                return Ok(new
+                {
+                    status = "ERROR"
+                });
+            }
+
+
+
+        }
+
+
     }
- 
+
 
     public class CustomProductImage
     {

@@ -12,13 +12,15 @@ namespace EcommerceApp.Models
         [Key]
         public int id { get; set; }
 
-        [ForeignKey("ClientOrder")]
+       // [ForeignKey("ClientOrder")]
         public int orderid { get; set; }
 
-        [ForeignKey("Product")]
+      //  [ForeignKey("Product")]
         public int productid { get; set; }
         public int quantity { get; set; }
         public double price { get; set; }
+
        
+
     }
 }

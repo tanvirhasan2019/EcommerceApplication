@@ -12,7 +12,7 @@ namespace EcommerceApp.Models
         [Key]
         public int shippingid { get; set; }
 
-        [ForeignKey("ClientOrder")]
+       // [ForeignKey("ClientOrder")]
         public int orderid { get; set; }
         public string firstname { get; set; }
         public string lastname { get; set; }

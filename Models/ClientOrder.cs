@@ -14,6 +14,10 @@ namespace EcommerceApp.Models
         public int orderid { get; set; }
         public DateTime dateTime { get; set; }
         public string userid { get; set; }
+        public virtual List<OrderDetails> order { get; set; }
+        public virtual List<ShippingDetails> shipping { get; set; }
+        public virtual List<Transaction> transaction { get; set; }
+        
 
     }
 }

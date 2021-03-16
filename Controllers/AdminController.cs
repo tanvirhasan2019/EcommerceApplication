@@ -197,7 +197,7 @@ namespace EcommerceApp.Controllers
             {
                 
 
-                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" , e= e});
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED"});
 
 
             }

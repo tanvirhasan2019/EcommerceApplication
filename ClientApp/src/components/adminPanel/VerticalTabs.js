@@ -14,6 +14,8 @@ import KidsCategory from '../adminPanel/UploadProduct/Categories/KidsCategory';
 import ElectronicsCategory from '../adminPanel/UploadProduct/Categories/ElectronicsCategory';
 import ProductTable from './customize_product/ProductTable'
 
+import OrderItem from '../adminPanel/customize_product/NewFolder/OrderItem'
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -80,7 +82,7 @@ export default function VerticalTabs() {
                 >
                 <Tab label="UPLOAD PRODUCT" {...a11yProps(0)} />
                 <Tab label="UPDATE & DELETE" {...a11yProps(1)} />
-                <Tab label="ACCOUNT" {...a11yProps(2)} />
+                <Tab label="ORDER ITEM" {...a11yProps(2)} />
                 <Tab label="TRANSACTION" {...a11yProps(3)} />
                 <Tab label="MESSAGE" {...a11yProps(4)} />
                 <Tab label="PERMISSION" {...a11yProps(5)} />
@@ -117,7 +119,7 @@ export default function VerticalTabs() {
                 </div>
       </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
+                <OrderItem />
       </TabPanel>
             <TabPanel value={value} index={3}>
                 Item Four
