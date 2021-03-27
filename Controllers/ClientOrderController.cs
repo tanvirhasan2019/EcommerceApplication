@@ -44,15 +44,16 @@ namespace EcommerceApp.Controllers
                     var order_place = new ClientOrder
                     {     
                        dateTime = DateTime.Now,
-                       userid = UserID         
-                    };
+                       userid = UserID ,
+                       Status = "processing"
+                };
                     
                     _context.Add<ClientOrder>(order_place);
                     _context.SaveChanges();
 
 
                     ClientOrder obj = new ClientOrder();
-                    int ordeID = order_place.orderid;
+                    int ordeID = order_place.Orderid;
 
                    
                    
@@ -63,11 +64,11 @@ namespace EcommerceApp.Controllers
                     {
                         var order_details = new OrderDetails();
 
-                        order_details.orderid = ordeID;
-                        order_details.productid = order.productid[i];
+                        order_details.ClientOrderOrderid = ordeID;
+                        order_details.Productid = order.productid[i];
                         order_details.quantity = order.quantity[i];
                         order_details.price = order.price[i];
-
+                        
                         _context.OrderDetails.Add(order_details);
                         _context.SaveChanges();
 
@@ -78,7 +79,7 @@ namespace EcommerceApp.Controllers
                     var transaction = new Transaction
 
                     {
-                        orderid = ordeID,
+                        ClientOrderOrderid = ordeID,
                         amount = total_amount,
                         payementType = order.payementType  
                     };
@@ -92,7 +93,7 @@ namespace EcommerceApp.Controllers
                     var shipping = new ShippingDetails
 
                     {
-                        orderid = ordeID,
+                        ClientOrderOrderid = ordeID,
                         firstname = order.firstname,
                         lastname = order.lastname,
                         address1 =order.address1,

@@ -9,11 +9,15 @@ namespace EcommerceApp.Models
 {
     public class ShippingDetails
     {
+
         [Key]
         public int shippingid { get; set; }
 
-       // [ForeignKey("ClientOrder")]
-        public int orderid { get; set; }
+
+        [ForeignKey("ClientOrder")]
+       
+        public int ClientOrderOrderid { get; set; }
+
         public string firstname { get; set; }
         public string lastname { get; set; }
         public string address1 { get; set; }
@@ -22,5 +26,8 @@ namespace EcommerceApp.Models
         public string city { get; set; }
         public string country { get; set; }
         public string zip { get; set; }
+
+        
+
     }
 }

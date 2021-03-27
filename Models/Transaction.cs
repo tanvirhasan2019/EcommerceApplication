@@ -9,12 +9,18 @@ namespace EcommerceApp.Models
 {
     public class Transaction
     {
+
         [Key]
         public int trsansactionid { get; set; }
 
-      //  [ForeignKey("ClientOrder")]
-        public int orderid { get; set; }
+        [ForeignKey("ClientOrder")]
+       
+        public int ClientOrderOrderid { get; set; }
+
         public double amount { get; set; }
         public string payementType { get; set; }
+
+       
+
     }
 }

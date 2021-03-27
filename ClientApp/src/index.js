@@ -4,6 +4,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import 'semantic-ui-css/semantic.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'rsuite/dist/styles/rsuite-default.css';
 
 
 import React from 'react';

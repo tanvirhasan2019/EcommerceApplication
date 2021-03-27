@@ -2,7 +2,7 @@
 
 namespace EcommerceApp.Migrations
 {
-    public partial class order_model_added : Migration
+    public partial class OrderDetailsLinkedToProduct10 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201116224740_initialcreate")]
-    partial class initialcreate
+    [Migration("20210326061028_OrderDetailsLinkedToProduct5")]
+    partial class OrderDetailsLinkedToProduct5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,6 +86,53 @@ namespace EcommerceApp.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("EcommerceApp.Models.ClientOrder", b =>
+                {
+                    b.Property<int>("Orderid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("dateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("userid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Orderid");
+
+                    b.ToTable("ClientOrder");
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.OrderDetails", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClientOrderOrderid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Productid")
+                        .HasColumnType("int");
+
+                    b.Property<double>("price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("ClientOrderOrderid");
+
+                    b.HasIndex("Productid")
+                        .IsUnique();
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("EcommerceApp.Models.Product", b =>
                 {
                     b.Property<int>("id")
@@ -110,6 +157,9 @@ namespace EcommerceApp.Migrations
 
                     b.Property<int>("quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("subcategory")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("title")
                         .HasColumnType("nvarchar(max)");
@@ -149,6 +199,70 @@ namespace EcommerceApp.Migrations
                     b.HasIndex("productid");
 
                     b.ToTable("ProductImage");
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.ShippingDetails", b =>
+                {
+                    b.Property<int>("shippingid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClientOrderOrderid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("address1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("address2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("city")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("firstname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phonenumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("zip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("shippingid");
+
+                    b.HasIndex("ClientOrderOrderid");
+
+                    b.ToTable("ShippingDetails");
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.Transaction", b =>
+                {
+                    b.Property<int>("trsansactionid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClientOrderOrderid")
+                        .HasColumnType("int");
+
+                    b.Property<double>("amount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("payementType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("trsansactionid");
+
+                    b.HasIndex("ClientOrderOrderid");
+
+                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -368,11 +482,44 @@ namespace EcommerceApp.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("EcommerceApp.Models.OrderDetails", b =>
+                {
+                    b.HasOne("EcommerceApp.Models.ClientOrder", null)
+                        .WithMany("order")
+                        .HasForeignKey("ClientOrderOrderid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EcommerceApp.Models.Product", "Product")
+                        .WithOne("OrderDetails")
+                        .HasForeignKey("EcommerceApp.Models.OrderDetails", "Productid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EcommerceApp.Models.ProductImage", b =>
                 {
                     b.HasOne("EcommerceApp.Models.Product", null)
                         .WithMany("Img")
                         .HasForeignKey("productid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.ShippingDetails", b =>
+                {
+                    b.HasOne("EcommerceApp.Models.ClientOrder", null)
+                        .WithMany("shipping")
+                        .HasForeignKey("ClientOrderOrderid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.Transaction", b =>
+                {
+                    b.HasOne("EcommerceApp.Models.ClientOrder", null)
+                        .WithMany("transaction")
+                        .HasForeignKey("ClientOrderOrderid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

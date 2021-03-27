@@ -23,5 +23,9 @@ namespace EcommerceApp.Models
 
         public virtual List <ProductImage> Img { get; set; }
 
+      
+
+
+
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210201232543_transaction_model")]
-    partial class transaction_model
+    [Migration("20210325174017_ClientOrderModel9")]
+    partial class ClientOrderModel9
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,7 +111,7 @@ namespace EcommerceApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("orderid")
+                    b.Property<int>("oid")
                         .HasColumnType("int");
 
                     b.Property<double>("price")
@@ -196,6 +196,45 @@ namespace EcommerceApp.Migrations
                     b.ToTable("ProductImage");
                 });
 
+            modelBuilder.Entity("EcommerceApp.Models.ShippingDetails", b =>
+                {
+                    b.Property<int>("shippingid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("address1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("address2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("city")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("firstname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("oid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("phonenumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("zip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("shippingid");
+
+                    b.ToTable("ShippingDetails");
+                });
+
             modelBuilder.Entity("EcommerceApp.Models.Transaction", b =>
                 {
                     b.Property<int>("trsansactionid")
@@ -206,7 +245,7 @@ namespace EcommerceApp.Migrations
                     b.Property<double>("amount")
                         .HasColumnType("float");
 
-                    b.Property<int>("orderid")
+                    b.Property<int>("oid")
                         .HasColumnType("int");
 
                     b.Property<string>("payementType")

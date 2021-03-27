@@ -61,11 +61,11 @@ class CartButton extends Component {
                                     <div className="button_image">
                                         <ShoppingBasketIcon className="crt-icon" />
                                     </div>
-                                    <h2>{count} items</h2>
+                                        <p style={{color:'white', textAlign:'center'}}>{count} items</p>
 
                                 </div>
                                 <div className="bottom">
-                                        <h2 className="bottom-price"> {totalPrice} </h2>
+                                        <p className="bottom-price"> {totalPrice} </p>
                                 </div>
                             </div>
                         ) : null

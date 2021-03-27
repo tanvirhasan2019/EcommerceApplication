@@ -9,18 +9,27 @@ namespace EcommerceApp.Models
 {
     public class OrderDetails
     {
+
+        
+
         [Key]
         public int id { get; set; }
 
-       // [ForeignKey("ClientOrder")]
-        public int orderid { get; set; }
+        [ForeignKey("ClientOrder")]
+        
+        public int  ClientOrderOrderid { get; set; }
 
-      //  [ForeignKey("Product")]
-        public int productid { get; set; }
+
+       // [ForeignKey("Product")]
+
         public int quantity { get; set; }
         public double price { get; set; }
 
-       
+
+        public int Productid { get; set; }
+        public virtual Product Product { get; set; }
+
+
 
     }
 }

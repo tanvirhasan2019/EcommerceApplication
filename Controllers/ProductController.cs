@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -96,7 +97,7 @@ namespace EcommerceApp.Controllers
 
 
 
-
+      
         [HttpGet]
         [Route("AllOrderList")]
         public async Task<IActionResult> AllOrderList()
@@ -104,37 +105,42 @@ namespace EcommerceApp.Controllers
 
             try
             {
-               
-               
-                
+               // var productImage = await _context.ProductImage.ToListAsync();
+                var productList = await _context.Products.ToListAsync();
+
                 var OrderDetails = await _context.OrderDetails.ToListAsync();
-                var ShippingDetails = await _context.ShippingDetails.ToListAsync();
+
                 var Transaction = await _context.Transaction.ToListAsync();
 
+                var ShippingDetails = await _context.ShippingDetails.ToListAsync(); 
+                
                 var ClientOrder = await _context.ClientOrder.ToListAsync();
+
+
 
 
                 return Ok(new
                 {
                     clientorder = ClientOrder,
-                   // orderdetails = OrderDetails,
+                    //orderdetails = OrderDetails,
                    // transaction = Transaction,
-                   // shippingdetails = ShippingDetails
+                    //shippingdetails = ShippingDetails
                 });
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("order errors - ", e);
+               // Console.WriteLine("order errors - ", e);
                 return Ok(new
                 {
                     status ="ERROR"
+                    
                 });
             }
            
 
            
-        }
+        } 
 
 
 

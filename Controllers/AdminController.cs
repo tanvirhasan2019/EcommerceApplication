@@ -82,9 +82,9 @@ namespace EcommerceApp.Controllers
                     
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
+                //Console.WriteLine(e);
                 
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
                
@@ -145,9 +145,9 @@ namespace EcommerceApp.Controllers
 
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
+                //Console.WriteLine(e);
 
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
 
@@ -193,7 +193,7 @@ namespace EcommerceApp.Controllers
 
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 
 
@@ -252,7 +252,7 @@ namespace EcommerceApp.Controllers
 
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
 

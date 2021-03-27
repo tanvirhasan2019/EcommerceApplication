@@ -45,37 +45,7 @@ componentDidMount(){
       
 
         let { items } = this.props;
-        //var items=[]
-
-        //const items = this.props;
-
-        // const dispatch = useDispatch();
-        //dispatch(fetchProducts())
-        /*useEffect(() => {
-            fetchProducts()
-                .catch(error => {
-                    console.log("Loading authors failed: " + error);
-                });
-        }, []) */
-
-        // const productList = useSelector(state => state.products);
-
-        // const items = []
-
-        /* if (productList.isLoading === false && productList.isLoading !== undefined)
-         {
-             productList.data.map(item => {
-                 items.push(item);
-                 
-             })
-     
-             //console.log('LIST OF PRODUCT IS  ' + JSON.stringify(productList))
-         } */
-
-
-        //console.log('LOADING ALL PRODUCT IS ' + loading);
-
-
+       
 
         return (
             <div className="upload-product-background">

@@ -14,7 +14,7 @@ import KidsCategory from '../adminPanel/UploadProduct/Categories/KidsCategory';
 import ElectronicsCategory from '../adminPanel/UploadProduct/Categories/ElectronicsCategory';
 import ProductTable from './customize_product/ProductTable'
 
-import OrderItem from '../adminPanel/customize_product/NewFolder/OrderItem'
+import OrderItem from '../adminPanel/customize_product/OrderItem/OrderItem'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;

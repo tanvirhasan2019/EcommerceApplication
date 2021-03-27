@@ -36,6 +36,10 @@ namespace EcommerceApp
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+               );
+
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 

@@ -17,8 +17,11 @@ import { useSelector } from 'react-redux';
 
 import { useDispatch } from 'react-redux';
 //import { fetchProducts } from '../../actions/Products';
+import TableList  from './TableList';
 
 import { orders } from '../../../../actions/Orders';
+
+import SimpleBackdrop from '../../../spinner/SimpleBackdrop';
 
 
 const useStyles = makeStyles({
@@ -44,18 +47,27 @@ class OrderItem extends Component {
 
 
         let { items } = this.props;
+        console.log('REDUCER ITEMS')
+        console.log({ items })
         
+        if (items.isLoading == false) {
+            console.log('reudecer data -  ', items.data.clientorder);
+        }
+       // <TableList data={items.data} />
 
 
         return (
             <div className="upload-product-background">
 
                 <div className="d-flex justify-content-center header-txt-items">
-                    CUSTOMIZE ITEMS
+                    ORDERED ITEMS
             </div>
 
                 <div className="row" style={{ marginTop: '20px' }}>
                     <div class="container">
+                        {
+                            items.isLoading == false ? <TableList data={items.data.clientorder} /> : <SimpleBackdrop />                          
+                        }
                        
                     </div>
 

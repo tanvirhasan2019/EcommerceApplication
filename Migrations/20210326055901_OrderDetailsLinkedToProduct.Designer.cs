@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210202052700_shipping_model_add")]
-    partial class shipping_model_add
+    [Migration("20210326055901_OrderDetailsLinkedToProduct")]
+    partial class OrderDetailsLinkedToProduct
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,7 +88,7 @@ namespace EcommerceApp.Migrations
 
             modelBuilder.Entity("EcommerceApp.Models.ClientOrder", b =>
                 {
-                    b.Property<int>("orderid")
+                    b.Property<int>("Orderid")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -99,7 +99,7 @@ namespace EcommerceApp.Migrations
                     b.Property<string>("userid")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("orderid");
+                    b.HasKey("Orderid");
 
                     b.ToTable("ClientOrder");
                 });
@@ -111,19 +111,21 @@ namespace EcommerceApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("orderid")
+                    b.Property<int>("ClientOrderOrderid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Productid")
                         .HasColumnType("int");
 
                     b.Property<double>("price")
                         .HasColumnType("float");
 
-                    b.Property<int>("productid")
-                        .HasColumnType("int");
-
                     b.Property<int>("quantity")
                         .HasColumnType("int");
 
                     b.HasKey("id");
+
+                    b.HasIndex("ClientOrderOrderid");
 
                     b.ToTable("OrderDetails");
                 });
@@ -203,7 +205,13 @@ namespace EcommerceApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ClientOrderOrderid")
+                        .HasColumnType("int");
+
                     b.Property<string>("address1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("address2")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("city")
@@ -218,9 +226,6 @@ namespace EcommerceApp.Migrations
                     b.Property<string>("lastname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("orderid")
-                        .HasColumnType("int");
-
                     b.Property<string>("phonenumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -228,6 +233,8 @@ namespace EcommerceApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("shippingid");
+
+                    b.HasIndex("ClientOrderOrderid");
 
                     b.ToTable("ShippingDetails");
                 });
@@ -239,16 +246,18 @@ namespace EcommerceApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ClientOrderOrderid")
+                        .HasColumnType("int");
+
                     b.Property<double>("amount")
                         .HasColumnType("float");
-
-                    b.Property<int>("orderid")
-                        .HasColumnType("int");
 
                     b.Property<string>("payementType")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("trsansactionid");
+
+                    b.HasIndex("ClientOrderOrderid");
 
                     b.ToTable("Transaction");
                 });
@@ -470,11 +479,38 @@ namespace EcommerceApp.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("EcommerceApp.Models.OrderDetails", b =>
+                {
+                    b.HasOne("EcommerceApp.Models.ClientOrder", null)
+                        .WithMany("order")
+                        .HasForeignKey("ClientOrderOrderid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EcommerceApp.Models.ProductImage", b =>
                 {
                     b.HasOne("EcommerceApp.Models.Product", null)
                         .WithMany("Img")
                         .HasForeignKey("productid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.ShippingDetails", b =>
+                {
+                    b.HasOne("EcommerceApp.Models.ClientOrder", null)
+                        .WithMany("shipping")
+                        .HasForeignKey("ClientOrderOrderid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.Transaction", b =>
+                {
+                    b.HasOne("EcommerceApp.Models.ClientOrder", null)
+                        .WithMany("transaction")
+                        .HasForeignKey("ClientOrderOrderid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
