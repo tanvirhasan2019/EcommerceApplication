@@ -63,7 +63,7 @@ const TableList = (props) => {
                 accessor: 'amount',
                 Cell: ({ cell }) => (
                     
-                    <Fab onClick={() => DeleteRowId2(cell)}  variant="extended">
+                    <Fab   variant="extended">
                         <MonetizationOnIcon className={classes.extendedIcon} />
                         {cell.row.values.amount} 
                     </Fab>
@@ -76,8 +76,8 @@ const TableList = (props) => {
                 Header: 'UPDATE',
                 accessor: 'update',
                 Cell: ({ cell }) => (    
-                    
-                  <><DrawerItem /> </>                  
+                     
+                    <><DrawerItem data={props.data[cell.row.index]}  /> </>                  
                 )
                 
             },
@@ -99,7 +99,7 @@ const TableList = (props) => {
   
     const DeleteRowId2 = (cell) => {
 
-        console.log('Amount ', cell.row.value.amount)
+        //console.log('Amount ', cell.row.value.amount)
     }
 
     const DeleteRowId = async (cell) => {

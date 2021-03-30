@@ -3,15 +3,14 @@ import {
     Button, ButtonToolbar, RadioGroup, IconButton, Drawer, Radio, Icon
 } from 'rsuite';
 
-
+import { toaster } from 'evergreen-ui';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import NavigationIcon from '@material-ui/icons/Navigation';
+import authService from '../../../api-authorization/AuthorizeService';
+import ScrollableTabsButtonPrevent from './Tabs/ScrollableTabsButtonPrevent';
 
 
-
-
-export  class DrawerItem extends React.Component {
+export class DrawerItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,9 +35,10 @@ export  class DrawerItem extends React.Component {
   handleChangeSize(size) {
     this.setState({ size });
   }
-  render() {
-    const { size, placement, show } = this.state;
-     
+    render() {
+        const { size, placement, show } = this.state;
+        console.log('DRAWER')
+        console.log(' ', this.props.data)
     return (
       <div>
            
@@ -54,12 +54,17 @@ export  class DrawerItem extends React.Component {
           show={show}
           onHide={this.close}
         >
-          <Drawer.Header>
-            <Drawer.Title>UPDATE ORDER ITEM</Drawer.Title>
+                <Drawer.Header style={{
+                    width: '90%', height: '50px',
+                    textAlign:'center'
+                }}>
+                    <Drawer.Title style={{textAlign:'center'}}>UPDATE ORDER ITEM</Drawer.Title>
           </Drawer.Header>
           <Drawer.Body>
 
-       
+               <div className="container-fluid">
+                       <ScrollableTabsButtonPrevent />
+               </div>  
 
           </Drawer.Body>
           <Drawer.Footer>
@@ -76,12 +81,3 @@ export  class DrawerItem extends React.Component {
   }
 }
 
-/* <ButtonToolbar>
-    <IconButton
-        icon={<Icon icon="angle-right" />}
-        onClick={() => this.toggleDrawer('left')}
-    >
-        Left
-          </IconButton>
-
-</ButtonToolbar> */

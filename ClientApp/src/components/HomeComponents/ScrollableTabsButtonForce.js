@@ -19,7 +19,7 @@ import ProductsList from './NewFolder/ProductsList';
 
 import { connect } from 'react-redux';
 
-import { fetchProducts } from '../../actions/Products';
+//import { fetchProducts } from '../../actions/Products';
 
 
 
@@ -133,12 +133,12 @@ function ScrollableTabsButtonForce({ pageNumber, cart_size, allProducts, fetchPr
     };
 
 
-    useEffect(() => {
+   /* useEffect(() => {
         fetchProducts()
             .catch(error => {
                 console.log("Loading authors failed: " + error);
             });
-    }, [])
+    }, []) */
    
  
 
@@ -311,7 +311,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    fetchProducts
+   // fetchProducts
 };
 
 

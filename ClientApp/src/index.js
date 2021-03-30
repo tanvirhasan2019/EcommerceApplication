@@ -14,7 +14,7 @@ import { BrowserRouter } from 'react-router-dom';
 import thunk from "redux-thunk";
 import { compose, createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from 'redux-devtools-extension';
-
+import { fetchProducts } from './actions/Products'; 
 //import { createStore, applyMiddleware } from 'redux';
 //import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -34,6 +34,9 @@ const store = createStore(rootReducer, composeWithDevTools(
     applyMiddleware(thunk)
     // other store enhancers if any
 ));
+
+store.dispatch(fetchProducts());
+
 
 ReactDOM.render(
 

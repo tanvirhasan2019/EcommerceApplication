@@ -16,17 +16,16 @@ import Checkout from '././components/CheckOut/Checkout';
 import EditPost from './components/HomeComponents/Post/EditPost';
 import BlogPage from './components/HomeComponents/Post/BlogSection';
 import MyStatefulEditor from './components/HomeComponents/Post/MyStatefulEditor';
+
 import './custom.css'
 
-export default class App extends Component {
+ export default class App extends Component {
   static displayName = App.name;
 
   render () {
       return (
 
           <Fragment>
-
-
              
               <Route exact path='/' component={Home} />
               <Route path='/cart-item' component={CartItem} /> 
@@ -37,12 +36,16 @@ export default class App extends Component {
               <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
               <Route strict exact path='/temp' component={Temp} />
               <Route strict exact path='/dashboard' component={dashboard} />
-              <Route strict exact path='/update-product/:id' component={updateSingleProduct} />             
+              <Route strict exact path='/update-product/:id' component={updateSingleProduct} />
+             
 
       </Fragment>
     );
   }
 }
+
+
+//export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 //<Route strict exact path='/update-product/:id' component={updateSingleProduct} />
 

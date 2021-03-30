@@ -8,6 +8,7 @@ import Layout from './Layout';
 import Slider from '../components/Slider';
 import CartButton from './HomeComponents/CartItem/CartButton';
 import './HomeComponents/Home.scss';
+import ChatOnline from '../chat/ChatOnline';
 
 import { useSelector } from 'react-redux';
 
@@ -115,6 +116,8 @@ export class Home extends Component {
               <div className="row">
                   <FooterLayout />
                 </div>
+
+                <ChatOnline />
             </Layout>
         
     );
