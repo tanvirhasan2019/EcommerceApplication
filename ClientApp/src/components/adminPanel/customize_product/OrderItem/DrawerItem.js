@@ -63,7 +63,7 @@ export class DrawerItem extends React.Component {
           <Drawer.Body>
 
                <div className="container-fluid">
-                       <ScrollableTabsButtonPrevent />
+                        {this.state.show ? <ScrollableTabsButtonPrevent data={this.props.data} /> : null }    
                </div>  
 
           </Drawer.Body>

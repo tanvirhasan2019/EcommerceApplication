@@ -31,6 +31,9 @@ import OrderProductItem from '../EditProduct/OrderProductItem'
 import ShippingDetail from '../EditProduct/ShippingDetail'
 
 
+import { Empty } from 'antd';
+
+
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
@@ -75,10 +78,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ScrollableTabsButtonPrevent() {
+export default function ScrollableTabsButtonPrevent(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
+    console.log('Props data from tabs')
+    console.log(props.data)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -111,6 +115,7 @@ export default function ScrollableTabsButtonPrevent() {
                               startAdornment={
                                   <InputAdornment position="start">
                                       <FastfoodIcon />
+                                   {props.data.orderid}
                                   </InputAdornment>
                               }
                           />
@@ -126,6 +131,7 @@ export default function ScrollableTabsButtonPrevent() {
                               startAdornment={
                                   <InputAdornment position="start">
                                       <AccountCircle />
+                                      {props.data.userid}
                                   </InputAdornment>
                               }
                           />
@@ -140,6 +146,7 @@ export default function ScrollableTabsButtonPrevent() {
                               startAdornment={
                                   <InputAdornment position="start">
                                       <AccountBalanceWalletIcon />
+                                      {props.data.transaction.trsansactionid}
                                   </InputAdornment>
                               }
                           />
@@ -153,6 +160,7 @@ export default function ScrollableTabsButtonPrevent() {
                               startAdornment={
                                   <InputAdornment position="start">
                                       <MonetizationOnIcon />
+                                      {props.data.transaction.amount}
                                   </InputAdornment>
                               }
                           />
@@ -165,7 +173,7 @@ export default function ScrollableTabsButtonPrevent() {
                           <InputLabel htmlFor="age-native-simple">PAYEMENT TYPE</InputLabel>
                           <Select
                               native
-                              value="VISA"
+                              value={ props.data.transaction.payementType }
                               onChange={handleChange}
                               inputProps={{
                                   name: 'age',
@@ -176,12 +184,14 @@ export default function ScrollableTabsButtonPrevent() {
                               <option value="VISA">VISA</option>
                               <option value="MASTER">MASTER</option>
                               <option value="BKASH">BKASH</option>
+                              <option value="CASH">CASH</option>
+
                           </Select>
                       </FormControl>
 
 
                       <FormControl style={{ width: '100%', marginTop: '20px' }}>
-                          <Demo value='1995-12-17T03:24:00' />
+                          <Demo value={props.data.dateTime} />
                       </FormControl>
 
                     
@@ -196,12 +206,24 @@ export default function ScrollableTabsButtonPrevent() {
       </TabPanel>
       <TabPanel value={value} index={1}>
               <div className="container">
-                  <OrderProductItem />
+                  {
+                      props.data.order ?
+                          <OrderProductItem value={props.data.order} time={props.data.dateTime} />
+                          :
+                          <Empty image="https://cdn.dribbble.com/users/1489103/screenshots/6326497/no-data-found.png" />
+                      
+                  } 
                </div>
       </TabPanel>
       <TabPanel value={value} index={2}>
               <div className="container">
-                  < ShippingDetail />
+                  {
+                      props.data.shipping ? 
+                          < ShippingDetail value={props.data.shipping} />
+                          :
+                          <Empty image="https://cdn.dribbble.com/users/1489103/screenshots/6326497/no-data-found.png" />
+
+                  } 
               </div>
              
       </TabPanel>

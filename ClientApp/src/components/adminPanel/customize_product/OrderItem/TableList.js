@@ -164,21 +164,22 @@ const TableList = (props) => {
     const [data, setData] = React.useState(React.useMemo(() => makeData([], true, 20), []))
     useEffect(() => {
 
-        //var list_data = []
+         list_data = []
         
            
         props.data.map(item => {
 
             
             var total = 0;
-            for (var i = 0; i < item.order.length; i++) {
+           /* for (var i = 0; i < item.order.length; i++) {
                 total = total + item.order[i].price * item.order[i].quantity;
-            }
+            } */
+
             var temp = {
 
                     orderid: item.orderid,
                     dateTime: item.dateTime,                
-                    amount: total,
+                    amount: item.transaction.amount,
                     status : item.status
                     
                     

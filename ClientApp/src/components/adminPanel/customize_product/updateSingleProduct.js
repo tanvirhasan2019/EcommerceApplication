@@ -11,7 +11,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Ringloader from '../../spinner/Ringloader'
+import SimpleBackdrop from '../../spinner/SimpleBackdrop'
 import authService from '../../api-authorization/AuthorizeService';
 import FooterLayout from '../../FooterLayout';
 import { NavMenu } from '../../NavMenu'; 
@@ -68,11 +68,11 @@ export class updateSingleProduct extends Component {
             .then(data => this.setState({
 
 
-                img1: atob(data.data[0].img[0].img1 ? data.data[0].img[0].img1 : ''),
-                img2: atob(data.data[0].img[0].img2 ? data.data[0].img[0].img2 : '' ),
-                img3: atob(data.data[0].img[0].img3 ? data.data[0].img[0].img3 : ''),
-                img4: atob(data.data[0].img[0].img4 ? data.data[0].img[0].img4 : ''),
-                img5: atob(data.data[0].img[0].img5 ? data.data[0].img[0].img5 : ''),
+                img1: atob(data.data[0].img.img1 ? data.data[0].img.img1 : ''),
+                img2: atob(data.data[0].img.img2 ? data.data[0].img.img2 : '' ),
+                img3: atob(data.data[0].img.img3 ? data.data[0].img.img3 : ''),
+                img4: atob(data.data[0].img.img4 ? data.data[0].img.img4 : ''),
+                img5: atob(data.data[0].img.img5 ? data.data[0].img.img5 : ''),
                 title: data.data[0].title,
                 description: data.data[0].description,
                 price: data.data[0].price,
@@ -295,20 +295,22 @@ export class updateSingleProduct extends Component {
 
        
         return (
-
-            <div className="container">
+            <>
+                <div className="container" style={{
+                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+                }}>
                 <NavMenu />
                 {this.state.loading == true ?
 
-                     <Ringloader /> :
+                        <SimpleBackdrop /> :
 
-                    <Form {...layout} name="nest-messages"
+                        <Form  {...layout} name="nest-messages"
                         onFinish={(values) =>
                             this.handleFormSubmit(values, this.state.img1, this.state.img2, this.state.img3, this.state.img4, this.state.img5 )}
                         validateMessages={validateMessages}>
 
 
-                        <div className="header-text" style={{marginTop:'40px'}}>
+                        <div className="header-text" style={{marginTop:'5%'}}>
                             UPDATE PRODUCT
                          </div>
 
@@ -367,7 +369,7 @@ export class updateSingleProduct extends Component {
                                 },
                             ]}
                         >
-                            <Input.TextArea defaultValue={this.state.description} />
+                                <Input.TextArea defaultValue={this.state.description} rows={6}/>
                         </Form.Item>
 
                         <Form.Item
@@ -499,14 +501,18 @@ export class updateSingleProduct extends Component {
 
                             <Fab variant="extended" color="secondary" aria-label="add" type="submit" style={{ width: '50%' }} >
                                 <NavigationIcon />
-                        Submit
+                        UPDATE
 
                     </Fab>
                         </Form.Item>
                     </Form>
                 }
+                
+                </div>
+
                 <FooterLayout />
-            </div>
+             </>
+
         );
     }
 

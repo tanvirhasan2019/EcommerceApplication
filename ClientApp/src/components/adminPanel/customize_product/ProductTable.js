@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 
 import { useDispatch } from 'react-redux';
 //import { fetchProducts } from '../../actions/Products';
-import { fetchProducts } from '../../../actions/Products';
+//import { fetchProducts } from '../../../actions/Products';
 
 import '../UploadProduct/UploadProduct.scss'
 
@@ -36,7 +36,7 @@ class ProductTable extends Component {
 
 componentDidMount(){
 
-   this.props.fetchProducts();
+  // this.props.fetchProducts();
 
 }
 
@@ -77,7 +77,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    fetchProducts
+   // fetchProducts
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTable);

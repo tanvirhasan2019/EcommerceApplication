@@ -23,9 +23,9 @@ namespace EcommerceApp.Models
 
         public virtual List<OrderDetails> order { get; set; }
 
-        public virtual List<Transaction> transaction { get; set; }
+        public virtual Transaction transaction { get; set; }
 
-        public virtual List<ShippingDetails> shipping { get; set; }
+        public virtual ShippingDetails shipping { get; set; }
 
 
     }

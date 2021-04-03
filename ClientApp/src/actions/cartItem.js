@@ -1,7 +1,7 @@
 ﻿export function cartUpdate() {
 
     return {
-        type: 'UPDATE'     
+        type: 'CART-UPDATE'     
     };
 }
 

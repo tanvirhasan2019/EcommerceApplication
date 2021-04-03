@@ -21,7 +21,7 @@ namespace EcommerceApp.Models
 
         public string AddedBy { get; set; }
 
-        public virtual List <ProductImage> Img { get; set; }
+        public virtual ProductImage Img { get; set; }
 
       
 

@@ -31,7 +31,7 @@ class ProductsList extends Component {
 
         let img = '';
         if (this.props.value.img !== null) {
-            img = atob(this.props.value.img[0].img1);
+            img = atob(this.props.value.img.img1);
         }
         addToCart(this.props.value.id, 1, this.props.value.title, img, this.props.value.price);
         this.props.cartUpdate();
@@ -44,7 +44,7 @@ class ProductsList extends Component {
       //  console.log("Increase button pressed " +ItemsFound);
         let img = '';
         if (this.props.value.img !== null) {
-            img = atob(this.props.value.img[0].img1);
+            img = atob(this.props.value.img.img1);
         }
         addToCart(this.props.value.id, 1, this.props.value.title, img, this.props.value.price);
         this.props.cartUpdate();
@@ -70,7 +70,7 @@ class ProductsList extends Component {
         else {
             let img = '';
             if (this.props.value.img !== null) {
-                img = atob(this.props.value.img[0].img1);
+                img = atob(this.props.value.img.img1);
             }
             addToCart(this.props.value.id, -1, this.props.value.title, img, this.props.value.price);
             this.props.cartUpdate();
@@ -102,7 +102,7 @@ class ProductsList extends Component {
 
         let titleImage = " ";
         if (this.props.value.img !== null) {
-            titleImage = atob(this.props.value.img[0].img1);
+            titleImage = atob(this.props.value.img.img1);
         } else {
             titleImage = require('../images-com/NewFolder/ladies.jpg');
         }

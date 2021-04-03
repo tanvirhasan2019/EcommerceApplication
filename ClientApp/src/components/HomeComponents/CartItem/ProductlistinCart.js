@@ -8,11 +8,11 @@ import { connect } from 'react-redux';
 import { cartUpdate } from '../../../actions/cartItem';
 import { Collapse } from 'antd';
 //import { fetchProducts } from '../../actions/Products';
-import { fetchProducts } from '../../../actions/Products';
+//import { fetchProducts } from '../../../actions/Products';
 import IncDec from '../NewFolder/IncDecButton';
 import addToCart from '../NewFolder/cartItemStore';
 import { notification } from 'antd';
-import custom_loader from '../../../components/spinner/Ringloader';
+import SimpleBackdrop from '../../../components/spinner/SimpleBackdrop';
 
 import './CustomizeProduct.scss';
 
@@ -64,16 +64,17 @@ class ProductlistinCart extends Component {
     }
 
     componentDidMount() {
-        let { allProducts, fetchProducts } = this.props;
+
+      /*  let { allProducts, fetchProducts } = this.props;
         if (allProducts.isLoading === undefined) {
             fetchProducts();
         } else {
                 
 
-        }
+        }*/
        
 
-    }
+    } 
 
     render() {
         let { CartData, allProducts, cartUpdate, fetchProducts } = this.props;
@@ -97,7 +98,7 @@ class ProductlistinCart extends Component {
                                 id: item2.id,
                                 quantity: item2.quantity,
                                 title: item.title,
-                                Img: item.img[0].img1,
+                                Img: item.img.img1,
                                 price: item.price,
                                 description:item.description
                             })
@@ -118,8 +119,10 @@ class ProductlistinCart extends Component {
         return (
             <Fragment>
                     
-                {   products.map(item =>
-                        <div className="row product-back" style={{ marginBottom: '15px', marginLeft:'0px' }}>
+                { allProducts.isLoading == false ?
+
+                    (products.map(item =>
+                        <div className="row product-back" style={{ marginBottom: '15px', marginLeft: '0px' }}>
 
                             <div className="col-md com-sm" style={{ paddingLeft: '0px', paddingRight: '0px' }}>
                                 <img src={atob(item.Img)} className="rounded float-left cart-image" alt="..." />
@@ -136,7 +139,7 @@ class ProductlistinCart extends Component {
                                     <Panel className="description-text card-footer" header="DESCRIPTION" key="1">
                                         <div>{item.description}</div>
                                     </Panel>
-                                 </Collapse>
+                                </Collapse>
 
                                 <div style={{ fontSize: '.8rem' }}>
                                     {item.quantity} x {item.price} = {item.quantity * item.price}
@@ -146,11 +149,11 @@ class ProductlistinCart extends Component {
                             </div>
 
                             <div className="col-md-3 d-flex flex-column justify-content-around">
-                            <IncDec style={{height:'48px'}} increase={() => this.increase(item.id, item.price)} decrease={() => this.decrease(item.id, item.price, item.quantity)} onChange={item.quantity} />
+                                <IncDec style={{ height: '30px' }} increase={() => this.increase(item.id, item.price)} decrease={() => this.decrease(item.id, item.price, item.quantity)} onChange={item.quantity} />
                                 <Button
                                     onClick={() => this.deleteItem(item.id)}
-                                    style={{ height: '48px', backgroundColor:'#3f51b5', color:'white' }}
-                                    variant="contained"                                  
+                                    style={{ height: '30px', backgroundColor: '#3f51b5', color: 'white' }}
+                                    variant="contained"
                                     startIcon={<DeleteIcon />}
                                 >
                                     Delete
@@ -160,7 +163,9 @@ class ProductlistinCart extends Component {
 
                         </div>
 
-                     ) 
+
+                    )
+                    ) : <SimpleBackdrop  />
                 }
 
             </Fragment>
@@ -177,7 +182,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     cartUpdate,
-    fetchProducts
+   // fetchProducts
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductlistinCart);

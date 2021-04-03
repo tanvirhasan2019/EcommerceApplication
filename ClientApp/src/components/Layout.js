@@ -24,7 +24,7 @@ import { cartUpdate } from '../actions/cartItem';
          } catch{
              //count = 0;
              console.log("Layout Catch called");
-             cartUpdate();
+            cartUpdate();
 
          }
          //cartUpdate();

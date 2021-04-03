@@ -4,14 +4,16 @@ using EcommerceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210331121925_ClientOrderUpdateRelation")]
+    partial class ClientOrderUpdateRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,7 +128,8 @@ namespace EcommerceApp.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("ClientOrderOrderid");
+                    b.HasIndex("ClientOrderOrderid")
+                        .IsUnique();
 
                     b.HasIndex("Productid");
 
@@ -196,8 +199,7 @@ namespace EcommerceApp.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("productid")
-                        .IsUnique();
+                    b.HasIndex("productid");
 
                     b.ToTable("ProductImage");
                 });
@@ -488,8 +490,8 @@ namespace EcommerceApp.Migrations
             modelBuilder.Entity("EcommerceApp.Models.OrderDetails", b =>
                 {
                     b.HasOne("EcommerceApp.Models.ClientOrder", null)
-                        .WithMany("order")
-                        .HasForeignKey("ClientOrderOrderid")
+                        .WithOne("order")
+                        .HasForeignKey("EcommerceApp.Models.OrderDetails", "ClientOrderOrderid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -503,8 +505,8 @@ namespace EcommerceApp.Migrations
             modelBuilder.Entity("EcommerceApp.Models.ProductImage", b =>
                 {
                     b.HasOne("EcommerceApp.Models.Product", null)
-                        .WithOne("Img")
-                        .HasForeignKey("EcommerceApp.Models.ProductImage", "productid")
+                        .WithMany("Img")
+                        .HasForeignKey("productid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

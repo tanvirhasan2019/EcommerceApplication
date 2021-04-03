@@ -17,12 +17,12 @@ const initialFormData = Object.freeze({
 
 });
 
-function ShippingDetail() {
+function ShippingDetail(props) {
 
     const [formData, updateFormData] = React.useState(initialFormData);
    // const dispatch = useDispatch();
    // dispatch(ShippingData_Add(formData))
-
+  
     const handleChange = (e) => {
         updateFormData({
             ...formData,
@@ -49,6 +49,7 @@ function ShippingDetail() {
                         fullWidth
                         autoComplete="given-name"
                         onChange={handleChange}
+                        defaultValue={props.value.firstname}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -60,6 +61,7 @@ function ShippingDetail() {
                         fullWidth
                         autoComplete="family-name"
                         onChange={handleChange}
+                        defaultValue={props.value.lastname}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -71,6 +73,7 @@ function ShippingDetail() {
                         fullWidth
                         autoComplete="shipping address-line1"
                         onChange={handleChange}
+                        defaultValue={props.value.address1}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -81,6 +84,7 @@ function ShippingDetail() {
                         fullWidth
                         autoComplete="shipping address-line2"
                         onChange={handleChange}
+                        defaultValue={props.value.address2}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -92,10 +96,14 @@ function ShippingDetail() {
                         fullWidth
                         autoComplete="shipping address-level2"
                         onChange={handleChange}
+                        defaultValue={props.value.city}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextField id="phonenumber" name="phonenumber" label="Contact/phonenumber" fullWidth onChange={handleChange} />
+                    <TextField id="phonenumber"
+                        defaultValue={props.value.phonenumber}
+                        name="phonenumber" label="Contact/phonenumber"
+                        fullWidth onChange={handleChange} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
@@ -106,6 +114,7 @@ function ShippingDetail() {
                         fullWidth
                         autoComplete="shipping postal-code"
                         onChange={handleChange}
+                        defaultValue={props.value.zip}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -117,15 +126,10 @@ function ShippingDetail() {
                         fullWidth
                         autoComplete="shipping country"
                         onChange={handleChange}
+                        defaultValue={props.value.country}
                     />
                 </Grid>
-                <Grid item xs={12}>
-                    <FormControlLabel
-                        control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-                        label="Use this address for payment details"
-                    />
-
-                </Grid>
+                
             </Grid>
         </React.Fragment>
     );

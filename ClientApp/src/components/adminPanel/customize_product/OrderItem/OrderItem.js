@@ -64,7 +64,7 @@ class OrderItem extends Component {
             </div>
 
                 <div className="row" style={{ marginTop: '20px' }}>
-                    <div class="container">
+                    <div className="container-fluid">
                         {
                             items.isLoading == false ? <TableList data={items.data.clientorder} /> : <SimpleBackdrop />                          
                         }

@@ -4,14 +4,16 @@ using EcommerceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210331122139_ClientOrderUpdateRelation4")]
+    partial class ClientOrderUpdateRelation4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,8 +198,7 @@ namespace EcommerceApp.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("productid")
-                        .IsUnique();
+                    b.HasIndex("productid");
 
                     b.ToTable("ProductImage");
                 });
@@ -503,8 +504,8 @@ namespace EcommerceApp.Migrations
             modelBuilder.Entity("EcommerceApp.Models.ProductImage", b =>
                 {
                     b.HasOne("EcommerceApp.Models.Product", null)
-                        .WithOne("Img")
-                        .HasForeignKey("EcommerceApp.Models.ProductImage", "productid")
+                        .WithMany("Img")
+                        .HasForeignKey("productid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

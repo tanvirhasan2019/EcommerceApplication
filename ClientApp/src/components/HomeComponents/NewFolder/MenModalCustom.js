@@ -51,7 +51,7 @@ import { cartUpdate } from '../../../actions/cartItem';
 
         let img = '';
         if (this.props.value.img !== null) {
-            img = atob(this.props.value.img[0].img1);
+            img = atob(this.props.value.img.img1);
         }
         addToCart(this.props.value.id, this.state.count, this.props.value.title, img, this.props.value.price);
         this.props.cartUpdate();
@@ -98,25 +98,25 @@ import { cartUpdate } from '../../../actions/cartItem';
         if (this.props.value.img !== null) {
 
 
-            if (this.props.value.img[0].img1 !== undefined) {
-                img1 = atob(this.props.value.img[0].img1);
+            if (this.props.value.img.img1 !== undefined) {
+                img1 = atob(this.props.value.img.img1);
             }
 
 
-            if (this.props.value.img[0].img2 !== undefined) {
-                img2 = atob(this.props.value.img[0].img2);
+            if (this.props.value.img.img2 !== undefined) {
+                img2 = atob(this.props.value.img.img2);
             }
 
-            if (this.props.value.img[0].img3 !== undefined) {
-                img3 = atob(this.props.value.img[0].img3);
+            if (this.props.value.img.img3 !== undefined) {
+                img3 = atob(this.props.value.img.img3);
             }
 
-            if (this.props.value.img[0].img4 !== undefined) {
-                img4 = atob(this.props.value.img[0].img4);
+            if (this.props.value.img.img4 !== undefined) {
+                img4 = atob(this.props.value.img.img4);
             }
 
-            if (this.props.value.img[0].img5 !== undefined) {
-                img5 = atob(this.props.value.img[0].img5);
+            if (this.props.value.img.img5 !== undefined) {
+                img5 = atob(this.props.value.img.img5);
             }
 
 

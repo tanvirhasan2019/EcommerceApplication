@@ -1,7 +1,7 @@
 ﻿ 
 export default function cartUpdate(state = [], action) {
     switch (action.type) {
-        case 'UPDATE':
+        case 'CART-UPDATE':
 
             var cartData = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
             let count = 0;

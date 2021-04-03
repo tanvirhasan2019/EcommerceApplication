@@ -1,5 +1,8 @@
 ﻿import React, { useEffect } from 'react'
-import namor from 'namor'
+
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 import CssBaseline from '@material-ui/core/CssBaseline'
 import EnhancedTable from './EnhancedTable'
 import { toaster } from 'evergreen-ui'
@@ -8,6 +11,10 @@ import authService from '../../api-authorization/AuthorizeService'
 //import { confirm } from "../ShowDialog/Confirmation";
 import { Link } from 'react-router-dom';
 import { confirm } from "../../ShowDialog/Confirmation";
+
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
 
 var list_data = []
 
@@ -49,7 +56,7 @@ const TableList = (props) => {
                 Header: 'Delete',
                 accessor: 'delete',
                 Cell: ({ cell }) => (
-                    <button type="button" onClick={() => DeleteRowId(cell)} className="btn btn-outline-danger">
+                    <button type="button" onClick={() => handleOnClickDelete(cell)} className="btn btn-outline-danger">
                         DELETE
                     </button>
                 )
@@ -59,22 +66,59 @@ const TableList = (props) => {
         []
     )
 
-  
-    const UpdateRowId = (cell) => {
 
-        
-        console.log('Update press ', list_data[cell.row.id]);
-       // <Link to="/update-product/${list_data[cell.row.id]}"> </Link>
+    async function handleOnClickDelete(cell) {
+
+        console.log('LIST DATA INSIDE ', list_data[cell.row.id])
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='custom-ui'>
+                        <h1>Are you sure?</h1>
+                        <p>Do  want to delete this product?</p>
+                       
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={onClose}
+                        >
+                            CANCEL
+                       </Button>
+
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<DeleteIcon />}
+                            style={{marginLeft:'10px'}}
+                            onClick={() => {
+
+                                onClose();
+
+                                // DELETE  REQUEST HERE 
+                               
+                                 DeleteRowId(cell);
+                                 
+                            }}
+                        >
+                            Delete
+                         </Button>
+
+                    </div>
+                );
+            }
+        });
+
     }
 
+
+   
     const DeleteRowId = async (cell) => {
  
-
+       
         if (list_data[cell.row.id]) {
            
-            
-            if (await confirm("Are your sure want to delete ?")) {
-                //ok//
+            console.log('LIST DATA INSIDE ', list_data[cell.row.id])
+
                 const token = await authService.getAccessToken();
                 console.log("Token Data here : " + token);
                 
@@ -112,25 +156,17 @@ const TableList = (props) => {
             } else {
                 //No
             }
-
-
-        }else {
-            //console.log('something went wrong')
-        }
-
-      
+        
+         
     };
 
-    async function Delet_request(id) {
-
-       
-    }
+    
     //const [data, setData] = React.useState(React.useMemo(() => makeData([],true, 20), []))
     const [data, setData] = React.useState(React.useMemo(() => makeData([], true, 20), []))
 
     useEffect(() => {
 
-        //var list_data = []
+        list_data = []
         if (props.data.isLoading === false && props.data.isLoading !== undefined) {
 
             props.data.data.map(item => {
