@@ -8,6 +8,7 @@ using EcommerceApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace EcommerceApp.Controllers
@@ -120,6 +121,38 @@ namespace EcommerceApp.Controllers
             }
 
         return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS", ORDER_ID= order_id_send_client });
+
+        }
+
+
+
+
+        [HttpGet]
+        [Route("Getuserorder")]
+        public async Task<IActionResult> Getuserorder()
+        {
+            try
+            {
+                
+            if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    var productList = await _context.Products.ToListAsync();
+                    var OrderDetails = await _context.OrderDetails.ToListAsync();
+                    var Transaction = await _context.Transaction.ToListAsync();
+                    var ShippingDetails = await _context.ShippingDetails.ToListAsync();
+                    var ClientOrder = await _context.ClientOrder.Where(c => c.userid == UserID).ToListAsync();
+                    return Ok(new { data = ClientOrder });
+                }
+
+               
+            }
+            catch (Exception)
+            {
+                return Ok(new { status = "FAILED" });
+            }
+
+            return Ok(new { status = "SUCCESS" });
 
         }
 

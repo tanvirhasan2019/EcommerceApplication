@@ -10,6 +10,7 @@ import { cartUpdate } from '../actions/cartItem';
 
      render() {
          let { CartSize, cartUpdate } = this.props;
+        
          console.log('CART  DATA  FROM LAYOUT -- ' + JSON.stringify(CartSize));
          let count;
 

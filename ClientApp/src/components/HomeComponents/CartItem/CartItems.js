@@ -7,6 +7,8 @@ import GentsProductCart from './GentsProductCart';
 import ProductlistinCart from './ProductlistinCart';
 import Layout from '../../Layout';
 import { connect } from 'react-redux';
+//import { cartUpdate } from '../../../actions/cartItem';
+
 
 import './CartHeader.scss';
 
@@ -97,7 +99,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    
+    //cartUpdate
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartItems);

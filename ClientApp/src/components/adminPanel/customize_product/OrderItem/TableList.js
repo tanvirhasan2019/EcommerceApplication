@@ -2,6 +2,7 @@
 import CssBaseline from '@material-ui/core/CssBaseline'
 import EnhancedTable from './EnhancedTable'
 import { toaster } from 'evergreen-ui'
+import { confirmAlert } from 'react-confirm-alert';
 
 import authService from '../../../api-authorization/AuthorizeService'
 import { Link } from 'react-router-dom';
@@ -85,7 +86,7 @@ const TableList = (props) => {
                 Header: 'DELETE',
                 accessor: 'delete',
                 Cell: ({ cell }) => (
-                    <Fab variant="extended" color="secondary" aria-label="add">
+                    <Fab onClick={() => handleOnClickDelete(cell)} variant="extended" color="secondary" aria-label="add">
                         <DeleteIcon />
                        DELETE
                     </Fab>
@@ -97,69 +98,102 @@ const TableList = (props) => {
     )
 
   
-    const DeleteRowId2 = (cell) => {
+    async function handleOnClickDelete(cell) {
 
-        //console.log('Amount ', cell.row.value.amount)
+        console.log('LIST DATA INSIDE ', list_data[cell.row.id])
+
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='custom-ui'>
+                        <h1>Are you sure?</h1>
+                        <p>Do  want to delete this product?</p>
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={onClose}
+                        >
+                            CANCEL
+                       </Button>
+
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<DeleteIcon />}
+                            style={{ marginLeft: '10px' }}
+                            onClick={() => {
+
+                                onClose();
+
+                                // DELETE  REQUEST HERE 
+
+                                DeleteRowId(cell);
+
+                            }}
+                        >
+                            Delete
+                         </Button>
+
+                    </div>
+                );
+            }
+        });
+
     }
+
+
 
     const DeleteRowId = async (cell) => {
- 
+
 
         if (list_data[cell.row.id]) {
-           
-            
-            if (await confirm("Are your sure want to delete ?")) {
-               
-                const token = await authService.getAccessToken();
-                console.log("Token Data here : " + token);
-                
-                fetch('Admin/DeleteProductId', {
-                    method: 'POST', // or 'PUT'
-                    headers: !token ? {} : {
-                        'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
 
-                        'id': list_data[cell.row.id].id,
+            console.log('LIST DATA INSIDE ', list_data[cell.row.id])
 
-                    }),
+            const token = await authService.getAccessToken();
+            console.log("Token Data here : " + token);
+
+            fetch('Admin/DeleteOrderItem', {
+                method: 'POST', // or 'PUT'
+                headers: !token ? {} : {
+                    'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+
+                    'Orderid': list_data[cell.row.id].orderid,
+
+                }),
+            })
+                .then(response => response.json())
+                .then(Response => {
+                    toaster.success(
+                        '' + Response.status
+                    )
+                    console.log('Success:', Response);
+
                 })
-                    .then(response => response.json())
-                    .then(Response => {
-                        toaster.success(
-                            '' + Response.status
-                        )
-                        console.log('Success:', Response);
+                .catch((error) => {
 
-                    })
-                    .catch((error) => {
-
-                        console.error('Error:', error);
-                        toaster.danger(
-                            'Something went wrong trying to create your audience'
-                        )
-                    });
+                    console.error('Error:', error);
+                    toaster.danger(
+                        'Something went wrong trying to create your audience'
+                    )
+                });
 
 
 
 
-               
-            } else {
-               
-            }
-
-
-        }else {
-            
+            //Delet_request(list_data[cell.row.id].id)
+        } else {
+            //No
         }
 
-      
+
     };
 
-    async function Delet_request(id) {
 
-       
-    }
+   
    
     const [data, setData] = React.useState(React.useMemo(() => makeData([], true, 20), []))
     useEffect(() => {

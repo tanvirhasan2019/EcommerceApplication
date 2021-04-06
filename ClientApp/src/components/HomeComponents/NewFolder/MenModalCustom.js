@@ -157,7 +157,8 @@ import { cartUpdate } from '../../../actions/cartItem';
 
                             /> : <SideBySideMagnifier style={{ width: '100%'}}
                                 imageSrc={this.state.selectedImage || img1 || Noimg}
-                                imageAlt="NO IMAGE"
+                                    imageAlt="NO IMAGE"
+                                    magnifierSize="5%"
                                
 
                                 />

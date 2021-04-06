@@ -3,6 +3,13 @@
 import Checkbox from '@material-ui/core/Checkbox'
 import MaUTable from '@material-ui/core/Table'
 import PropTypes from 'prop-types'
+import { confirmAlert } from 'react-confirm-alert';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles'
+import Fab from '@material-ui/core/Fab';
+import Icon from '@material-ui/core/Icon';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
@@ -15,8 +22,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import TableToolbar from './TableToolbar'
 import { toaster } from 'evergreen-ui'
 import authService from '../../../api-authorization/AuthorizeService'
-//import { confirm } from "../ShowDialog/Confirmation";
-import { confirm } from '../../../ShowDialog/Confirmation';
+
 
 
 
@@ -192,10 +198,8 @@ const EnhancedTable = ({
         var id_list = []
         Object.keys(selectedRowIds).map(index => {
 
-            console.log('Selected row id ', index)
-            console.log('Selected data id ', data[index].id)
-            //var temp = { id: data[index].id }
-            id_list.push(data[index].id)
+          
+            id_list.push(data[index].orderid)
 
         })
         if (id_list) {  
@@ -203,55 +207,84 @@ const EnhancedTable = ({
         }
     
   }
+
     async function Delet_request_multiple_id(list) {
 
 
         const token = await authService.getAccessToken();
         console.log("multiple delete request list data : " + JSON.stringify(list));
-
-        if (await confirm("Are you sure want to delete ?")) {
-
-            fetch('Admin/DeleteMultipleProductId', {
-                method: 'POST', // or 'PUT'
-                headers: !token ? {} : {
-
-                    'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
-                },
-                  body: JSON.stringify({
-  
-                       'id':list
-  
-                  }),
-
-                
-            })
-                .then(response => response.json())
-                .then(Response => {
-                    toaster.success(
-                        '' + Response.status
-                    )
-                    console.log('Success:', Response);
-
-                })
-                .catch((error) => {
-
-                    console.error('Error:', error);
-                    toaster.danger(
-                        'Something went wrong trying to create your audience'
-                    )
-                });
-            //ok//
-           // Delet_request_multiple_id(id_list)
-
-        } else {
-            //No
-        }
+        /////
+        confirmAlert({
 
 
-       // if(!token)
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='custom-ui'>
+                        <h1>Are you sure?</h1>
+                        <p>Do  want to delete this product?</p>
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={onClose}
+                        >
+                            CANCEL
+                       </Button>
+
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<DeleteIcon />}
+                            style={{ marginLeft: '10px' }}
+                            onClick={() => {
+
+                                onClose();
+
+                                fetch('Admin/DeleteOrderItems', {
+                                    method: 'POST', // or 'PUT'
+                                    headers: !token ? {} : {
+
+                                        'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
+                                    },
+                                    body: JSON.stringify({
+
+                                        'id': list
+
+                                    }),
+
+
+                                })
+                                    .then(response => response.json())
+                                    .then(Response => {
+                                        toaster.success(
+                                            '' + Response.status
+                                        )
+                                        console.log('Success:', Response);
+
+                                    })
+                                    .catch((error) => {
+
+                                        console.error('Error:', error);
+                                        toaster.danger(
+                                            'Something went wrong trying to create your audience'
+                                        )
+                                    });
+                              
+
+                            }
+
+                            }
+                        >
+                            Delete
+                         </Button>
+
+                    </div>
+                );
+            }
+        });
+
+
        
-
-
 
     }
 

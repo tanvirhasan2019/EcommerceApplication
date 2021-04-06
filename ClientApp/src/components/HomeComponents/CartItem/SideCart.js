@@ -54,7 +54,7 @@ class SideCart extends Component {
                                id: item2.id,
                                quantity: item2.quantity,
                                title: item.title, 
-                               Img: item.img[0].img1,
+                               Img: item.img.img1,
                                price : item.price
                            })
                        }

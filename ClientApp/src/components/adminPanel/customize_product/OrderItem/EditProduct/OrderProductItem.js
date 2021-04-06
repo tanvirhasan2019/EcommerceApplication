@@ -27,7 +27,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
+import RingLoader from '../../../../spinner/Ringloader'
+
 import { useSelector } from 'react-redux';
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -57,47 +61,37 @@ export default function OrderProductItem(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
    
+   
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    var  ImageData=[]
-    const data = useSelector(state => state.products.data)
+    console.log('props data', props.value)
+    
+    var url ="http://www.wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg"
+    var ImageData = []
+    var data = useSelector(state => state.products)
     if (data) {
-         ImageData = data.map(item => {
-              return item
-            })
 
+        console.log('data', { data })
+
+        ImageData = data.data.filter(o1 => props.value.some(o2 => o1.id === o2.product.id))
+       // url = ImageData.img.img1
+        console.log('image data', { ImageData })
+    }
+    if (data) {
+        console.log('data length ', data.data.length)
     }
    
-    if (ImageData) {
-        console.log('Imaga data 53 ', ImageData)
-    }
-   /* if (data.isLoading == false ) {
-
-        const ImageData = data.products.data.map(item => {
-                item.img.map(item2 => {
-                    if (item2.productid == 53) {
-                        return item.img;
-                    }
-                })
-
-            })
-    }
-   
-
-    if (data.isLoading) {
-        console.log('PRODUCT IMAGE DATA', { ImageData })
-    } */
-    
-    
-   
+    console.log('image length ',ImageData.length)
+  
 
     return (
         <>
-         {
+            {
+                data.isLoading == false ? 
 
-                props.value.map(item =>
+                props.value.map((item, index) =>
 
                     <Card style={{ width: '100%', marginTop:'10px' }}>
                         <CardHeader
@@ -115,8 +109,10 @@ export default function OrderProductItem(props) {
                             subheader={item.dateTime}
                         />
                         <CardMedia
-                            className={classes.media}
-                            image="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=700%2C636"
+                            className={classes.media}                           
+                            image={
+                               data.isLoading == false ? atob(ImageData[index].img.img1) :  url
+                            }                                                      
                             title="Paella dish"
                         />
                         <CardContent>
@@ -201,8 +197,12 @@ export default function OrderProductItem(props) {
                             <CardContent>
 
                                 <div className="row d-flex justify-content-between">
+                                    <img src={atob(ImageData[index].img.img2) || url} className="img-thumbnail" alt={ url} />
+                                    <img src={atob(ImageData[index].img.img3) || url} className="img-thumbnail" alt={ url} />
+                                    <img src={atob(ImageData[index].img.img4) || url} className="img-thumbnail" alt={url } />
+                                    <img src={atob(ImageData[index].img.img5) || url} className="img-thumbnail" alt={ url} />
                                 </div>
-                                <div className="row">
+                                <div className="row" style={{ padding:'10px' }}>
                                     <Typography paragraph>
                                         {item.product.description}
                                     </Typography>
@@ -215,9 +215,11 @@ export default function OrderProductItem(props) {
                         </Collapse>
                     </Card>
 
+                    
+
                 )
 
-
+            : <RingLoader />  
         }
         
         </>

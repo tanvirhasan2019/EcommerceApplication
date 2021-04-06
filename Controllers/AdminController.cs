@@ -265,7 +265,105 @@ namespace EcommerceApp.Controllers
 
 
 
+
+        [HttpPost]
+        [Route("DeleteOrderItem")]
+        public object DeleteOrderItem([FromBody] ClientOrder order)
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    
+
+
+                  /*  var Transaction = _context.Transaction.Where(u => u.ClientOrderOrderid == order.Orderid);
+                    foreach (var data in Transaction)
+                    {
+                        var x = data;
+                        _context.Transaction.Remove(data);
+                    }
+
+                  
+
+                    var ShippingDetails = _context.ShippingDetails.Where(u => u.ClientOrderOrderid == order.Orderid);
+                    foreach (var data in ShippingDetails)
+                    {
+                        var x = data;
+                        _context.ShippingDetails.Remove(data);
+                    } */
+
+                    var ClientOrder = _context.ClientOrder.Where(u => u.Orderid == order.Orderid);
+                    foreach (var data in ClientOrder)
+                    {
+                        var x = data;
+                        _context.ClientOrder.Remove(data);
+                    }
+
+                     _context.SaveChanges();
+
+
+
+                }
+            }
+            catch (Exception)
+            {
+
+
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
+
+
+            }
+            return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" });
+        }
+
+
+
+
+
+        [HttpPost]
+        [Route("DeleteOrderItems")]
+        public object DeleteOrderItems([FromBody] MultipleProductId list)
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                    for (int i = 0; i < list.id.Count; i++)
+                    {
+                        var ClientOrders = _context.ClientOrder.Where(u => u.Orderid == list.id[i]);
+                        foreach (var data in ClientOrders)
+                        {
+                            var x = data;
+                            _context.ClientOrder.Remove(data);
+                        }
+
+                    }
+
+                    _context.SaveChanges();
+
+
+                }
+            }
+            catch (Exception)
+            {
+
+
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
+
+
+            }
+            return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" });
+        }
+
     }
+
+
 
     // DATA BINDING FOR LIST OF PRODUCT ID
 

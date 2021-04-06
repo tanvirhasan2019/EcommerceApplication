@@ -16,7 +16,9 @@ import Layout from '../Layout';
 import { useSelector } from 'react-redux';
 import authService from '../api-authorization/AuthorizeService';
 import { toaster } from 'evergreen-ui';
-
+import SimpleBackdrop from '../spinner/SimpleBackdrop'
+import { useDispatch } from 'react-redux';
+import { cartUpdate } from '../../actions/cartItem'
 
 
 function Copyright() {
@@ -88,9 +90,13 @@ export default function Checkout() {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const [orderid, setorderid] = React.useState(0);
+    const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(false);
 
-    
+
+    const dispatch = useDispatch();
+   
+
 
     const CartData = useSelector(state => state.cartUpdate.data);
     const Shipping_Data = useSelector(state => state.ShippingDetails.data);
@@ -128,50 +134,55 @@ export default function Checkout() {
         } else {
 
 
+            if (price > 0) {
 
-            fetch('ClientOrder/PlaceOrder', {
-                method: 'POST', // or 'PUT'
-                headers: !token ? {} : {
-                    'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
-                },
+                fetch('ClientOrder/PlaceOrder', {
+                    method: 'POST', // or 'PUT'
+                    headers: !token ? {} : {
+                        'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
+                    },
 
-                body: JSON.stringify({
+                    body: JSON.stringify({
 
-                    'productid': productid,
-                    'quantity': quantity,
-                    'price': price,
-                    'payementType': 'VISA',
-                    'firstname': Shipping_Data.firstName,
-                    'lastname': Shipping_Data.lastName,
-                    'address1': Shipping_Data.address1,
-                    'address2': Shipping_Data.address2,
-                    'city': Shipping_Data.city,
-                    'zip': Shipping_Data.zip,
-                    'country': Shipping_Data.country,
-                    'phonenumber': Shipping_Data.phonenumber,
+                        'productid': productid,
+                        'quantity': quantity,
+                        'price': price,
+                        'payementType': 'VISA',
+                        'firstname': Shipping_Data.firstName,
+                        'lastname': Shipping_Data.lastName,
+                        'address1': Shipping_Data.address1,
+                        'address2': Shipping_Data.address2,
+                        'city': Shipping_Data.city,
+                        'zip': Shipping_Data.zip,
+                        'country': Shipping_Data.country,
+                        'phonenumber': Shipping_Data.phonenumber,
 
 
-                }),
-            })
-                .then(response => response.json())
-                .then(Response => {
-                    setorderid(Response.ordeR_ID)
-
-                    console.log('ORDER ID FROM SERVER ', Response.ordeR_ID);
-
-                    toaster.success(
-                        'ORDER PLACED SUCCESSFULLY'
-                    )
-                    console.log('Success:', Response);
-
+                    }),
                 })
-                .catch((error) => {
-                    setError(true)
-                    console.error('Error:', error);
-                    toaster.danger(
-                        'Something went wrong trying to create your audience'
-                    )
-                });
+                    .then(response => response.json())
+                    .then(Response => {
+                        setorderid(Response.ordeR_ID)
+                        setLoading(false)
+
+                        console.log('ORDER ID FROM SERVER ', Response.ordeR_ID);
+
+                        toaster.success(
+                            'ORDER PLACED SUCCESSFULLY'
+                        )
+                        console.log('Success:', Response);
+
+                        localStorage.removeItem('cart');
+                        dispatch(cartUpdate)
+                    })
+                    .catch((error) => {
+                        setError(true)
+                        console.error('Error:', error);
+                        toaster.danger(
+                            'Something went wrong trying to create your audience'
+                        )
+                    });
+            }
         }
     };
 
@@ -209,15 +220,18 @@ export default function Checkout() {
                                         </Typography> </React.Fragment> :
 
                                         (
-                                            <React.Fragment>
-                                                <Typography variant="h5" gutterBottom>
-                                                    Thank you for your order.
-                                                </Typography>
-                                                <Typography variant="subtitle1">
-                                                    Your order number is {orderid}. We have emailed your order confirmation, and will
-                                                    send you an update when your order has shipped.
-                                                 </Typography>
-                                            </React.Fragment>
+                                            
+                                                loading == false ? (<React.Fragment>
+                                                     <Typography variant="h5" gutterBottom>
+                                                        Thank you for your order.
+                                                                </Typography>
+                                                    <Typography variant="subtitle1">
+                                                        Your order number is {orderid}. We have emailed your order confirmation, and will
+                                                                    send you an update when your order has shipped.
+                                                                 </Typography>
+                                            </React.Fragment>) : <SimpleBackdrop />
+                                            
+                                           
                                             
                                        )
 

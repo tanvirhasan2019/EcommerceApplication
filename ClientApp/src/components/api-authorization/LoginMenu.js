@@ -1,8 +1,14 @@
-﻿import React, { Component, Fragment } from 'react';
+﻿import 'semantic-ui-css/semantic.min.css'
+import React, { Component, Fragment } from 'react';
 import { NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import authService from './AuthorizeService';
 import { ApplicationPaths } from './ApiAuthorizationConstants';
+
+import { Dropdown, Icon } from 'semantic-ui-react'
+
+
+
 
  export class LoginMenu extends Component {
     constructor(props) {
@@ -33,6 +39,11 @@ import { ApplicationPaths } from './ApiAuthorizationConstants';
 
     render() {
         const { isAuthenticated, userName } = this.state;
+
+       
+
+
+
         if (!isAuthenticated) {
             const registerPath = `${ApplicationPaths.Register}`;
             const loginPath = `${ApplicationPaths.Login}`;
@@ -44,7 +55,44 @@ import { ApplicationPaths } from './ApiAuthorizationConstants';
         }
     }
 
-    authenticatedView(userName, profilePath, logoutPath) {
+     authenticatedView(userName, profilePath, logoutPath) {
+         const trigger = (
+             <span>
+                 <Icon name='user' /> {this.state.userName}
+             </span>
+         )
+
+         const options = [
+             {
+                 key: 'user',
+                 text: (
+                     <span>
+                         Signed in as <strong>{this.state.userName}</strong>
+                     </span>
+                 ),
+                 disabled: true,
+             },
+             {
+               key: 'profile', text: <Link  to={profilePath}>Your Profile </Link>},
+             { key: 'orders',  text: <Link  to =""> Your order list </Link > },
+             { key: 'activity', text: <Link to=""> Your Activity </Link > },
+             { key: 'sign-out', text: <Link  to = { logoutPath } > Sign Out </Link > } ,
+         ]
+
+         return (<Fragment>
+             <NavItem style={{height:'100%', textAlign:'center'}}>
+                 <NavLink>
+                     <Dropdown  className="text-dark" trigger={trigger} options={options} />
+                 </NavLink>
+
+                 
+             </NavItem>
+            
+         </Fragment>);
+
+     }
+
+   /* authenticatedView(userName, profilePath, logoutPath) {
         return (<Fragment>
             <NavItem>
                 <NavLink tag={Link} className="text-dark" to={profilePath}>Hello {userName}</NavLink>
@@ -54,7 +102,7 @@ import { ApplicationPaths } from './ApiAuthorizationConstants';
             </NavItem>
         </Fragment>);
 
-    }
+    } */
 
     anonymousView(registerPath, loginPath) {
         return (<Fragment>

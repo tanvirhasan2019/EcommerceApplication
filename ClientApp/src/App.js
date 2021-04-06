@@ -16,7 +16,7 @@ import Checkout from '././components/CheckOut/Checkout';
 import EditPost from './components/HomeComponents/Post/EditPost';
 import BlogPage from './components/HomeComponents/Post/BlogSection';
 import MyStatefulEditor from './components/HomeComponents/Post/MyStatefulEditor';
-
+import Orderlist from './components/HomeComponents/user/Orderlist'
 import './custom.css'
 
  export default class App extends Component {
@@ -37,6 +37,7 @@ import './custom.css'
               <Route strict exact path='/temp' component={Temp} />
               <Route strict exact path='/dashboard' component={dashboard} />
               <Route strict exact path='/update-product/:id' component={updateSingleProduct} />
+              <Route strict exact path='/user-orders-item' component={Orderlist} />
              
 
       </Fragment>
