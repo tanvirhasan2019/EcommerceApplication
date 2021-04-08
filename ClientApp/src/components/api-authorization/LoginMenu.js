@@ -74,7 +74,7 @@ import { Dropdown, Icon } from 'semantic-ui-react'
              },
              {
                key: 'profile', text: <Link  to={profilePath}>Your Profile </Link>},
-             { key: 'orders',  text: <Link  to =""> Your order list </Link > },
+             { key: 'orders',  text: <Link  to ="/user-orders-item"> Your order list </Link > },
              { key: 'activity', text: <Link to=""> Your Activity </Link > },
              { key: 'sign-out', text: <Link  to = { logoutPath } > Sign Out </Link > } ,
          ]
