@@ -28,7 +28,7 @@ export default class FullScreenDrawer extends React.Component {
     }
     render() {
         const { placement, show } = this.state;
-
+        //console.log('Full Screen Drawer props ', this.props.value)
         return (
             <div>
                                    

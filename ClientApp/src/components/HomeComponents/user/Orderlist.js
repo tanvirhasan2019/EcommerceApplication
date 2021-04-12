@@ -3,6 +3,7 @@ import { NavMenu } from '../../NavMenu';
 import SideMenu from './SideMenu'
 import authService from '../../api-authorization/AuthorizeService'
 import Allorderlist from './Allorderlist'
+import ScaleSpinner  from '../../spinner/ScaleSpinner'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -61,7 +62,7 @@ export default function Orderlist() {
           <Grid item xs={12} sm={10} md={10} lg={8} xl={8}>
                <Paper className={classes.paper}>
                         {
-                            !loading ? <Allorderlist data={data.data} /> : null
+                            !loading ? <Allorderlist data={data.data} /> : <ScaleSpinner />
                         } 
                 </Paper>
             </Grid>

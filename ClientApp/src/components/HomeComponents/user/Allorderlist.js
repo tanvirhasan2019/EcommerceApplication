@@ -43,8 +43,7 @@ export default function Allorderlist(props) {
     const classes = useStyles();
    
 
-    console.log('props data all order list', props.data)
-    var url = "https://lh3.googleusercontent.com/proxy/JuO4lILGhUS6icJx2zJIehu2NtA4uXiR5_eKJZkgxvO41jSKjzpvhuQslHxMFX1Ql6zSY-CSp5TlnxgUP4lyTzYUBoQ3vtgbCNCB691r2NGVfj-rNbbelgh6Cr__bTL2MOXmIeZ6E_QPsq6Df4ZZsfBOkA"
+    console.log('All Order List', props.data)
    
     return (
         <>
@@ -65,7 +64,17 @@ export default function Allorderlist(props) {
                         <div className="col-xm-12 col-sm-6 col-md-6 col-lg-6"
                             style={{marginTop:'10px'}}
                         >
-                            <CardViewOrder key={item.orderid} value={item.order} />
+                            <CardViewOrder
+                                key={item.orderid}
+                                value={item.order}
+                                shipping={item.shipping}
+                                time={item.dateTime}
+                                price={item.transaction.amount}
+                                paymentMethod={item.transaction.payementType}
+                               
+
+
+                            />
                       </div>
 
                 

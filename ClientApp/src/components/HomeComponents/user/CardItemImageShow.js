@@ -87,7 +87,7 @@ export default function CardItemImageShow(props) {
                                         <DeleteIcon style={{ color: 'red' }} />
                                     </IconButton>
                                 }
-                                title={props.value.product.title}
+                               title={props.image.title}
                                 subheader="20201"
                             />
                             <div className="row">
@@ -183,7 +183,7 @@ export default function CardItemImageShow(props) {
 
                                     <div className="row" style={{ padding: '10px' }}>
                                         <Typography paragraph>
-                                 {props.value.product.description}
+                                {props.image.description}
                                 </Typography>
                                     </div>
 

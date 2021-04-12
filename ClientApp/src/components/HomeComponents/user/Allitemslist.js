@@ -6,7 +6,7 @@ import { red } from '@material-ui/core/colors';
 import CardItemImageShow from './CardItemImageShow'
 
 import { useSelector } from 'react-redux';
-
+import ScaleSpinner from '../../spinner/ScaleSpinner'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,7 +47,7 @@ export default function Allitemslist(props) {
           console.log('data', { data })
   
           ImageData = data.data.filter(o1 => props.value.some(o2 => o1.id === o2.product.id))
-         
+          //ImageData = data.data.filter(o1 => props.value.some(o2 => o1.id === o2.product.id))
           console.log('image data', { ImageData })
       }
      
@@ -71,13 +71,15 @@ export default function Allitemslist(props) {
 
                     <div className="row">
                         
-                        <CardItemImageShow value={item} image={ImageData[index]} /> 
+                        <CardItemImageShow  image={ImageData[index]} /> 
                         
                     </div>
 
-                ) : null
+                    ) : <ScaleSpinner />
             }
 
         </>
     );
 }
+
+//<CardItemImageShow value={item} image={ImageData[index]} /> line:74
