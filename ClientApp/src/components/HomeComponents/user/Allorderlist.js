@@ -52,7 +52,7 @@ export default function Allorderlist(props) {
                 width: '100%', height: '50px',
                 backgroundColor: 'black',
                  }}>
-                <p> Aligned flex item </p>
+                <p> YOUR ORDER LIST </p>
            </div>
            
 
@@ -61,7 +61,7 @@ export default function Allorderlist(props) {
                 {
                     props.data.map((item, index) =>
 
-                        <div className="col-xm-12 col-sm-6 col-md-6 col-lg-6"
+                        <div className="col-xm-12 col-xxl-3 col-md-4"
                             style={{marginTop:'10px'}}
                         >
                             <CardViewOrder
@@ -69,6 +69,8 @@ export default function Allorderlist(props) {
                                 value={item.order}
                                 shipping={item.shipping}
                                 time={item.dateTime}
+                                status={item.status}
+                                orderid={item.orderid}
                                 price={item.transaction.amount}
                                 paymentMethod={item.transaction.payementType}
                                

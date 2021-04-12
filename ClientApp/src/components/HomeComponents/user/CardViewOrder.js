@@ -16,6 +16,16 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FullScreenDrawer from './FullScreenDrawer'
 import  deliver  from '../../../images/delivery.jpg'
 import AddressForm from './AddressForm'
+import NavigationIcon from '@material-ui/icons/Navigation';
+import Fab from '@material-ui/core/Fab';
+
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import CreditCardIcon from '@material-ui/icons/CreditCard';
+
+import MaterialUIPickers from '../../adminPanel/customize_product/DateTimeComponent/Demo'
+import Button from '@material-ui/core/Button';
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,13 +50,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-var url = "https://lh3.googleusercontent.com/proxy/JuO4lILGhUS6icJx2zJIehu2NtA4uXiR5_eKJZkgxvO41jSKjzpvhuQslHxMFX1Ql6zSY-CSp5TlnxgUP4lyTzYUBoQ3vtgbCNCB691r2NGVfj-rNbbelgh6Cr__bTL2MOXmIeZ6E_QPsq6Df4ZZsfBOkA"
 
 
 export default function CardViewOrder(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
-    console.log('card view order ', props.value)
+    console.log('STATUS  ', props.status)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -69,19 +78,47 @@ export default function CardViewOrder(props) {
                             <FullScreenDrawer value={props.value} />
                         </IconButton>
                     }
-                    title={props.time}
-                    subheader=""
+                    title={"ORDER ID " + props.orderid}
+                    subheader={<MaterialUIPickers value={props.time}/>}
                             />
                             <CardMedia
                                 className={classes.media}
                                 image={deliver}
-                                title="Paella dish"
+                                title=""
                             />
                             <CardContent>
-                                <Typography variant="body2" color="textSecondary" component="p">
-                                    This impressive paella is a perfect party dish and a fun meal to cook together with your
-                                    guests. Add 1 cup of frozen peas along with the mussels, if you like.
-                                </Typography>
+
+                            <div className="d-flex justify-content-around">
+
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        className={classes.button}
+                                        startIcon={<MonetizationOnIcon  />}
+                                    >
+                                      {props.status}
+                                   </Button>
+
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.button}
+                                        startIcon={<MonetizationOnIcon />}
+                                    >
+                                       {props.price}
+                                    </Button>
+
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        className={classes.button}
+                                        startIcon={<CreditCardIcon />}
+                                    >
+                                        {props.paymentMethod}
+                                    </Button>
+                                    
+                                </div>
+                            
                             </CardContent>
                             <CardActions disableSpacing>
                                 

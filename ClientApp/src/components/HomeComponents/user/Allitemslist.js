@@ -37,7 +37,6 @@ export default function Allitemslist(props) {
   
     console.log('props data all items list', props.value)
 
-    var url = "http://www.wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg"
     var ImageData = []
 
     var data = useSelector(state => state.products)
@@ -46,7 +45,26 @@ export default function Allitemslist(props) {
   
           console.log('data', { data })
   
-          ImageData = data.data.filter(o1 => props.value.some(o2 => o1.id === o2.product.id))
+         //ImageData = data.data.filter(o1 => props.value.some(o2 => o1.id === o2.product.id))
+
+         data.data.filter(o1 => props.value.some(o2 => {
+
+             if (o1.id === o2.product.id) {
+                 ImageData.push({
+
+                     category: o1.category,
+                     dateTime: o1.dateTime,
+                     description : o1.description,
+                     id: o1.id,
+                     img: o1.img,
+                     quantity: o2.quantity,
+                     subcategory: o1.subcategory,
+                     title: o1.title,
+                     price:o2.price
+                 })
+             }
+         }))
+        
           //ImageData = data.data.filter(o1 => props.value.some(o2 => o1.id === o2.product.id))
           console.log('image data', { ImageData })
       }
@@ -61,7 +79,7 @@ export default function Allitemslist(props) {
                 width: '100%', height: '50px',
                 backgroundColor: 'black',
             }}>
-                <p> Aligned flex item </p>
+                <p> YOUR PRODUCT LIST </p>
             </div>
 
 

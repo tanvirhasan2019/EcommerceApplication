@@ -4,10 +4,12 @@ import SideMenu from './SideMenu'
 import authService from '../../api-authorization/AuthorizeService'
 import Allorderlist from './Allorderlist'
 import ScaleSpinner  from '../../spinner/ScaleSpinner'
+import NavbarUser from './NavbarUser'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +29,16 @@ export default function Orderlist() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const classes = useStyles();
+    const spinner =
+        <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)'}}>
+            
+                <ScaleSpinner />
+            
+        </div>
 
 
      useEffect(async () => {
@@ -49,26 +61,23 @@ export default function Orderlist() {
    
     return (
 
-      <div>
-            <NavMenu />
+        <div>
 
-      <Grid container spacing={3} style={{marginTop:'60px'}}>
+            <NavbarUser />
+             
+          <Grid container spacing={3}>
         
-           <Grid item xs={12} sm={2} md={2} lg={4} xl={4}>
-                <Paper>
-                     <SideMenu />
-                </Paper>
-            </Grid>
-          <Grid item xs={12} sm={10} md={10} lg={8} xl={8}>
-               <Paper className={classes.paper}>
-                        {
-                            !loading ? <Allorderlist data={data.data} /> : <ScaleSpinner />
-                        } 
-                </Paper>
-            </Grid>
+        
+             <Paper className={classes.paper}>
+                 {
+                            !loading ? <Allorderlist data={data.data} /> : spinner
+                 } 
+             </Paper>
+          
        
-      </Grid>
-    </div>
+            </Grid>
+
+        </div>
 
 
 

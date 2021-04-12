@@ -70,7 +70,6 @@ export default function CardItemImageShow(props) {
     console.log('props data from image card', props.value)
     console.log('props IMAGE DATA from image card', props.image)
 
-    var url = "http://www.wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg"
    
     return (
         <>
@@ -88,7 +87,7 @@ export default function CardItemImageShow(props) {
                                     </IconButton>
                                 }
                                title={props.image.title}
-                                subheader="20201"
+                               
                             />
                             <div className="row">
                                 <div className="col-md-6">
@@ -105,7 +104,7 @@ export default function CardItemImageShow(props) {
                                                         startAdornment={
                                                             <InputAdornment position="start">
                                                                 <DialpadIcon />
-
+                                                                {props.image.quantity}
                                                             </InputAdornment>
                                                         }
                                                     />
@@ -119,7 +118,7 @@ export default function CardItemImageShow(props) {
                                                         startAdornment={
                                                             <InputAdornment position="start">
                                                                 <MonetizationOnIcon />
-
+                                                                {props.image.price}
                                                             </InputAdornment>
                                                         }
                                                     />
@@ -133,7 +132,7 @@ export default function CardItemImageShow(props) {
                                                         startAdornment={
                                                             <InputAdornment position="start">
                                                                 <CategoryIcon />
-
+                                                                {props.image.category}
                                                             </InputAdornment>
                                                         }
                                                     />
@@ -147,7 +146,7 @@ export default function CardItemImageShow(props) {
                                                         startAdornment={
                                                             <InputAdornment position="start">
                                                                 <LocalMallIcon />
-
+                                                                {props.image.subcategory}
                                                             </InputAdornment>
                                                         }
                                                     />
@@ -186,9 +185,6 @@ export default function CardItemImageShow(props) {
                                 {props.image.description}
                                 </Typography>
                                     </div>
-
-
-
 
                                 </CardContent>
                             </Collapse>

@@ -36,7 +36,7 @@ export default class FullScreenDrawer extends React.Component {
 
                 <Drawer full placement={placement} show={show} onHide={this.close}>
                     <Drawer.Header>
-                        <Drawer.Title>Drawer Title</Drawer.Title>
+                        <Drawer.Title></Drawer.Title>
                     </Drawer.Header>
                     <Drawer.Body>
                         <div className="container">

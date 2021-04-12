@@ -1,8 +1,25 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
+
+import 'primeicons/primeicons.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.css';
+
 import ChatBox, { ChatFrame } from 'react-chat-plugin';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 
-export default function ChatOnline() {
+import { Toast } from 'primereact/toast';
+
+
+export default function ChatOnline(props) {
+
+ 
+    const toastBC = useRef(null);
+
+    const showError = () => {
+        toastBC.current.show({ severity: 'error', summary: 'PLease login first', detail: 'Chat is available for logged in user', life: 3000 });
+    }
+
+
   const [attr, setAttr] = useState({
     showChatbox: false,
     showIcon: true,
@@ -37,11 +54,19 @@ export default function ChatOnline() {
   });
   const handleClickIcon = () => {
     // toggle showChatbox and showIcon
-    setAttr({
-      ...attr,
-      showChatbox: !attr.showChatbox,
-      showIcon: !attr.showIcon,
-    });
+      if (props.login == true) {
+          setAttr({
+              ...attr,
+              showChatbox: !attr.showChatbox,
+              showIcon: !attr.showIcon,
+          });
+      } else {
+
+          showError()
+
+          }
+      
+   
   };
   const handleOnSendMessage = (message) => {
     setAttr({
@@ -57,31 +82,44 @@ export default function ChatOnline() {
         timestamp: +new Date(),
       }),
     });
-  };
-  return (
-      <ChatFrame
-      chatbox={ 
-          <ChatBox 
-              
-          onSendMessage={handleOnSendMessage}
-          userId={1}
-          messages={attr.messages}
-          width={'300px'}
-          showTypingIndicator={true}
-                  activeAuthor={{
-                      username: 'Admin', id: 2,
-                      avatarUrl: 'https://png.pngtree.com/element_our/20200702/ourmid/pngtree-business-customer-service-avatar-vector-illustration-png-image_2297978.jpg'
-                  }}
-        />
-      }
-      icon={<WhatsAppIcon className="Icon" style={{color:'white'}} />}
-      clickIcon={handleClickIcon}
-      showChatbox={attr.showChatbox}
-      showIcon={attr.showIcon}
-      iconStyle={{ background: 'black ', fill: 'white' }}
-     
-    >
-      
-    </ChatFrame>
+    };
+
+   
+
+    return (
+        <>
+            <Toast ref={toastBC} position="bottom-center" />
+                <ChatFrame
+                        chatbox={
+                       
+                        <ChatBox
+
+                            onSendMessage={handleOnSendMessage}
+                            userId={1}
+                            messages={attr.messages}
+                            width={'300px'}
+                            showTypingIndicator={true}
+                            activeAuthor={{
+                                username: 'Admin', id: 2,
+                                avatarUrl: 'https://png.pngtree.com/element_our/20200702/ourmid/pngtree-business-customer-service-avatar-vector-illustration-png-image_2297978.jpg'
+                            }}
+                                /> 
+                    }
+                    icon={<WhatsAppIcon className="Icon" style={{ color: 'white' }} />}
+                    clickIcon={handleClickIcon}
+                    showChatbox={attr.showChatbox}
+                    showIcon={attr.showIcon}
+                    iconStyle={{ background: 'black ', fill: 'white' }}
+
+                >
+
+            </ChatFrame>
+        
+            
+       </>
   );
 }
+
+
+
+

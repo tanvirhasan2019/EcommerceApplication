@@ -10,6 +10,8 @@ import CartButton from './HomeComponents/CartItem/CartButton';
 import './HomeComponents/Home.scss';
 import ChatOnline from '../chat/ChatOnline';
 
+import authService from '../components/api-authorization/AuthorizeService'
+
 import { useSelector } from 'react-redux';
 
 var paginationList = 0;
@@ -26,7 +28,8 @@ export class Home extends Component {
         },
         title: '',
         cartSize: 0, 
-        activePage:1
+        activePage: 1,
+        isLogin : false
     }
     handleTitleChange = event => {
         this.setState({
@@ -55,6 +58,26 @@ export class Home extends Component {
         //setActivePage(activePage)
        
     }
+
+
+    componentDidMount() {
+        
+        this.populateState();
+    }
+
+   
+
+    async populateState() {
+        const token = await authService.getAccessToken()
+        if (token) {
+            this.setState({
+                isLogin: true
+
+            });
+        }
+        
+    }
+
 
     render() {
        
@@ -117,7 +140,7 @@ export class Home extends Component {
                   <FooterLayout />
                 </div>
 
-                <ChatOnline />
+                <ChatOnline login={this.state.isLogin} />
             </Layout>
         
     );
