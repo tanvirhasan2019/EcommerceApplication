@@ -17,15 +17,15 @@ namespace EcommerceApp.Models
         [Key]
         public int Orderid { get; set; }
         public DateTime dateTime { get; set; }
-        public string userid { get; set; }
+        public string? userid { get; set; }
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
-        public virtual List<OrderDetails> order { get; set; }
+        public virtual List<OrderDetails>? order { get; set; }
 
-        public virtual Transaction transaction { get; set; }
+        public virtual Transaction? transaction { get; set; }
 
-        public virtual ShippingDetails shipping { get; set; }
+        public virtual ShippingDetails? shipping { get; set; }
 
 
     }

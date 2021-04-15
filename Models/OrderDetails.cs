@@ -27,7 +27,7 @@ namespace EcommerceApp.Models
 
 
         public int Productid { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual Product? Product { get; set; }
 
 
 

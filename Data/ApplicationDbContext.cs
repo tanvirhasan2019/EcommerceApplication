@@ -25,5 +25,8 @@ namespace EcommerceApp.Data
         public DbSet<Transaction> Transaction { get; set; }
 
         public DbSet<ShippingDetails> ShippingDetails { get; set; }
+        public DbSet<Comments> Comments { get; set; }
+        public DbSet<Post> Post { get; set; }
+
     }
 }

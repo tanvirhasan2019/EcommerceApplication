@@ -156,23 +156,91 @@ namespace EcommerceApp.Controllers
 
         }
 
+
+        [HttpGet]
+        [Route("GetAllpost")]
+        public async Task<IActionResult> GetAllpost()
+        {
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+                    var users = _context.Users.ToList();
+                    var Post = await _context.Post.ToListAsync();
+                    return Ok(new { data = Post });
+                }
+
+
+            }
+            catch (Exception)
+            {
+                return Ok(new { status = "FAILED" });
+            }
+
+            return Ok(new { status = "SUCCESS" });
+
+        }
+
+
+
+
+        [HttpPost]
+        [Route("CreatePost")]
+        public object CreatePost([FromBody] Post post)
+        {
+            
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                    var post1 = new Post
+                    {
+                       DateTime = DateTime.Now,
+                       PostContent = post.PostContent,
+                       ClientId = UserID,
+
+
+                    };
+
+                    _context.Post.Add(post1);
+                    _context.SaveChanges();
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
+            }
+
+            return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS"});
+
+        }
+
+
+
+
     }
 
     public class CustomOrder
     {  
-            public List<int> productid { get; set; }
-            public List<int> quantity { get; set; }
-            public List<double> price { get; set; }
-            public string payementType { get; set; }
+            public List<int>? productid { get; set; }
+            public List<int>? quantity { get; set; }
+            public List<double>? price { get; set; }
+            public string ? payementType { get; set; }
 
-            public string firstname { get; set; }
-            public string lastname { get; set; }
-            public string address1 { get; set; }
-            public string address2 { get; set; }
-            public string phonenumber { get; set; }
-            public string city { get; set; }
-            public string country { get; set; }
-            public string zip { get; set; }
+            public string ? firstname { get; set; }
+            public string? lastname { get; set; }
+            public string? address1 { get; set; }
+            public string? address2 { get; set; }
+            public string? phonenumber { get; set; }
+            public string? city { get; set; }
+            public string? country { get; set; }
+            public string? zip { get; set; }
         
     }
 }

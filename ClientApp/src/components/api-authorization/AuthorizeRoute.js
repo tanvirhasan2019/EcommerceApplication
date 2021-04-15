@@ -33,7 +33,7 @@ export default class AuthorizeRoute extends Component {
             return <Route {...rest}
                 render={(props) => {
                     if (authenticated) {
-                        return <Component {...props} />
+                        return <Component {...props}/>
                     } else {
                         return <Redirect to={redirectUrl} />
                     }

@@ -380,24 +380,24 @@ namespace EcommerceApp.Controllers
     {
 
         public int id { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public string category { get; set; }
-        public string subcategory { get; set; }
+        public string? title { get; set; }
+        public string? description { get; set; }
+        public string? category { get; set; }
+        public string? subcategory { get; set; }
         public int quantity { get; set; }
         public double price { get; set; }
        // public List<Img> Img { get; set; }
-        public virtual List<Img> Img { get; set; }
+        public virtual List<Img>? Img { get; set; }
 
     }
 
     public class Img
     {
-        public string img1 { get; set; }
-        public string img2 { get; set; }
-        public string img3 { get; set; }
-        public string img4 { get; set; }
-        public string img5 { get; set; }
+        public string? img1 { get; set; }
+        public string? img2 { get; set; }
+        public string? img3 { get; set; }
+        public string? img4 { get; set; }
+        public string? img5 { get; set; }
     } 
 
 }

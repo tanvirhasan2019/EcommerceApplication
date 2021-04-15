@@ -18,7 +18,7 @@ namespace EcommerceApp.Models
         public int ClientOrderOrderid { get; set; }
 
         public double amount { get; set; }
-        public string payementType { get; set; }
+        public string? payementType { get; set; }
 
        
 

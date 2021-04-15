@@ -1,6 +1,8 @@
-﻿import React, { useState, useEffect , Component } from 'react';
+﻿import React, { Component } from 'react';
 import authService from '../../api-authorization/AuthorizeService'
-import { Navbar, Nav, Form, Button, FormControl} from 'react-bootstrap'
+import { ApplicationPaths } from '../../api-authorization/ApiAuthorizationConstants';
+
+import { Navbar, Nav} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
@@ -34,17 +36,17 @@ export default class Orderlist extends Component {
     render() {
 
         const { isAuthenticated, userName } = this.state;
-        const name = ""
-       
+        
 
         return (
 
             <Navbar style={{backgroundColor:'black'}} bg="dark" variant="dark">
 
                 <div style={{width:'100%'}} className="d-flex justify-content-between">
-                    <Nav.Link>
-                        <Link style={{color:'white'}} to="/"><><ArrowBackIosIcon /> </> BACK</Link>
-                    </Nav.Link>
+                    <Link
+                        style={{ color: 'white' }} to="/">
+                        <ArrowBackIosIcon />  BACK 
+                    </Link>
                     <Nav>
                         <Nav.Link >
                             hello {userName}

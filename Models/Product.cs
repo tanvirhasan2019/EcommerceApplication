@@ -10,18 +10,18 @@ namespace EcommerceApp.Models
         
         public int id { get; set; }
 
-        public string title { get; set; }
+        public string? title { get; set; }
         public DateTime dateTime { get; set; } 
-        public string description { get; set; }
-        public string category { get; set; }
+        public string? description { get; set; }
+        public string? category { get; set; }
 
-        public string subcategory { get; set; }
+        public string ? subcategory { get; set; }
         public int quantity { get; set; }
         public double price { get; set; }
 
-        public string AddedBy { get; set; }
+        public string? AddedBy { get; set; }
 
-        public virtual ProductImage Img { get; set; }
+        public virtual ProductImage? Img { get; set; }
 
       
 

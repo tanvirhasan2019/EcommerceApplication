@@ -4,12 +4,14 @@ import { Redirect } from "react-router";
 import { NavMenu } from '../../NavMenu'
 import FooterLayout from '../../FooterLayout'
 import PostList from './PostList'
+import authService from '../../api-authorization/AuthorizeService'
+
+
 export default class Blogsection extends Component {
+   
     state = {
-       
-    }
-    state = {
-        redirect: false
+        redirect: false,
+        Post:[]
     }
     redirectHandler = () => {
         this.setState({ redirect: true })
@@ -20,6 +22,28 @@ export default class Blogsection extends Component {
             return <Redirect to='/post-editor' />
         }
     }
+
+    async componentDidMount() {
+
+        try {
+
+            const token = await authService.getAccessToken()
+            const response = await fetch('ClientOrder/GetAllpost', {
+                headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await response.json();
+            this.setState({Post:data.data})
+            //setResult(data.data)
+
+            console.log('after fetch post ', { data })
+            console.log('after fetch state ', this.state.Post)
+
+        } catch (e) {
+            console.log('ERROR CALLED')
+        }
+
+    }
+
    
     render() {
         return (
@@ -36,7 +60,7 @@ export default class Blogsection extends Component {
                         </div>
                     </div>
                     <div className="row">
-                         <PostList />
+                            <PostList value={this.state.Post} />
                     </div>
 
                 </div>

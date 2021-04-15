@@ -27,16 +27,17 @@ import './custom.css'
 
           <Fragment>
              
-              
-              <Route path='/cart-item' component={CartItem} /> 
-              <AuthorizeRoute path='/checkout' component={Checkout} /> 
-              <AuthorizeRoute path='/blog-page' component={BlogPage} /> 
-              <AuthorizeRoute path='/post-editor' component={MyStatefulEditor} />             
-              <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />           
+              <Route exact path='/' component={Home} />
+              <Route strict exact path='/cart-item' component={CartItem} /> 
+              <AuthorizeRoute strict exact path='/checkout' component={Checkout} /> 
+              <AuthorizeRoute strict exact path='/blog-page' component={BlogPage} /> 
+              <AuthorizeRoute strict exact path='/post-editor' component={MyStatefulEditor} />             
+                     
               <AuthorizeRoute strict exact path='/dashboard' component={dashboard} />
               <AuthorizeRoute strict exact path='/update-product/:id' component={updateSingleProduct} />
               <AuthorizeRoute strict exact path='/user-orders-item' component={Orderlist} />
-              <Route exact path='/' component={Home} />
+              <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />  
+             
              
 
       </Fragment>

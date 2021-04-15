@@ -12,10 +12,10 @@ namespace EcommerceApp.Models
 
         [ForeignKey("Product")]
         public int productid { get; set; }
-        public byte[] img1 { get; set; }
-        public byte[] img2 { get; set; }
-        public byte[] img3 { get; set; }
-        public byte[] img4 { get; set; }
-        public byte[] img5 { get; set; }
+        public byte[]? img1 { get; set; }
+        public byte[]? img2 { get; set; }
+        public byte[]? img3 { get; set; }
+        public byte[]? img4 { get; set; }
+        public byte[]? img5 { get; set; }
     }
 }
