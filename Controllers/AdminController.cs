@@ -10,6 +10,7 @@ using EcommerceApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
@@ -360,6 +361,116 @@ namespace EcommerceApp.Controllers
             }
             return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" });
         }
+
+
+
+
+
+        [HttpGet]
+        [Route("GetAllpost")]
+        public async Task<IActionResult> GetAllpost()
+        {
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+                    var users = _context.Users.ToList();
+                    var Post = await _context.Post.ToListAsync();
+                    return Ok(new { data = Post });
+                }
+
+
+            }
+            catch (Exception)
+            {
+                return Ok(new { status = "FAILED" });
+            }
+
+            return Ok(new { status = "SUCCESS" });
+
+        }
+
+
+
+
+
+        [HttpPost]
+        [Route("ChangePostApproval")]
+        public object ChangePostApproval([FromBody] Post post)
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    var Post1 = _context.Post.FirstOrDefault(u => u.PostId == post.PostId);
+                    
+
+                    if (Post1 != null)
+                    {
+                        if(Post1.Approved == "PENDING")
+                        {
+                            Post1.Approved = "APPROVED";
+                        }
+                        else
+                        {
+                            Post1.Approved = "PENDING";
+                        }
+
+                        _context.SaveChanges();
+                    }
+
+
+                }
+            }
+            catch (Exception)
+            {
+
+
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
+
+
+            }
+
+            return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" });
+        }
+
+
+
+
+
+        [HttpPost]
+        [Route("DeletPost")]
+        public object DeletPost([FromBody] Post post)
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                    var post1 = _context.Post.FirstOrDefault(u => u.PostId == post.PostId);
+                    _context.Post.Remove(post1);
+                    _context.SaveChanges();
+
+
+
+                }
+            }
+            catch (Exception)
+            {
+
+
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
+
+
+            }
+            return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" });
+        }
+
 
     }
 

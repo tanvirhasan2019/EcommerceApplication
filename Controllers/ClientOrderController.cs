@@ -167,7 +167,7 @@ namespace EcommerceApp.Controllers
                 if (ModelState.IsValid)
                 {
                     var users = _context.Users.ToList();
-                    var Post = await _context.Post.ToListAsync();
+                    var Post = await _context.Post.Where(c => c.Approved == "APPROVED").ToListAsync();
                     return Ok(new { data = Post });
                 }
 
@@ -201,6 +201,7 @@ namespace EcommerceApp.Controllers
                        DateTime = DateTime.Now,
                        PostContent = post.PostContent,
                        ClientId = UserID,
+                       Approved = "PENDING"  // DEFAULT 0 FOR REQUEST APPROVAL
 
 
                     };

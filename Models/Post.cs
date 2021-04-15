@@ -13,6 +13,9 @@ namespace EcommerceApp.Models
         public string? PostContent { get; set; }
 
         public string? ClientId { get; set; }
+
+        //APPROVED = 0(NOT APPROVALL)  AND 1 FOR PUBLIC
+        public string? Approved { get; set; } // PENDING APPROVED
         public ApplicationUser? Client { get; set; }
 
         public List<Comments>? comments { get; set; }

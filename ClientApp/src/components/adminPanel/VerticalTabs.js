@@ -13,6 +13,7 @@ import LadiesCategory from '../adminPanel/UploadProduct/Categories/LadiesCategor
 import KidsCategory from '../adminPanel/UploadProduct/Categories/KidsCategory';
 import ElectronicsCategory from '../adminPanel/UploadProduct/Categories/ElectronicsCategory';
 import ProductTable from './customize_product/ProductTable'
+import PostTable from './Post/PostTable'
 
 import OrderItem from '../adminPanel/customize_product/OrderItem/OrderItem'
 
@@ -83,7 +84,7 @@ export default function VerticalTabs() {
                 <Tab label="UPLOAD PRODUCT" {...a11yProps(0)} />
                 <Tab label="UPDATE & DELETE" {...a11yProps(1)} />
                 <Tab label="ORDER ITEM" {...a11yProps(2)} />
-                <Tab label="TRANSACTION" {...a11yProps(3)} />
+                <Tab label="POST" {...a11yProps(3)} />
                 <Tab label="MESSAGE" {...a11yProps(4)} />
                 <Tab label="PERMISSION" {...a11yProps(5)} />
                 <Tab label="DELETE" {...a11yProps(6)} />
@@ -122,7 +123,7 @@ export default function VerticalTabs() {
                 <OrderItem />
       </TabPanel>
             <TabPanel value={value} index={3}>
-                Item Four
+                <PostTable />
       </TabPanel>
             <TabPanel value={value} index={4}>
                 Item Five
