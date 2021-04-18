@@ -86,7 +86,7 @@ export default class MyStatefulEditor extends Component {
            // setError(true)
         } else {
 
-            fetch('ClientOrder/CreatePost', {
+            fetch('Post/CreatePost', {
                     method: 'POST', // or 'PUT'
                     headers: !token ? {} : {
                         'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`

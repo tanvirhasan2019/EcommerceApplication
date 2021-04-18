@@ -45,7 +45,7 @@ async componentDidMount() {
 
             const token = await authService.getAccessToken()
            // console.log('Token', token)
-            const response = await fetch('Admin/GetAllpost', {
+            const response = await fetch('Post/AdminGetAllpost', {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();

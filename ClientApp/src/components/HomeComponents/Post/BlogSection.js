@@ -28,7 +28,7 @@ export default class Blogsection extends Component {
         try {
 
             const token = await authService.getAccessToken()
-            const response = await fetch('ClientOrder/GetAllpost', {
+            const response = await fetch('Post/GetUserAllpost', {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
@@ -48,7 +48,7 @@ export default class Blogsection extends Component {
     render() {
         return (
             <div>
-            <div class="container-fluid">
+            <div className="container-fluid">
                 <NavMenu />
                 {this.renderRedirect()}
 

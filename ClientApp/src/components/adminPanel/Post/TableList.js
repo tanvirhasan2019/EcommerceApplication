@@ -206,7 +206,7 @@ const TableList = (props) => {
             const token = await authService.getAccessToken();
             console.log("Token Data here : " + token);
 
-            fetch('Admin/DeletPost', {
+            fetch('Post/DeletPost', {
                 method: 'POST', // or 'PUT'
                 headers: !token ? {} : {
                     'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
@@ -255,7 +255,7 @@ const TableList = (props) => {
             const token = await authService.getAccessToken();
            
 
-            fetch('Admin/ChangePostApproval', {
+            fetch('Post/ChangePostApproval', {
                 method: 'POST', // or 'PUT'
                 headers: !token ? {} : {
                     'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
