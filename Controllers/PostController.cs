@@ -144,6 +144,7 @@ namespace EcommerceApp.Controllers
                 if (ModelState.IsValid)
                 {
                     var users = _context.Users.ToList();
+                    var PostLike = _context.PostLikes.ToList();                  
                     var Comments = await _context.Comments.ToListAsync();
                     var Post = await _context.Post.Where(c => c.Approved == "APPROVED").ToListAsync();
                     return Ok(new { data = Post });
@@ -239,6 +240,136 @@ namespace EcommerceApp.Controllers
             return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
 
         }
+
+
+
+        [HttpPost]
+        [Route("AddLike")]
+        public object AddLike([FromBody] PostLike Like)
+        {
+            
+            int Like_count = 0;
+            int DisLike_count = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    var likeisExist = _context.PostLikes.FirstOrDefault(u => u.PostId == Like.PostId && u.ClientId == UserID);
+                   
+
+                    if (likeisExist is null)
+                    {
+                        var like = new PostLike
+                        {
+                            Like = 1,
+                            PostId = Like.PostId,
+                            ClientId = UserID
+                        };
+                        _context.PostLikes.Add(like);
+                        Like_count = 1; 
+
+                    }
+                    else if(likeisExist.Like == 1)
+                    {
+                        _context.PostLikes.Remove(likeisExist);
+                        Like_count = -1;
+                       
+                       
+                    }
+                    else if (likeisExist.Like == -1)
+                    {
+
+                       
+                        likeisExist.Like = 1;
+                        Like_count = 1;
+                        DisLike_count = -1;
+                    }
+
+
+                    _context.SaveChanges();
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
+            }
+
+                      
+            return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS", 
+                Like_count= Like_count,
+                DisLike_count = DisLike_count
+            });
+
+        }
+
+
+
+        [HttpPost]
+        [Route("AddDisLike")]
+        public object AddDisLike([FromBody] PostLike Like)
+        {
+            int Like_count = 0;
+            int DisLike_count = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    var likeisExist = _context.PostLikes.FirstOrDefault(u => u.PostId == Like.PostId && u.ClientId == UserID);
+                    if (likeisExist is null)
+                    {
+                        var like = new PostLike
+                        {
+                            Like = -1,
+                            PostId = Like.PostId,
+                            ClientId = UserID
+                        };
+                        _context.PostLikes.Add(like);
+                        DisLike_count = 1;
+
+                    }
+                    else if (likeisExist.Like == -1)
+                    {
+                       
+                        _context.PostLikes.Remove(likeisExist);
+                        DisLike_count = -1;
+                        
+
+                    }
+                    else if (likeisExist.Like == 1)
+                    {
+
+                        
+                        likeisExist.Like = -1;
+                        DisLike_count = 1;
+                        Like_count = -1;
+
+                    }
+
+
+                    _context.SaveChanges();
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
+            }
+
+            return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS", 
+                DisLike_count = DisLike_count ,
+                Like_count = Like_count
+            });
+
+        }
+
+
 
 
 

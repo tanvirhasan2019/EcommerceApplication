@@ -20,6 +20,8 @@ namespace EcommerceApp.Models
 
         public List<Comments>? comments { get; set; }
 
+        public List<PostLike>? Likes { get; set; }
+
 
 
     }

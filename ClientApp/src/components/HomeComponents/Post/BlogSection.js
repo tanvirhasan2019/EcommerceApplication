@@ -11,7 +11,8 @@ export default class Blogsection extends Component {
    
     state = {
         redirect: false,
-        Post:[]
+        Post: [],
+        loading: true
     }
     redirectHandler = () => {
         this.setState({ redirect: true })
@@ -32,7 +33,8 @@ export default class Blogsection extends Component {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
-            this.setState({Post:data.data})
+            this.setState({ Post: data.data })
+            this.setState({ loading: false })
             //setResult(data.data)
 
             console.log('after fetch post ', { data })
@@ -60,7 +62,7 @@ export default class Blogsection extends Component {
                         </div>
                     </div>
                     <div className="row">
-                            <PostList value={this.state.Post} />
+                            {!this.state.loading ? <PostList value={this.state.Post} /> : null }   
                     </div>
 
                 </div>
