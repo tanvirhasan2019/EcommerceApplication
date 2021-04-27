@@ -9,6 +9,7 @@ import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import { toaster } from 'evergreen-ui';
 
+
 import { connect } from 'react-redux';
 import { ProductRootData} from '../../../../actions/AdminCreateProduct';
 import authService from '../../../api-authorization/AuthorizeService';
@@ -45,6 +46,14 @@ function getBase64(file) {
     });
 }
 
+
+
+const { Option } = Select
+
+var category = 'GETNTS'
+var subcategory = 'GENTS1'
+
+
 class MenCategory extends Component {
     constructor(props) {
         super(props);
@@ -72,7 +81,7 @@ class MenCategory extends Component {
       
     }
 
- 
+     
    
     async SubmiData() {
 
@@ -166,8 +175,8 @@ class MenCategory extends Component {
                 'description' : Data.Root.user.description,  
                 'quantity': Data.Root.user.quantity,
                 'price': Data.Root.user.price, 
-                'category': "GENTS",
-                'subcategory': Data.Root.user.subcategory, 
+                'category': category,
+                'subcategory': subcategory, 
                 'Img': ProductImage
             }), 
         })
@@ -207,7 +216,78 @@ class MenCategory extends Component {
                 <div className="header-text">
                     GENTS ITEM
                 </div>
-               
+
+
+                <Form.Item
+
+                    name={['user', 'category']}
+                    label="Category"
+
+                    rules={[
+                        {
+                            required: true,
+                        },
+                    ]}
+                >
+
+                    <Select
+                        showSearch
+                       
+                        placeholder="Select a category"
+                        optionFilterProp="children"
+                        onChange={onChange}
+                        onFocus={onFocus}
+                        onBlur={onBlur}
+                       
+                        onSearch={onSearch}
+                        filterOption={(input, option) =>
+                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                    >
+                        <Option value="GENTS">GENTS</Option>
+                        <Option value="KIDS">KIDS</Option>
+                        <Option value="LADIES">LADIES</Option>
+                        <Option value="STATIONARY">STATIONARY</Option>
+                        
+                    </Select>
+                </Form.Item>
+
+
+                <Form.Item
+
+                    name={['user', 'subcategory']}
+                    label="Sub Category"
+
+                    rules={[
+                        {
+                            required: true,
+                        },
+                    ]}
+                >
+
+                    <Select
+                        showSearch
+                        
+                        placeholder="Select a subcategory"
+                        optionFilterProp="children"
+                        onChange={onChangeSub}
+                        onFocus={onFocus}
+                        onBlur={onBlur}
+                       
+                        onSearch={onSearch}
+                        filterOption={(input, option) =>
+                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                    >
+                        <Option value="GENTS1">GENTS1</Option>
+                        <Option value="KIDS1">KIDS1</Option>
+                        <Option value="LADIES1">LADIES1</Option>
+                        <Option value="STATIONARY1">STATIONARY1</Option>
+
+                    </Select>
+                </Form.Item>
+
+
                 <Form.Item
 
                     name={['user', 'title']}
@@ -222,19 +302,7 @@ class MenCategory extends Component {
                  <Input />
                 </Form.Item>
 
-                <Form.Item
-
-                    name={['user', 'subcategory']}
-                    label="Sub-Category"
-
-                    rules={[
-                        {
-                            required: true,
-                        },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
+               
 
                 <Form.Item name={['user', 'description']} label="DESCRIPTION"
 
@@ -284,8 +352,7 @@ class MenCategory extends Component {
                         showArrow
                         tagRender={tagRenderColor}
                         defaultValue={['silver']}
-                        className="selection-options"
-                        
+                        className="selection-options"                       
                         options={options_color}
                        
                     />
@@ -340,10 +407,34 @@ function tagRenderColor(props) {
     );
 }
 
+function onChange(value) {
+    console.log(`selected ${value}`);
+    category = value
+}
+
+function onChangeSub(value) {
+    console.log(`selected ${value}`);
+    subcategory =  value
+}
+
+function onBlur() {
+    console.log('blur');
+}
+
+function onFocus() {
+    console.log('focus');
+}
+
+function onSearch(val) {
+    console.log('search:', val);
+}
+
 
 function handleChange(value) {
     console.log(`selected ${value}`);
 }
+
+
 
 const mapStateToProps = (state) => ({
 

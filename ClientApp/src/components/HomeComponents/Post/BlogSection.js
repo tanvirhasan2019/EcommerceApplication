@@ -12,7 +12,10 @@ export default class Blogsection extends Component {
     state = {
         redirect: false,
         Post: [],
-        loading: true
+        loading: true,
+        userid: [],
+        idloading: true,
+        username:''
     }
     redirectHandler = () => {
         this.setState({ redirect: true })
@@ -33,6 +36,8 @@ export default class Blogsection extends Component {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
+            this.populateState();	
+
             this.setState({ Post: data.data })
             this.setState({ loading: false })
             //setResult(data.data)
@@ -40,10 +45,22 @@ export default class Blogsection extends Component {
             console.log('after fetch post ', { data })
             console.log('after fetch state ', this.state.Post)
 
+            
+
         } catch (e) {
             console.log('ERROR CALLED')
         }
 
+    }
+
+    async populateState() {
+
+        const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()])
+        console.log('user data', { user })
+        this.setState({
+            userid: user.sub,
+            username: user.name
+        }, () => { this.setState({ idloading: false }) });
     }
 
    
@@ -61,8 +78,9 @@ export default class Blogsection extends Component {
                                 className="form-control" id="floatingInput" placeholder="Whats on your mind ??" />
                         </div>
                     </div>
-                    <div className="row">
-                            {!this.state.loading ? <PostList value={this.state.Post} /> : null }   
+                        <div className="row d-flex align-self-center justify-content-center" style={{width:'100%'}}>
+                            {!this.state.loading && !this.state.idloading ?
+                                <PostList userid={this.state.userid} value={this.state.Post} username={this.state.username}/> : null}   
                     </div>
 
                 </div>

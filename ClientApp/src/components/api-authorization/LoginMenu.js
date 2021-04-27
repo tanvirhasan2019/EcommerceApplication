@@ -42,8 +42,6 @@ import { Dropdown, Icon } from 'semantic-ui-react'
 
        
 
-
-
         if (!isAuthenticated) {
             const registerPath = `${ApplicationPaths.Register}`;
             const loginPath = `${ApplicationPaths.Login}`;

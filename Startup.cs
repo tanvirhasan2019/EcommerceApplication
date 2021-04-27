@@ -11,6 +11,8 @@ using EcommerceApp.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using AutoMapper;
 
 namespace EcommerceApp
 {
@@ -43,8 +45,27 @@ namespace EcommerceApp
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
+            // services.AddAutoMapper(typeof(Startup));
+             //services.AddAutoMapper();
+
+            // MAPPING
+         /*   var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddMvc(); */
+
+            //services.AddAutoMapper(typeof(MappingProfile));
+          //  services.AddAutoMapper(System.Reflection.Assembly.GetExecutingAssembly());
+            //
+
+
             services.AddControllersWithViews();
             services.AddRazorPages();
+            
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

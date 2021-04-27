@@ -4,14 +4,16 @@ using EcommerceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210422140009_message-model-add")]
+    partial class messagemodeladd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,20 +142,25 @@ namespace EcommerceApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("FromId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Messages")
+                    b.Property<string>("ClientFromMessageId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ToId")
+                    b.Property<string>("ClientId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClientToMessageId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Messages")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MessageId");
 
-                    b.HasIndex("FromId");
-
-                    b.HasIndex("ToId");
+                    b.HasIndex("ClientId");
 
                     b.ToTable("Messages");
                 });
@@ -604,13 +611,11 @@ namespace EcommerceApp.Migrations
 
             modelBuilder.Entity("EcommerceApp.Models.Message", b =>
                 {
-                    b.HasOne("EcommerceApp.Models.ApplicationUser", "From")
+                    b.HasOne("EcommerceApp.Models.ApplicationUser", "Client")
                         .WithMany()
-                        .HasForeignKey("FromId");
-
-                    b.HasOne("EcommerceApp.Models.ApplicationUser", "To")
-                        .WithMany()
-                        .HasForeignKey("ToId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EcommerceApp.Models.OrderDetails", b =>

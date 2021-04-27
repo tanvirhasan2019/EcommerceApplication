@@ -7,6 +7,8 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import { toaster } from 'evergreen-ui';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
+import { Typography } from '@material-ui/core';
+
 import Demo from '../customize_product/DateTimeComponent/Demo';
 
 export default class FullScreenDrawer extends React.Component {
@@ -47,12 +49,18 @@ export default class FullScreenDrawer extends React.Component {
                     </Drawer.Header>
                     <Drawer.Body>
                         <div className="container">
-                                 <div className="row">
-                                {this.props.data.postId}
+                            <div className="row d-flex justify-content-center">
+                                <Typography variant="h5" component="h5">
+                                    post id : &nbsp; {this.props.data.postId}
+                                 </Typography>
+                                
                              </div>
 
-                              <div className="row">
-                                {this.props.data.client.userName} 
+                            <div className="row d-flex justify-content-center">
+                                <Typography variant="h5" component="h5">
+                                    user : &nbsp; {this.props.data.client.userName} 
+                                </Typography>
+                                
                              </div>
 
                             <div className="row">

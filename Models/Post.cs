@@ -9,20 +9,20 @@ namespace EcommerceApp.Models
     {
         public int PostId { get; set; }
         
-        public DateTime DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
         public string? PostContent { get; set; }
 
         public string? ClientId { get; set; }
 
         //APPROVED = 0(NOT APPROVALL)  AND 1 FOR PUBLIC
         public string? Approved { get; set; } // PENDING APPROVED
-        public ApplicationUser? Client { get; set; }
+        public ApplicationUser? Client { get; set; } 
 
-        public List<Comments>? comments { get; set; }
+      //  public UserCustomcs? userCustomcs { get; set; }
 
-        public List<PostLike>? Likes { get; set; }
+        public IEnumerable<Comments>? comments { get; set; }
 
-
-
+        public IEnumerable<PostLike>? Likes { get; set; }
+     
     }
 }

@@ -41,14 +41,15 @@ export default class Commentbox extends Component {
             this.props.comments.map(item => {
 
                 var time = item.dateTime;
+                const dateTimeAgo = moment(time).fromNow();
 
                 comments.push(
                                       
                         {
-                            author: 'Han Solo',
+                            author: item.client.userName,
                             avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
                             content: <p>{item.commentContent}</p>,
-                            datetime: time,
+                            datetime: dateTimeAgo,
                         }
                    
                 )
@@ -88,7 +89,7 @@ export default class Commentbox extends Component {
                 comments: [
                     ...this.state.comments,
                     {
-                        author: 'Han Solo',
+                        author:  this.props.username,
                         avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
                         content: <p>{this.state.value}</p>,
                         datetime: moment().fromNow(),
@@ -107,6 +108,7 @@ export default class Commentbox extends Component {
         console.log('POST ID', this.props.postid);
         console.log('content', data[index].content.props.children);
         const token = await authService.getAccessToken();
+        console.log(token)
 
         fetch('Post/AddComment', {
            method: 'POST', // or 'PUT'
@@ -124,7 +126,7 @@ export default class Commentbox extends Component {
            .then(response => response.json())
            .then(Response => {
                // this.setState({ value:null })
-
+               this.props.commentSizeIncrease()
 
            })
            .catch((error) => {

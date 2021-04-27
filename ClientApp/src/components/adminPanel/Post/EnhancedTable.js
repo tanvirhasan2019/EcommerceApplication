@@ -199,7 +199,7 @@ const EnhancedTable = ({
         Object.keys(selectedRowIds).map(index => {
 
           
-            id_list.push(data[index].orderid)
+            id_list.push(data[index].postId)
 
         })
         if (id_list) {  
@@ -240,8 +240,8 @@ const EnhancedTable = ({
 
                                 onClose();
 
-                                fetch('Admin/DeleteOrderItems', {
-                                    method: 'POST', // or 'PUT'
+                                fetch('Post/DeleteMultiplePost', {
+                                    method: 'DELETE', // or 'PUT'
                                     headers: !token ? {} : {
 
                                         'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
@@ -256,15 +256,25 @@ const EnhancedTable = ({
                                 })
                                     .then(response => response.json())
                                     .then(Response => {
-                                        toaster.success(
-                                            '' + Response.status
-                                        )
-                                        console.log('Success:', Response);
+
+                                        var statusCode = Response.statusCode ? Response.statusCode : 400;
+
+                                        if (statusCode) {
+                                            toaster.success(
+                                                'POSTS DELETED SUCEESFULLY'
+                                            )
+
+                                        } else {
+                                            toaster.danger(
+                                                'Something went wrong trying to create your audience'
+                                            )
+                                        }
+                                       
 
                                     })
                                     .catch((error) => {
 
-                                        console.error('Error:', error);
+                                       
                                         toaster.danger(
                                             'Something went wrong trying to create your audience'
                                         )
