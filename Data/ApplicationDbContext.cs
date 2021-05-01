@@ -30,5 +30,7 @@ namespace EcommerceApp.Data
         public DbSet<PostLike> PostLikes { get; set; }
         public DbSet<Message> Messages { get; set; }
 
+        public DbSet<ChatTable> ChatTables { get; set; }
+
     }
 }

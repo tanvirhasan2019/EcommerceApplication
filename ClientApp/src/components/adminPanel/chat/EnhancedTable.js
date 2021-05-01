@@ -34,8 +34,6 @@ import {
   useTable,
 } from 'react-table'
 
-
-
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
     const defaultRef = React.useRef()

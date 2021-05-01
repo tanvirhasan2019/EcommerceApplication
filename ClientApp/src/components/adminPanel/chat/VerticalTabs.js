@@ -14,7 +14,6 @@ import KidsCategory from '../adminPanel/UploadProduct/Categories/KidsCategory';
 import ElectronicsCategory from '../adminPanel/UploadProduct/Categories/ElectronicsCategory';
 import ProductTable from './customize_product/ProductTable'
 import PostTable from './Post/PostTable'
-import ChatTable from './chat/ChatTable'
 
 import OrderItem from '../adminPanel/customize_product/OrderItem/OrderItem'
 
@@ -112,7 +111,7 @@ export default function VerticalTabs() {
                 <PostTable />
       </TabPanel>
             <TabPanel value={value} index={4}>
-                <ChatTable />
+                Item Five
       </TabPanel>
             <TabPanel value={value} index={5}>
                 Item Six

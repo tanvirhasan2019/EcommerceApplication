@@ -65,7 +65,9 @@ namespace EcommerceApp
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-            
+            services.AddSignalR();
+
+
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -104,6 +106,7 @@ namespace EcommerceApp
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<SignalRService>("/signalrServer");
             });
 
             app.UseSpa(spa =>

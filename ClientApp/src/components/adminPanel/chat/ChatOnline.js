@@ -1,7 +1,6 @@
 ﻿import React, { useState, useEffect, useRef, useCallback , Component } from 'react';
-import authService from '../components/api-authorization/AuthorizeService';
+import authService from '../../api-authorization/AuthorizeService';
 import * as SignalR from '@aspnet/signalr';
-
 import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.css';
@@ -20,81 +19,138 @@ export default class ChatOnline extends Component {
 
     constructor(props) {
         super(props);
+        console.log('CHAT DATA ', this.props)
+        console.log('USER ID CHAT  ', this.props.data.data.user.id)
 
-      
-       
+        var messageSet = [
+
+            {
+                text: 'you joined the conversation',
+                timestamp: 1578366389250,
+                type: 'notification',
+            },
+
+            {
+                author: {
+                    username: 'Admin', id: 1,
+                    avatarUrl: avatarAdmin
+                },
+                text: 'HELLOW SIR, WELCOME TO TANSHEN TECHNOLOGY',
+                type: 'text',
+                timestamp: 1578366425250,
+
+            },
+
+        ]
+
+
+        //var uid = this.props.data.chatData.data.user.id
+        var uid = this.props.data.data.user.id
+       // var userName = this.props.data.chatData.data.userName
+        var userName = this.props.data.data.user.userName
+        console.log('User Name ', userName)
+
+       // this.props.data.chatData.data.messages.map(item => {
+        this.props.data.data.messages.map(item => {
+            if (item.user.id == uid) {
+
+                var msg1 = {
+
+                    author: {
+                        username: userName, id: 2,
+                        avatarUrl: avatarUser
+                    },
+                    text:  item.messages,
+                    type: 'text',
+                    timestamp: 1578366425250,
+
+                }
+
+                messageSet.push(msg1);
+            }        
+            else {
+
+               
+                var msg2 = {
+
+                    author : {
+                        username: 'Admin', id: 1,
+
+                        avatarUrl: avatarAdmin
+                    },
+                    text: item.messages,
+                    type: 'text',
+                    timestamp: 1578366425250,
+
+                }
+
+                messageSet.push(msg2);
+            }
+            
+            
+        })
+
+
         this.state = {
-
-           isAuthenticated: false,
-           chatLoaded : false ,
-           user : null,
            hubConnection:null,
             attr: {
-                showChatbox: false,
-                showIcon: true,
-                messages: []
+
+                showChatbox: true,
+                showIcon: false,
+                messages: messageSet,
+                    
+
+                
             }
         };
     }
 
-    //const toastBC = useRef(null);   
-
-   /*  showError = () => {
-        toastBC.current.show({ severity: 'error', summary: 'PLease login first', detail: 'Chat is available for logged in user', life: 3000 });
-    } */
-
    
 
+    //const toastBC = useRef(null);   
+
+    /* showError = () => {
+        toastBC.current.show({ severity: 'error', summary: 'PLease login first', detail: 'Chat is available for logged in user', life: 3000 });
+    } */
     handleClickIcon = () => {
         // toggle showChatbox and showIcon
-        var showChatbox1 = !this.state.attr.showChatbox
-        var showIcon1 = !this.state.attr.showIcon
-        if (this.props.login == true) {
-            this.setState({
-                attr :
-                {
-                    ...this.state.attr,
-                    showChatbox : showChatbox1,
-                    showIcon : showIcon1
-                }
-            });
-        } else {
+       
 
-            // showError()
-
-        }
-
+        this.props.handleCloseChat()
+       
+         
+        
 
     };
+
     handleOnSendMessage = async (message) => {
 
         console.log('Messages ', message)
+
         this.setState({
             attr: {
                 ...this.state.attr,
                 messages: this.state.attr.messages.concat({
                     author: {
-                        username: 'You',
+                        username: 'Admin',
                         id: 1,
-                        avatarUrl: avatarUser ,
+                        avatarUrl: avatarAdmin,
                     },
                     text: message,
                     type: 'text',
                     timestamp: +new Date(),
-                })} }) 
-      
+                })
+            }
+        })
 
-
-
-        // API REQUEST FOR STORING DATA
         const token = await authService.getAccessToken();
-      //  console.log("Token is  : " + token);
+      
 
         if (!token) {
             // setError(true)
         } else {
 
-            fetch('Chat/CreateChat', {
+            fetch('Chat/AdminCreateChat', {
                 method: 'POST', // or 'PUT'
                 headers: !token ? {} : {
                     'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
@@ -102,7 +158,8 @@ export default class ChatOnline extends Component {
 
                 body: JSON.stringify({
 
-                    'Messages': message
+                    'Messages': message,
+                    'UserId': this.props.data.data.user.id
 
 
                 }),
@@ -110,7 +167,7 @@ export default class ChatOnline extends Component {
                 .then(response => response.json())
                 .then(Response => {
                     // this.setState({ value:null })
-
+                    console.log('Response ', Response)
 
                 })
                 .catch((error) => {
@@ -126,136 +183,34 @@ export default class ChatOnline extends Component {
     componentDidMount = async () => {
 
 
-        if (this.state.chatLoaded == false) {
+        console.log('ComponentDidMount Called')
+        //console.log("USER ID STRING FOR CONN  ${this.props.data.data.user.id}")
+       
 
-              var messageSet = [
-
-                    {
-                        text: 'you joined the conversation',
-                        timestamp: 1578366389250,
-                        type: 'notification',
-                    },
-
-                    {
-                        author: {
-                            username: 'Admin', id: 2,
-
-                            avatarUrl: avatarAdmin
-                        },
-                        text: 'HELLOW SIR, WELCOME TO TANSHEN TECHNOLOGY',
-                        type: 'text',
-                        timestamp: 1578366425250,
-
-                    },
-
-                ]
-
-
-
-            try {
-
-                const token = await authService.getAccessToken()
-                console.log('Token from chat home ', token)
-                const response = await fetch('Chat/GetUserChatMessage', {
-                    headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await response.json();
-                this.setState({ Chat: data.data })
-                this.setState({ chatLoaded: true })
-
-                console.log('after fetch Chat List from home chat ', { data })
-
-              
-                var uid = this.props.id
-
-                console.log('MSG 1 ', data.data)
-                if(data.data){
-                    data.data.map(item =>{
-                        console.log('ITEM ', item)
-                        item.messages.map(item2 =>{
-
-                        if (item2.userId == uid) {
-                            
-                            var msg1 = {
-
-                                author: {
-                                    username: 'You', id: 1,
-                                    avatarUrl: avatarUser
-                                },
-                                text:  item2.messages,
-                                type: 'text',
-                                timestamp: 1578366425250,
-
-                            }
-
-                            messageSet.push(msg1);
-                        }        
-                        else {
-
-               
-                            var msg2 = {
-
-                                author : {
-                                    username: 'Admin', id: 2,
-
-                                    avatarUrl: avatarAdmin
-                                },
-                                text: item2.messages,
-                                type: 'text',
-                                timestamp: 1578366425250,
-
-                            }
-
-                            messageSet.push(msg2);
-                        }
-
-                        })
-
-                    })
-
-                 this.setState({
-                        attr :
-                        {
-                            ...this.state.attr,
-                            messages : messageSet
-                        }
-                    });
-                 }
-
-              }catch(Exception){
-                console.log('ERROR CALLED')
-                
-              }
-
-          }
-
-
-      
         const hubConnection = new SignalR.HubConnectionBuilder()
-             .withUrl("https://localhost:44317/signalrServer")
+            .withUrl("https://localhost:44317/signalrServer")
             .configureLogging(SignalR.LogLevel.Information)
             .build();
 
-        this.setState({ hubConnection}, () => {
+        this.setState({ hubConnection }, () => {
             this.state.hubConnection
                 .start()
                 .then(() => console.log('Connection started!'))
                 .catch(err => console.log('Error while establishing connection :('));
-           // var connection = "connection" + this.state.user;
-            var connection = "connection" + this.props.id;
-            this.state.hubConnection.on(connection, (sendCode , message)=> {
+            var connection = "connection" + this.props.data.data.user.id;
+            this.state.hubConnection.on(connection, (sendCode , message) => {
 
                 console.log('SignalR Response')
-                console.log('message from SERVER ', message)
-                if (sendCode == 2) {
+                console.log('message from server ', message)
+                if (sendCode == 1) {
                     this.setState({
                         attr: {
                             ...this.state.attr,
                             messages: this.state.attr.messages.concat({
                                 author: {
-                                    username: 'Admin',
+                                    username: this.props.data.data.user.userName,
                                     id: 2,
-                                    avatarUrl: avatarAdmin,
+                                    avatarUrl: avatarUser,
                                 },
                                 text: message,
                                 type: 'text',
@@ -263,26 +218,24 @@ export default class ChatOnline extends Component {
                             })
                         }
                     })
-
                 }
-                
+               
+
 
             });
 
 
         }) 
 
-
+               
       
     }
 
-  
-   
 
 
     render() {
 
-        console.log('User id from chaOnline', this.props.id)
+
 
         return (
             <>
@@ -298,8 +251,8 @@ export default class ChatOnline extends Component {
                             width={'300px'}
                             showTypingIndicator={true}
                             activeAuthor={{
-                                username: 'You', id: 1,
-                                avatarUrl: avatarUser
+                                username: 'Admin', id: 1,
+                                avatarUrl: avatarAdmin
                             }}
                         />
                     }

@@ -29,7 +29,11 @@ export class Home extends Component {
         title: '',
         cartSize: 0, 
         activePage: 1,
-        isLogin : false
+        isLogin: false,
+        isAuthenticated: false,
+        userid: null,
+        userName: null,
+        
     }
     handleTitleChange = event => {
         this.setState({
@@ -59,25 +63,30 @@ export class Home extends Component {
        
     }
 
+    async componentDidMount() {
 
-    componentDidMount() {
-        
+        this._subscription = authService.subscribe(() => this.populateState());
         this.populateState();
+
+        
     }
 
-   
+    componentWillUnmount() {
+        authService.unsubscribe(this._subscription);
+    }
 
     async populateState() {
-        const token = await authService.getAccessToken()
-        if (token) {
-            this.setState({
-                isLogin: true
-
-            });
-        }
+        const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()])
+       
+        this.setState({
+            isAuthenticated,
+            userName: user && user.name,
+            userid: user && user.sub
+        });
+      
         
-    } 
-
+    }
+  
 
     render() {
        
@@ -85,6 +94,7 @@ export class Home extends Component {
         //localStorage.removeItem('cart');
         //var Total_product = 0;
         var data1 = 0
+       
        
 
         return (
@@ -140,7 +150,7 @@ export class Home extends Component {
                   <FooterLayout />
                 </div>
 
-                <ChatOnline login={this.state.isLogin} />
+                <ChatOnline  login={this.state.isAuthenticated} id={this.state.userid} />
             </Layout>
         
     );

@@ -4,14 +4,16 @@ using EcommerceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210427184721_message-date-add")]
+    partial class messagedateadd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,28 +86,6 @@ namespace EcommerceApp.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("EcommerceApp.Models.ChatTable", b =>
-                {
-                    b.Property<int>("ChatTableId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ChatTableId");
-
-                    b.HasIndex("AdminId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ChatTables");
-                });
-
             modelBuilder.Entity("EcommerceApp.Models.ClientOrder", b =>
                 {
                     b.Property<int>("Orderid")
@@ -162,23 +142,23 @@ namespace EcommerceApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ChatTableId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("FromId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Messages")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("ToId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("MessageId");
 
-                    b.HasIndex("ChatTableId");
+                    b.HasIndex("FromId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ToId");
 
                     b.ToTable("Messages");
                 });
@@ -614,17 +594,6 @@ namespace EcommerceApp.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("EcommerceApp.Models.ChatTable", b =>
-                {
-                    b.HasOne("EcommerceApp.Models.ApplicationUser", "Admin")
-                        .WithMany()
-                        .HasForeignKey("AdminId");
-
-                    b.HasOne("EcommerceApp.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("EcommerceApp.Models.Comments", b =>
                 {
                     b.HasOne("EcommerceApp.Models.ApplicationUser", "Client")
@@ -640,15 +609,13 @@ namespace EcommerceApp.Migrations
 
             modelBuilder.Entity("EcommerceApp.Models.Message", b =>
                 {
-                    b.HasOne("EcommerceApp.Models.ChatTable", "ChatTable")
-                        .WithMany("Messages")
-                        .HasForeignKey("ChatTableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EcommerceApp.Models.ApplicationUser", "User")
+                    b.HasOne("EcommerceApp.Models.ApplicationUser", "From")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("FromId");
+
+                    b.HasOne("EcommerceApp.Models.ApplicationUser", "To")
+                        .WithMany()
+                        .HasForeignKey("ToId");
                 });
 
             modelBuilder.Entity("EcommerceApp.Models.OrderDetails", b =>
