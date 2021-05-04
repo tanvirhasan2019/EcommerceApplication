@@ -73,7 +73,7 @@ async componentDidMount() {
             <div className="upload-product-background">
 
                 <div className="d-flex justify-content-center header-txt-items">
-                    ALL POST
+                    ALL CHAT
             </div>
 
                 <div className="row" style={{ marginTop: '20px' }}>

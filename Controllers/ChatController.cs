@@ -90,27 +90,34 @@ namespace EcommerceApp.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    var mapper = InitializeAutomapper();
-                    var Message = await _context.ChatTables
-                         .Include(x => x.User)
-                         .Include(x => x.Admin)
-                         .Where(x=>x.UserId == UserID)                     
-                         .ProjectTo<ChatTableDto>(mapper.ConfigurationProvider).ToListAsync();
 
-
-                    static Mapper InitializeAutomapper()
+                   
+                    if(User.FindFirst(ClaimTypes.NameIdentifier).Value != null)
                     {
-                        var config = new MapperConfiguration(cfg => {
-                            cfg.CreateMap<ApplicationUser, UserCustomcs>();
-                            cfg.CreateMap<ChatTable, ChatTableDto>();
+                        var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                        var mapper = InitializeAutomapper();
+                        var Message = await _context.ChatTables
+                             .Include(x => x.User)
+                             .Include(x => x.Admin)
+                             .Where(x => x.UserId == UserID)
+                             .ProjectTo<ChatTableDto>(mapper.ConfigurationProvider).ToListAsync();
 
-                        });
-                        var mapper = new Mapper(config);
-                        return mapper;
+
+                        static Mapper InitializeAutomapper()
+                        {
+                            var config = new MapperConfiguration(cfg => {
+                                cfg.CreateMap<ApplicationUser, UserCustomcs>();
+                                cfg.CreateMap<ChatTable, ChatTableDto>();
+
+                            });
+                            var mapper = new Mapper(config);
+                            return mapper;
+                        }
+
+                        return Ok(new { data = Message });
                     }
-
-                    return Ok(new { data = Message } );
+                    
+                   
                 }
 
             }
@@ -129,27 +136,105 @@ namespace EcommerceApp.Controllers
 
         [HttpDelete]
         [Route("DeleteUserChatMessage")]
-        public async Task<IActionResult> DeleteUserChatMessage(Message message)
+        public async Task<IActionResult> DeleteUserChatMessage(ChatTable chat)
         {
+            var statusCode = 400;
             try
             {
 
                 if (ModelState.IsValid)
                 {
-                    var users = await _context.Users.ToListAsync();
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    if (UserID != null)
+                    {
+                        var Chat = await _context.ChatTables.Where(x => x.ChatTableId == chat.ChatTableId).FirstOrDefaultAsync();
+                        _context.ChatTables.Remove(Chat);
+                        await _context.SaveChangesAsync();
 
-                    return Ok("");
+                        statusCode = 200;
+                    }
+                    else{
+                        statusCode = 500;
+                    }
+                  
+
+                    return Ok(new { status = "SUCCESS" , statusCode = statusCode});
                 }
 
             }
             catch (Exception)
             {
-                return Ok(new { status = "FAILED" });
+                return Ok(new { status = "FAILED" , statusCode = statusCode });
             }
 
-            return Ok(new { status = "SUCCESS" });
+            return Ok(new { status = "SUCCESS" , statusCode = statusCode });
 
         }
+
+
+
+        // ADMIN
+        // DELETE MULTIPLE POST ID
+
+        [HttpDelete]
+        [Route("DeleteMultipleUserMessage")]
+        public async Task<IActionResult> DeleteMultipleUserMessage([FromBody] MultiplChatId Chat)
+        {
+            var statusCode = 400;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    if (UserID != null)
+                    {
+                        var size = 0;
+                        if (Chat.chat == null)
+                        {
+                            size = 0;
+                        }
+                        else
+                        {
+                            size = Chat.chat.Count;
+                        }
+                        for (int i = 0; i <size; i++)
+                        {
+                            var Chat2 = await _context.ChatTables
+                                               .Where(x => x.ChatTableId == Chat.chat[i])
+                                               .FirstOrDefaultAsync();
+                                             
+
+                             _context.ChatTables.Remove(Chat2);
+
+
+                        }
+
+                        await  _context.SaveChangesAsync();
+                        statusCode = 200;
+                    }
+                    else
+                    {
+                        statusCode = 500;
+                    }
+
+
+
+
+                }
+            }
+            catch (Exception)
+            {
+
+                statusCode = 400;
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED", statusCode = statusCode });
+
+
+            }
+
+            return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS", statusCode = statusCode });
+        }
+
+
 
 
 
@@ -169,8 +254,10 @@ namespace EcommerceApp.Controllers
 
                     // await _SignalRHub.Clients.All.SendAsync("LoadMessages", message.Messages);
                     var connection = "connection" + UserID;
+                    var Adminconnection = "AdminTableConnection";
                     var sendCode = 1;
-                    await _SignalRHub.Clients.All.SendAsync(connection, sendCode , message.Messages);
+                    await _SignalRHub.Clients.All.SendAsync(connection, sendCode, message.Messages);
+                    await _SignalRHub.Clients.All.SendAsync(Adminconnection, sendCode, message.Messages, UserID);
 
                     if (UserID != null)
                     {
@@ -345,4 +432,12 @@ namespace EcommerceApp.Controllers
 
 
     }
+
+
+    public class MultiplChatId
+    {
+        public virtual List<int> chat { get; set; }
+
+    }
+
 }

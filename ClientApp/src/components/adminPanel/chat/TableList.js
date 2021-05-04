@@ -1,17 +1,19 @@
-﻿import React, { useEffect, useState} from 'react'
+﻿import React, { useEffect, useState, useCallback} from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import EnhancedTable from './EnhancedTable'
 import { toaster } from 'evergreen-ui'
 import { confirmAlert } from 'react-confirm-alert';
+import * as SignalR from '@aspnet/signalr';
+import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import authService from '../../api-authorization/AuthorizeService';
+
 import { Link } from 'react-router-dom';
 //import Demo from '../DateTimeComponent/Demo';
 import { confirm } from '../../ShowDialog/Confirmation';
-import { DrawerItem } from './DrawerItem';
-import  FullScreenDrawer  from './FullScreenDrawer';
-import ChatOnline from './ChatOnline';
 
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+
+import ChatOnline from './ChatOnline';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,6 +22,7 @@ import Icon from '@material-ui/core/Icon';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 
+import ChatTableLiveUpdate from './ChatTableLiveUpdate'
 
 //import Demo from '../DateTimeComponent/Demo';
 import Demo from '../customize_product/DateTimeComponent/Demo';
@@ -43,8 +46,10 @@ var list_data = []
 const TableList = (props) => {
 
     const classes = useStyles();
-    const [chatopen, setChatopen] = useState(false) 
-    const [chatData, setChatData] = useState([]) 
+    const [chatopen, setChatopen] = useState(false)
+    const [chatData, setChatData] = useState([])
+    const [LiveData, setLiveData] = useState([])
+   
 
     const columns = React.useMemo(
         () => [
@@ -56,7 +61,7 @@ const TableList = (props) => {
             {
                 Header: 'USER NAME',
                 accessor: 'username',
-                
+
 
 
             },
@@ -67,30 +72,30 @@ const TableList = (props) => {
 
 
             },
-            
+
             {
                 Header: 'CHAT NOW',
                 accessor: 'chat',
                 Cell: ({ cell }) => (
-                    <Fab onClick={() => handleOnClickChatNow(cell)} variant="extended" color="secondary" aria-label="add">
-                        <PostAddIcon />
-                         CHAT NOW
+                    <Fab onClick={() => handleOnClickChatNow(cell)} variant="extended" color="primary" aria-label="add">
+                        <WhatsAppIcon />
+                       &nbsp; CHAT NOW
                     </Fab>
                 )
             },
-            
-            
-         
+
+
+
             {
                 Header: 'DELETE',
                 accessor: 'delete',
                 Cell: ({ cell }) => (
                     <Fab onClick={() => handleOnClickDelete(cell)} variant="extended" color="secondary" aria-label="add">
                         <DeleteIcon />
-                       DELETE
+                      &nbsp; DELETE
                     </Fab>
                 )
-               
+
             },
         ],
         []
@@ -103,17 +108,17 @@ const TableList = (props) => {
         console.log('LIST DATA Button pressed ', list_data[cell.row.id])
         setChatData(list_data[cell.row.id])
         setChatopen(true)
-       
+
 
         console.log('ChatBox ', chatopen);
 
 
 
     }
-  
+
     async function handleOnClickDelete(cell) {
 
-        console.log('LIST DATA INSIDE ', list_data[cell.row.id])
+        console.log('LIST DATA shoul be delete ', list_data[cell.row.id])
 
         confirmAlert({
             customUI: ({ onClose }) => {
@@ -160,20 +165,21 @@ const TableList = (props) => {
     const DeleteRowId = async (cell) => {
 
 
+
         if (list_data[cell.row.id]) {
 
-          
+
             const token = await authService.getAccessToken();
             console.log("Token Data here : " + token);
 
-            fetch('Post/DeletPost', {
-                method: 'POST', // or 'PUT'
+            fetch('Chat/DeleteUserChatMessage', {
+                method: 'DELETE', // or 'PUT'
                 headers: !token ? {} : {
                     'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
 
-                    'PostId': list_data[cell.row.id].postId,
+                    'ChatTableId': list_data[cell.row.id].chatid,
 
                 }),
             })
@@ -183,13 +189,19 @@ const TableList = (props) => {
                         '' + Response.status
                     )
                     console.log('Success:', Response);
+                    if (Response.statusCode == 200) {
+                        const newItem = list_data.filter(item => item.chatid != list_data[cell.row.id].chatid)
+                        // setData(makeData(newItem, false, 20))
+                        setData(newItem)
+
+                    }
 
                 })
                 .catch((error) => {
 
                     console.error('Error:', error);
                     toaster.danger(
-                        'Something went wrong trying to create your audience'
+                        'Something went wrong'
                     )
                 });
 
@@ -205,88 +217,42 @@ const TableList = (props) => {
     };
 
 
-    const Approved = async (cell) => {
 
 
-        if (list_data[cell.row.id]) {
-
-            console.log('LIST DATA INSIDE post id ', list_data[cell.row.id].postId)
-
-            const token = await authService.getAccessToken();
-           
-
-            fetch('Post/ChangePostApproval', {
-                method: 'POST', // or 'PUT'
-                headers: !token ? {} : {
-                    'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-
-                    'PostId': list_data[cell.row.id].postId,
-
-                }),
-            })
-                .then(response => response.json())
-                .then(Response => {
-                    toaster.success(
-                        '' + Response.status
-                    )
-                    console.log('Success:', Response);
-
-                })
-                .catch((error) => {
-
-                    console.error('Error:', error);
-                    toaster.danger(
-                        'Something went wrong trying to create your audience'
-                    )
-                });
-
-              
-
-
-            //Delet_request(list_data[cell.row.id].id)
-        } else {
-            //No
-        }
-
-
-    };
-   
     const [data, setData] = React.useState(React.useMemo(() => makeData([], true, 20), []))
 
     useEffect(() => {
 
         list_data = []
-       
-           
+
+
         props.data.map(item => {
 
             console.log('Chat id ', item.chatTableId)
-            var size = item.messages.length ? item.messages.length : -1 ;
+            var size = item.messages.length ? item.messages.length : -1;
             var lastMessage = "No last Message"
-            if(size != -1 && size != 0 ){
-                 lastMessage = item.messages[size-1].messages
+            if (size != -1 && size != 0) {
+                lastMessage = item.messages[size - 1].messages
             }
 
-            
+
             var temp = {
 
-                    chatid : item.chatTableId,
-                    lastmessage: lastMessage,  
-                    username: item.user.userName,
-                    data : item
-                   
-                            
-                    
-                }
-                list_data.push(temp)
+                chatid: item.chatTableId,
+                lastmessage: lastMessage,
+                username: item.user.userName,
+                data: item
 
 
-            })
-       
+
+            }
+            list_data.push(temp)
+
+
+        })
+
         console.log('list data')
-        console.log({list_data})
+        console.log({ list_data })
 
         setData(makeData(list_data, false, 20))
 
@@ -294,9 +260,13 @@ const TableList = (props) => {
     }, []);
 
 
-    const [skipPageReset, setSkipPageReset] = React.useState(false)
 
-   
+
+    
+
+
+
+    const [skipPageReset, setSkipPageReset] = React.useState(false)
     const updateMyData = (rowIndex, columnId, value) => {
        
         setSkipPageReset(true)
@@ -320,6 +290,14 @@ const TableList = (props) => {
         console.log('ChatBox ', chatopen);
     }
 
+
+
+  const ChatData = (LiveData) => {
+
+  console.log('DATA IS from live chat ', {LiveData})
+
+} 
+
     return (
     <>
         <div>
@@ -333,6 +311,7 @@ const TableList = (props) => {
             />
             </div>
             {chatopen ? <ChatOnline data={chatData} handleCloseChat={handleCloseChat} /> : null } 
+            <ChatTableLiveUpdate ChatData={()=> ChatData(LiveData)} />
     </>
     )
 }

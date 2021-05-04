@@ -194,12 +194,13 @@ const EnhancedTable = ({
 
     const deleteUserHandler = event => {
 
-       // DELETE API REQUEST HERE 
+
+        // DELETE API REQUEST HERE
         var id_list = []
         Object.keys(selectedRowIds).map(index => {
 
           
-            id_list.push(data[index].postId)
+            id_list.push(data[index].chatid)
 
         })
         if (id_list) {  
@@ -209,11 +210,10 @@ const EnhancedTable = ({
   }
 
     async function Delet_request_multiple_id(list) {
-
-
-        const token = await authService.getAccessToken();
-        console.log("multiple delete request list data : " + JSON.stringify(list));
-        /////
+ 
+    const token = await authService.getAccessToken();
+      
+       
         confirmAlert({
 
 
@@ -240,7 +240,7 @@ const EnhancedTable = ({
 
                                 onClose();
 
-                                fetch('Post/DeleteMultiplePost', {
+                                fetch('Chat/DeleteMultipleUserMessage', {
                                     method: 'DELETE', // or 'PUT'
                                     headers: !token ? {} : {
 
@@ -248,7 +248,7 @@ const EnhancedTable = ({
                                     },
                                     body: JSON.stringify({
 
-                                        'id': list
+                                        'chat': list
 
                                     }),
 
@@ -259,10 +259,14 @@ const EnhancedTable = ({
 
                                         var statusCode = Response.statusCode ? Response.statusCode : 400;
 
-                                        if (statusCode) {
+                                        if (statusCode ==  200 ) {
                                             toaster.success(
-                                                'POSTS DELETED SUCEESFULLY'
+                                                'MESSAGES DELETED SUCEESFULLY'
                                             )
+
+
+                                            let newItem = data.filter(item => !list.includes(item.chatid));
+                                            setData(newItem)
 
                                         } else {
                                             toaster.danger(
@@ -291,7 +295,7 @@ const EnhancedTable = ({
                     </div>
                 );
             }
-        });
+        }); 
 
 
        
@@ -392,3 +396,79 @@ EnhancedTable.propTypes = {
 }
 
 export default EnhancedTable
+
+
+
+function makeData(list_data, loading, ...lens) {
+
+    if (loading == false) {
+        console.log('Data is now comming', list_data)
+
+        const makeDataLevel = (depth = 0) => {
+            return range(list_data.length).map(d => {
+                return {
+                    ...newPerson(list_data[d]),
+                    subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+
+                }
+            })
+
+        }
+        return makeDataLevel()
+
+    } else {
+
+        const makeDataLevel = (depth = 0) => {
+            return range(0).map(d => {
+                return {
+                    ...newPerson2([]),
+                    subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+
+                }
+            })
+
+        }
+        return makeDataLevel()
+    }
+
+}
+
+
+const range = len => {
+    const arr = []
+    for (let i = 0; i < len; i++) {
+        arr.push(i)
+        console.log('Array i is ', i)
+    }
+    return arr
+
+}
+
+const newPerson = (temp) => {
+
+
+
+    return {
+
+
+        chatid: temp.chatid,
+        lastmessage: temp.lastmessage,
+        username: temp.username
+
+
+    }
+}
+
+const newPerson2 = (temp) => {
+
+    return {
+
+        chatid: '',
+        lastmessage: '',
+        username: ''
+
+
+    }
+}
+
+
