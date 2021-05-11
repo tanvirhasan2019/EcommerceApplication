@@ -446,7 +446,8 @@ export default class PostList extends Component {
 							
 										
 					   
-						<div style={{marginTop:'15px', marginBottom:'10px'}} className="container d-flex justify-content-center" dangerouslySetInnerHTML={{ __html: item.content }} />
+								<div style={{ marginTop: '15px', marginBottom: '10px' }} className="container"
+									dangerouslySetInnerHTML={{ __html: item.content }} />
 						<div className="row d-flex justify-content-center align-self-center" style={{width:'100%'}}>
 							{
 								this.state.showComment && this.state.ChooseId == item.id ? <div className="container">

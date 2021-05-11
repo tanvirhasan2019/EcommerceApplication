@@ -51,7 +51,9 @@ export default class ChatTableLiveUpdate extends Component {
 
                 console.log('SignalR Response')
                 console.log('message from server ', message)
-                this.props.ChatData(message)         
+                console.log('USERID from server ', UserID)
+                var LiveData = { msg: message, id: UserID}
+                this.props.ChatData(LiveData)         
 
             });
 

@@ -366,117 +366,223 @@ namespace EcommerceApp.Controllers
 
 
 
-        /*   [HttpGet]
-           [Route("GetAllpost")]
-           public async Task<IActionResult> GetAllpost()
-           {
-               try
-               {
+        [HttpGet]
+        [Route("GetAllUser")]
+        public async Task<IActionResult> GetAllUser()
+        {
+            var statusCode = 400;
 
-                   if (ModelState.IsValid)
-                   {
-                       var users = _context.Users.ToList();
-                       var Post = await _context.Post.ToListAsync();
-                       return Ok(new { data = Post });
-                   }
+            try
+            {
+               
 
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    if (UserID != null)
+                    {
+                        
+                        var Users = await _context.Users.ToListAsync();
+                        statusCode = 200;
 
-               }
-               catch (Exception)
-               {
-                   return Ok(new { status = "FAILED" });
-               }
-
-               return Ok(new { status = "SUCCESS" });
-
-           }
-
-
-
-
-
-           [HttpPost]
-           [Route("ChangePostApproval")]
-           public object ChangePostApproval([FromBody] Post post)
-           {
-
-               try
-               {
-                   if (ModelState.IsValid)
-                   {
-                       var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                       var Post1 = _context.Post.FirstOrDefault(u => u.PostId == post.PostId);
+                        return Ok(new { data = Users , statusCode = statusCode});
+                    }
+                    else
+                    {
+                        statusCode = 500;
+                    }
+                    
+                   
+                }
 
 
-                       if (Post1 != null)
-                       {
-                           if(Post1.Approved == "PENDING")
-                           {
-                               Post1.Approved = "APPROVED";
-                           }
-                           else
-                           {
-                               Post1.Approved = "PENDING";
-                           }
+            }
+            catch (Exception)
+            {
+               return Ok(new { status = "FAILED" , statusCode= statusCode });
+            }
 
-                           _context.SaveChanges();
-                       }
+          return Ok(new { status = "SUCCESS" , statusCode = statusCode });
 
-
-                   }
-               }
-               catch (Exception)
-               {
-
-
-                   return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
-
-
-               }
-
-               return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" });
-           }
+        }
 
 
 
 
+        [HttpDelete]
+        [Route("LockUser")]
+        public async Task<IActionResult> LockUser([FromBody] UserId id)
+        {
+            var statusCode = 400;
 
-           [HttpPost]
-           [Route("DeletPost")]
-           public object DeletPost([FromBody] Post post)
-           {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-               try
-               {
-                   if (ModelState.IsValid)
-                   {
-                       var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-                       var post1 = _context.Post.FirstOrDefault(u => u.PostId == post.PostId);
-                       _context.Post.Remove(post1);
-                       _context.SaveChanges();
+                    var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id.userid);
 
 
+                    if (user != null)
+                    {
+                        if (user.LockoutEnd != null)
+                        {
+                            
+                            user.LockoutEnd = null;
+                        }
+                        else
+                        {
+                            user.LockoutEnd = DateTime.Now + TimeSpan.FromDays(30);
+                        }
 
-                   }
-               }
-               catch (Exception)
-               {
+                       // user.LockoutEnabled = !user.LockoutEnabled;
+                        _context.SaveChanges();
+                        statusCode = 200;
+                    }
+                    else
+                    {
+                        statusCode = 500;
+                    }
 
 
-                   return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
+                }
+            }
+            catch (Exception)
+            {
 
 
-               }
-               return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" });
-           }
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED", statusCode= statusCode });
 
 
-       } */
+            }
+            return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" , statusCode = statusCode });
+        }
+
+
+        [HttpDelete]
+        [Route("DeleteUser")]
+        public async Task<IActionResult> DeleteUser([FromBody] UserId id)
+        {
+            var statusCode = 400;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                    var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id.userid);
+                    var Posts = await _context.PostLikes.Where(x => x.ClientId == id.userid).ToListAsync();
+
+                    if(Posts != null)
+                    {
+                        foreach(var data in Posts)
+                        {                          
+                            _context.PostLikes.Remove(data);
+                        }
+                    }
+                    
+
+                    if (user != null)
+                    {
+                        _context.Users.Remove(user);
+                        await _context.SaveChangesAsync();
+                        statusCode = 200;
+                    }
+                    else
+                    {
+                        statusCode = 500;
+                    }
+
+
+                }
+            }
+            catch (Exception e)
+            {
+
+
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED", statusCode = statusCode });
+
+
+            }
+            return Ok(new { status = "USER REMOVED SUCCESSFULLY", message = "SUCCESS", statusCode = statusCode });
+        }
+
+
+
+        [HttpDelete]
+        [Route("DeleteUsers")]
+        public async Task<IActionResult> DeleteUsers([FromBody] MultipleUserId users)
+        {
+            var statusCode = 400;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                    for (int i = 0; i < users.id.Count; i++)
+                    {
+                        var user = _context.Users.Where(u => u.Id == users.id[i]);
+
+                        var Posts = await _context.PostLikes.Where(x => x.ClientId == users.id[i]).ToListAsync();
+
+                        if (Posts != null)
+                        {
+                            foreach (var data in Posts)
+                            {
+                                _context.PostLikes.Remove(data);
+                            }
+                        }
+
+                        foreach (var data in user)
+                        {
+                            var x = data;
+                            _context.Users.Remove(data);
+                        }
+
+                    }
+                    
+                    await _context.SaveChangesAsync();
+                    statusCode = 200;
+
+
+                }
+                else
+                {
+                    statusCode = 500;
+                }
+            }
+            catch (Exception e)
+            {
+
+                statusCode = 400;
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED", statusCode = statusCode });
+
+
+            }
+            return Ok(new { status = "USERS REMOVED SUCCESSFULLY", message = "SUCCESS", statusCode = statusCode });
+        }
+
+
+
+
 
 
 
         // DATA BINDING FOR LIST OF PRODUCT ID
+
+        public class UserId {
+            public string  userid { get; set; }
+        }
+        public class MultipleUserId
+        {
+            public virtual List<string> id { get; set; }
+
+
+        }
 
         public class MultipleProductId
         {

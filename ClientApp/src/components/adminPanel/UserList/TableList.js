@@ -1,19 +1,17 @@
-﻿import React, { useEffect, useState, useCallback} from 'react'
+﻿import React, { useEffect } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import EnhancedTable from './EnhancedTable'
 import { toaster } from 'evergreen-ui'
 import { confirmAlert } from 'react-confirm-alert';
-import * as SignalR from '@aspnet/signalr';
-import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
-import authService from '../../api-authorization/AuthorizeService';
 
+import authService from '../../api-authorization/AuthorizeService'
 import { Link } from 'react-router-dom';
 //import Demo from '../DateTimeComponent/Demo';
 import { confirm } from '../../ShowDialog/Confirmation';
+import { DrawerItem } from './DrawerItem';
+import  FullScreenDrawer  from './FullScreenDrawer';
 
-
-import ChatOnline from './ChatOnline';
-import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,8 +19,13 @@ import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PostAddIcon from '@material-ui/icons/PostAdd';
+import { Typography } from '@material-ui/core';
+import EmailIcon from '@material-ui/icons/Email';
 
-import ChatTableLiveUpdate from './ChatTableLiveUpdate'
+import Blushing from '../../../images/blushing.gif'
+import Mail from '../../../images/gmail.gif'
+import Phone from '../../../images/phone-ringing.gif'
+
 
 //import Demo from '../DateTimeComponent/Demo';
 import Demo from '../customize_product/DateTimeComponent/Demo';
@@ -46,79 +49,87 @@ var list_data = []
 const TableList = (props) => {
 
     const classes = useStyles();
-    const [chatopen, setChatopen] = useState(false)
-    const [chatData, setChatData] = useState([])
-    const [LiveData, setLiveData] = useState(null)
-   
 
     const columns = React.useMemo(
         () => [
             {
-                Header: 'CHAT ID',
-                accessor: 'chatid',
 
+                Header: () => <Typography component="h5" variant="h5">
+                               <img src={Blushing} width="25" height="25" />
+                               &nbsp; USER ID
+                             </Typography>,
+                accessor: 'userid', 
+              
             },
-            {
-                Header: 'USER NAME',
-                accessor: 'username',
-
-
-
-            },
-            {
-                Header: 'LAST MESSAGE',
-                accessor: 'lastmessage',
-
-
-
-            },
+            
 
             {
-                Header: 'CHAT NOW',
-                accessor: 'chat',
+                Header: () => <Typography component="h5" variant="h5">
+                              <img  src={Mail} width="25" height="25" />
+                               &nbsp; EMAIL
+                             </Typography>,
+                accessor: 'useremail',
                 Cell: ({ cell }) => (
-                    <Fab onClick={() => handleOnClickChatNow(cell)} variant="extended" color="primary" aria-label="add">
-                        <WhatsAppIcon />
-                       &nbsp; CHAT NOW
+
+                    <Fab  variant="extended" color="secondary" >
+
+                        <Typography style={{ color: 'white', textTransform: 'none' }} variant="body1">                          
+                            {cell.row.values.useremail}
+                         </Typography>
+                                                              
                     </Fab>
+
+                    
                 )
+
             },
 
 
-
             {
-                Header: 'DELETE',
+                Header: () => <Typography component="h5" variant="h5">
+                               <img  src={Phone} width="25" height="25" />
+                               &nbsp; PHONE
+                             </Typography>,
+                accessor: 'phonenumber',
+
+            },
+            
+                    
+            
+            {
+                Header: <Typography component="h5" variant="h5">
+                          DETAILS
+                         </Typography>,
+               accessor: 'Details',
+               Cell: ({ cell }) => (    
+                     
+                    <><FullScreenDrawer data={props.data[cell.row.index]}  /> </>                  
+                )
+                
+            },
+            {
+                Header: <Typography component="h5" variant="h5">
+                            DELETE
+                         </Typography>,
                 accessor: 'delete',
                 Cell: ({ cell }) => (
                     <Fab onClick={() => handleOnClickDelete(cell)} variant="extended" color="secondary" aria-label="add">
-                        <DeleteIcon />
-                      &nbsp; DELETE
+                        <DeleteIcon />                    
                     </Fab>
                 )
-
+               
             },
         ],
+
         []
     )
 
 
-    function handleOnClickChatNow(cell) {
-
-        //console.log('Chat Now Button pressed ', cell)
-        console.log('LIST DATA Button pressed ', list_data[cell.row.id])
-        setChatData(list_data[cell.row.id])
-        setChatopen(true)
-
-
-        console.log('ChatBox ', chatopen);
-
-
-
-    }
-
+  
+  
     async function handleOnClickDelete(cell) {
 
-        console.log('LIST DATA should be delete ', list_data[cell.row.id])
+        console.log('LIST DATA INSIDE ', list_data[cell.row.id])
 
         confirmAlert({
             customUI: ({ onClose }) => {
@@ -165,94 +176,89 @@ const TableList = (props) => {
     const DeleteRowId = async (cell) => {
 
 
+        
 
-        if (list_data[cell.row.id]) {
-
-
+          
             const token = await authService.getAccessToken();
-            console.log("Token Data here : " + token);
+        console.log("Token Data here : " + token);
+        if (token) {
+        
 
-            fetch('Chat/DeleteUserChatMessage', {
+            fetch('Admin/DeleteUser', {
                 method: 'DELETE', // or 'PUT'
                 headers: !token ? {} : {
                     'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
 
-                    'ChatTableId': list_data[cell.row.id].chatid,
+                    'userid': list_data[cell.row.id].userid,
 
                 }),
             })
                 .then(response => response.json())
                 .then(Response => {
-                    toaster.success(
-                        '' + Response.status
-                    )
-                    console.log('Success:', Response);
+                   
                     if (Response.statusCode == 200) {
-                        const newItem = list_data.filter(item => item.chatid != list_data[cell.row.id].chatid)
-                        // setData(makeData(newItem, false, 20))
-                        setData(newItem)
 
+                        toaster.success(
+                            '' + Response.status
+                        )
+                        const newItem = list_data.filter(item => item.userid != list_data[cell.row.id].userid)                   
+                        setData(newItem)
                     }
+                    console.log('Success:', Response);
 
                 })
                 .catch((error) => {
 
                     console.error('Error:', error);
                     toaster.danger(
-                        'Something went wrong'
+                        'Something went wrong trying to create your audience'
                     )
                 });
 
 
 
 
-            //Delet_request(list_data[cell.row.id].id)
+            
         } else {
-            //No
+            toaster.danger(
+                'INVALID CREDENTIALS'
+            )
         }
 
 
     };
 
 
-
-
+  
+   
     const [data, setData] = React.useState(React.useMemo(() => makeData([], true, 20), []))
 
     useEffect(() => {
 
-        list_data = []
-
-
+         list_data = []
+        
+        console.log('TABLE LIST ', props.data)
         props.data.map(item => {
 
-            console.log('Chat id ', item.chatTableId)
-            var size = item.messages.length ? item.messages.length : -1;
-            var lastMessage = "No last Message"
-            if (size != -1 && size != 0) {
-                lastMessage = item.messages[size - 1].messages
-            }
-
-
+               
+            var phone = item.phoneNumber ? item.phoneNumber : 'Empty'
             var temp = {
 
-                chatid: item.chatTableId,
-                lastmessage: lastMessage,
-                username: item.user.userName,
-                data: item
+                    userid: item.id,
+                    useremail: item.email,                
+                    phonenumber: phone,
+                    data : item              
+                    
+                }
+                list_data.push(temp)
 
 
-
-            }
-            list_data.push(temp)
-
-
-        })
-
+            })
+       
         console.log('list data')
-        console.log({ list_data })
+        console.log({list_data})
 
         setData(makeData(list_data, false, 20))
 
@@ -260,13 +266,9 @@ const TableList = (props) => {
     }, []);
 
 
-
-
-    
-
-
-
     const [skipPageReset, setSkipPageReset] = React.useState(false)
+
+   
     const updateMyData = (rowIndex, columnId, value) => {
        
         setSkipPageReset(true)
@@ -283,55 +285,7 @@ const TableList = (props) => {
         )
     }
 
-    const handleCloseChat = () => {
-
-        console.log('closed chat box  click')
-        setChatopen(false)
-        console.log('ChatBox ', chatopen);
-    }
-
-
-
-    const ChatData = (LiveData) => {
-
-
-        // @SET NEW MESSAGE NOTIFICATION
-
-
-
-        //
-
-
-        if (list_data) {
-
-           const newItem = list_data.filter((item, index) => {
-
-                if (item.data.user.id == LiveData.id) {
-
-                    item.lastmessage = LiveData.msg
-                    item.data.messages.push({
-                        
-                            messages: LiveData.msg,
-                            dateTime: '2021-05-04T21:51:02.3556221',
-                            user: {
-                                id: LiveData.id
-                            }
-                    })             
-               }
-               return [...list_data]
-            })
-
-            setData(newItem)
-           console.log('AFTER FILTER ', { newItem })
-        }
-
-        LiveData = null
-        
-
-} 
-
     return (
-    <>
         <div>
             <CssBaseline />
             <EnhancedTable
@@ -341,10 +295,7 @@ const TableList = (props) => {
                 updateMyData={updateMyData}
                 skipPageReset={skipPageReset}
             />
-            </div>
-            {chatopen ? <ChatOnline data={chatData} handleCloseChat={handleCloseChat} /> : null } 
-            <ChatTableLiveUpdate ChatData={(LiveData) => ChatData(LiveData)} />
-    </>
+        </div>
     )
 }
 
@@ -402,10 +353,10 @@ const newPerson = (temp) => {
     
     return {
 
-      
-        chatid : temp.chatid,
-        lastmessage: temp.lastmessage,    
-        username: temp.username
+        userid: temp.userid,
+        useremail: temp.useremail,
+        phonenumber: temp.phonenumber
+       // data: temp   
         
            
     }
@@ -415,9 +366,10 @@ const newPerson2 = (temp) => {
 
     return {
 
-      chatid : '',
-      lastmessage: '', 
-      username: ''
+        userid: '',
+        useremail: '',
+        phonenumber: ''
+     //   data: ''      
         
 
     }
