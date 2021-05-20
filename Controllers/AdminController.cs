@@ -473,16 +473,55 @@ namespace EcommerceApp.Controllers
                     var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
                     var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id.userid);
-                    var Posts = await _context.PostLikes.Where(x => x.ClientId == id.userid).ToListAsync();
 
-                    if(Posts != null)
+                    var Messages = await _context.Messages.Where(x => x.UserId == id.userid).ToListAsync();
+                    var Post = await _context.Post.Where(x => x.ClientId == id.userid).ToListAsync();
+                    var PostLikes = await _context.PostLikes.Where(x => x.ClientId == id.userid).ToListAsync();
+                    var Comments = await _context.Comments.Where(x => x.ClientId == id.userid).ToListAsync();
+                    var Chat = await _context.ChatTables.Where(x => x.UserId == id.userid).ToListAsync();
+                 
+
+                      if(Post != null)
+                      {
+                          foreach(var data in Post)
+                          {                          
+                              _context.Post.Remove(data);
+                          }
+                      }
+
+                    if (Messages != null)
                     {
-                        foreach(var data in Posts)
-                        {                          
+                        foreach (var data in Messages)
+                        {
+                            _context.Messages.Remove(data);
+                        }
+                    }
+
+
+                    if (PostLikes != null)
+                    {
+                        foreach (var data in PostLikes)
+                        {
                             _context.PostLikes.Remove(data);
                         }
                     }
-                    
+
+                    if (Comments != null)
+                    {
+                        foreach (var data in Comments)
+                        {
+                            _context.Comments.Remove(data);
+                        }
+                    }
+
+                    if (Chat != null)
+                    {
+                        foreach (var data in Chat)
+                        {
+                            _context.ChatTables.Remove(data);
+                        }
+                    }
+
 
                     if (user != null)
                     {
@@ -527,15 +566,54 @@ namespace EcommerceApp.Controllers
                     {
                         var user = _context.Users.Where(u => u.Id == users.id[i]);
 
-                        var Posts = await _context.PostLikes.Where(x => x.ClientId == users.id[i]).ToListAsync();
+                        var Messages = await _context.Messages.Where(x => x.UserId == users.id[i]).ToListAsync();
+                        var Post = await _context.Post.Where(x => x.ClientId == users.id[i]).ToListAsync();
+                        var PostLikes = await _context.PostLikes.Where(x => x.ClientId == users.id[i]).ToListAsync();
+                        var Comments = await _context.Comments.Where(x => x.ClientId == users.id[i]).ToListAsync();
+                        var Chat = await _context.ChatTables.Where(x => x.UserId == users.id[i]).ToListAsync();
 
-                        if (Posts != null)
+
+                        if (Post != null)
                         {
-                            foreach (var data in Posts)
+                            foreach (var data in Post)
+                            {
+                                _context.Post.Remove(data);
+                            }
+                        }
+
+                        if (Messages != null)
+                        {
+                            foreach (var data in Messages)
+                            {
+                                _context.Messages.Remove(data);
+                            }
+                        }
+
+
+                        if (PostLikes != null)
+                        {
+                            foreach (var data in PostLikes)
                             {
                                 _context.PostLikes.Remove(data);
                             }
                         }
+
+                        if (Comments != null)
+                        {
+                            foreach (var data in Comments)
+                            {
+                                _context.Comments.Remove(data);
+                            }
+                        }
+
+                        if (Chat != null)
+                        {
+                            foreach (var data in Chat)
+                            {
+                                _context.ChatTables.Remove(data);
+                            }
+                        }
+
 
                         foreach (var data in user)
                         {

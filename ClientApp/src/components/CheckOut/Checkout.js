@@ -134,8 +134,6 @@ export default function Checkout() {
         } else {
 
 
-            if (price > 0) {
-
                 fetch('ClientOrder/PlaceOrder', {
                     method: 'POST', // or 'PUT'
                     headers: !token ? {} : {
@@ -183,7 +181,7 @@ export default function Checkout() {
                         )
                     });
             }
-        }
+        
     };
 
     const handleBack = () => {

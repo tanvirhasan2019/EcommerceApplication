@@ -8,18 +8,20 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Slider from '../../Slider';
-import Ringloader from '../../spinner/Ringloader';
+//import Slider from '../../Slider';
+//import Ringloader from '../../spinner/Ringloader';
 //import ItemList from './ItemList';
-import TableList from './TableList';
+//import TableList from './TableList';
 import { connect } from 'react-redux';
 import { useSelector } from 'react-redux';
-import authService from '../../api-authorization/AuthorizeService'
+
 import { useDispatch } from 'react-redux';
 //import { fetchProducts } from '../../actions/Products';
-//import { fetchProducts } from '../../../actions/Products';
+import TableList  from './TableList';
 
-import '../UploadProduct/UploadProduct.scss'
+import { orders } from '../../../../actions/Orders';
+
+import SimpleBackdrop from '../../../spinner/SimpleBackdrop';
 
 
 const useStyles = makeStyles({
@@ -31,58 +33,44 @@ const useStyles = makeStyles({
     },
 });
 
-export default class PostTable extends Component {
+class OrderItem extends Component {
 
-constructor(props) {
- super(props);
- 
- this.state = { Chat: [], loading : true };
-}
 
-async componentDidMount() {
+    componentDidMount() {
 
-        try {
-
-            const token = await authService.getAccessToken()
-            const response = await fetch('Chat/AllChatMessages', {
-                headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await response.json();
-            this.setState({ Chat: data.data })
-            this.setState({loading:false})
-
-            console.log('after fetch Chat List ', { data })
-           
-
-        } catch (e) {
-            console.log('ERROR CALLED')
-        }
+        this.props.orders();
 
     }
 
- 
-
 
     render() {
-      
 
-     
-       
+
+        let { items } = this.props;
+        console.log('REDUCER ITEMS')
+        console.log({ items })
+        
+        if (items.isLoading == false) {
+            console.log('reudecer data -  ', items.data.clientorder);
+        }
+       // <TableList data={items.data} />
+
 
         return (
             <div className="upload-product-background">
 
                 <div className="d-flex justify-content-center header-txt-items">
-                    ALL CHAT
+                    ORDERED ITEMS
             </div>
 
                 <div className="row" style={{ marginTop: '20px' }}>
-                    
-                    <div class="container">
+                    <div className="container-fluid">
                         {
-                            !this.state.loading ? <TableList data={this.state.Chat} /> : null
+                            items.isLoading == false ? <TableList data={items.data.clientorder} /> : <SimpleBackdrop />                          
                         }
+                       
                     </div>
+
 
 
                 </div>
@@ -93,5 +81,15 @@ async componentDidMount() {
 }
 
 
+const mapStateToProps = (state) => ({
 
+    items: state.orders
+
+});
+
+const mapDispatchToProps = {
+    orders
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderItem);
 
