@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using EcommerceApp.Data;
 using EcommerceApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,8 @@ using Microsoft.Extensions.Logging;
 using static EcommerceApp.Controllers.AdminController;
 
 namespace EcommerceApp.Controllers
-{
+{   
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ProductController : ControllerBase
@@ -32,7 +34,7 @@ namespace EcommerceApp.Controllers
 
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetProducts")]
         public async Task<IActionResult> GetProducts()
@@ -40,19 +42,19 @@ namespace EcommerceApp.Controllers
 
             var productImage = await _context.ProductImage.ToListAsync();
             var productList = await _context.Products.ToListAsync();
-          
 
-        
-            return Ok(new { data = productList });      
+
+
+            return Ok(new { data = productList });
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetSingleProduct/{id:int}")]
         public async Task<IActionResult> GetSingleProduct(int id)
         {
 
-            var productImage = await _context.ProductImage.Where(c=> c.productid == id).ToListAsync();
+            var productImage = await _context.ProductImage.Where(c => c.productid == id).ToListAsync();
             var productList = await _context.Products.Where(c => c.id == id).ToListAsync();
 
             return Ok(new { data = productList });
@@ -60,7 +62,7 @@ namespace EcommerceApp.Controllers
 
 
 
-
+        
         [HttpPost]
         [Route("PlaceOrder")]
         public object PlaceOrder([FromBody] Productnew products)
@@ -72,7 +74,7 @@ namespace EcommerceApp.Controllers
                     var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                     var product = new Product
                     {
-                      
+
                     };
                     _context.Products.Add(product);
                     _context.SaveChanges();
@@ -82,66 +84,97 @@ namespace EcommerceApp.Controllers
 
                     var product_image = new ProductImage
                     {
-                      
+
                     };
                     _context.ProductImage.Add(product_image);
-                    _context.SaveChanges();                  
+                    _context.SaveChanges();
                 }
             }
             catch (Exception)
             {
-               // Console.WriteLine(e);
-                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });                
+                // Console.WriteLine(e);
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
             }
             return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
         }
 
 
 
-      
+
+       
         [HttpGet]
         [Route("AllOrderList")]
         public async Task<IActionResult> AllOrderList()
         {
 
+
+            var statusCode = 400;
+           // var ClientOrder = "";
             try
             {
-               // var productImage = await _context.ProductImage.ToListAsync();
-                var productList = await _context.Products.ToListAsync();
-
-                var OrderDetails = await _context.OrderDetails.ToListAsync();
-
-                var Transaction = await _context.Transaction.ToListAsync();
-
-                var ShippingDetails = await _context.ShippingDetails.ToListAsync(); 
-                
-                var ClientOrder = await _context.ClientOrder.ToListAsync();
-
-
-
-
-                return Ok(new
+                if (ModelState.IsValid)
                 {
-                    clientorder = ClientOrder,
-                    //orderdetails = OrderDetails,
-                   // transaction = Transaction,
-                    //shippingdetails = ShippingDetails
-                });
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    if (UserID != null)
+                    {
+                        var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
+                        if (userrole != null)
+                        {
+                            var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
+                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            {
+                                var productList = await _context.Products.ToListAsync();
 
-            }
-            catch (Exception)
-            {
-               // Console.WriteLine("order errors - ", e);
-                return Ok(new
-                {
-                    status ="ERROR"
+                                var OrderDetails = await _context.OrderDetails.ToListAsync();
+
+                                var Transaction = await _context.Transaction.ToListAsync();
+
+                                var ShippingDetails = await _context.ShippingDetails.ToListAsync();
+
+                                var ClientOrder = await _context.ClientOrder.ToListAsync();
+                                statusCode = 200 ;
+
+
+
+                                return Ok(new
+                                {
+                                    clientorder = ClientOrder,
+
+                                });
+
+                            }
+
+                        }
+                        else
+                        {
+                            return Ok(new { status = "Access Denied", statusCode = 403 });
+                        }
+
+                    }
                     
+
+                }
+                else
+                {
+                    statusCode = 500;
+                }
+            }
+            catch (Exception e)
+            {
+                
+                return Ok(new
+                {
+                    status = "ERROR" , statusCode = statusCode
+
                 });
             }
-           
 
-           
-        } 
+            return Ok(new { statusCode = statusCode });
+
+
+        }
+
+    
 
 
 

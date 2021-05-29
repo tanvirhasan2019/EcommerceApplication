@@ -106,67 +106,130 @@ namespace EcommerceApp.Controllers
         }
 
 
+
+
+        //@ Admin
+
+
         [HttpGet]
         [Route("AdminGetAllpost")]
         public async Task<IActionResult> AdminGetAllpost()
         {
+
+            var statusCode = 400;
             try
             {
-
                 if (ModelState.IsValid)
                 {
-                    var users = _context.Users.ToList();
-                    var Post = await _context.Post.OrderByDescending(b => b.PostId).ToListAsync();
-                    return Ok(new { data = Post });
-                }
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    if (UserID != null)
+                    {
+                        var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
+                        if (userrole != null)
+                        {
+                            var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
+                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            {
+                                var users = _context.Users.ToList();
+                                var Post = await _context.Post.OrderByDescending(b => b.PostId).ToListAsync();
+                                statusCode = 200;
 
+                                return Ok(new { data = Post , statusCode = statusCode});
+                            }
+
+                        }
+                        else
+                        {
+                            return Ok(new { status = "Access Denied", statusCode = 403 });
+                        }
+
+                    }
+                    else
+                    {
+                        statusCode = 500;
+                    }
+
+                }
 
             }
             catch (Exception)
             {
-                return Ok(new { status = "FAILED" });
+                return Ok(new { status = "FAILED" , statusCode = statusCode });
             }
 
-            return Ok(new { status = "SUCCESS" });
+            return Ok(new { status = "SUCCESS" , statusCode = statusCode });
 
         }
 
+
+
+        // @ Admin
 
         [HttpPost]
         [Route("ChangePostApproval")]
         public object ChangePostApproval([FromBody] Post post)
         {
 
+
+            var statusCode = 400;
             try
             {
                 if (ModelState.IsValid)
                 {
                     var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    var Post1 = _context.Post.FirstOrDefault(u => u.PostId == post.PostId);
-
-
-                    if (Post1 != null)
+                    if (UserID != null)
                     {
-                        if (Post1.Approved == "PENDING")
+                        var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
+                        if (userrole != null)
                         {
-                            Post1.Approved = "APPROVED";
+                            var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
+                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            {
+                                var Post1 = _context.Post.FirstOrDefault(u => u.PostId == post.PostId);
+
+
+                                if (Post1 != null)
+                                {
+                                    if (Post1.Approved == "PENDING")
+                                    {
+                                        Post1.Approved = "APPROVED";
+                                    }
+                                    else
+                                    {
+                                        Post1.Approved = "PENDING";
+                                    }
+
+                                    _context.SaveChanges();
+                                    statusCode = 200;
+                                }
+
+                            }
+                            else
+                            {
+                                return Ok(new { status = "Access Denied", statusCode = 403 });
+                            }
+
                         }
                         else
                         {
-                            Post1.Approved = "PENDING";
+                            statusCode = 500;
                         }
 
-                        _context.SaveChanges();
                     }
+
                 }
             }
             catch (Exception)
             {
-                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
+                return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" , statusCode = statusCode });
             }
-            return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" });
+            return Ok(new { status = "DATA DELETED SUCCESSFULLY", statusCode = statusCode , message = "SUCCESS" });
         }
 
+
+
+
+        // @ USER 
 
         [HttpPost]
         [Route("DeletPost")]
@@ -390,42 +453,61 @@ namespace EcommerceApp.Controllers
         }
 
 
-
+        // @ ADMIN
        
         [HttpDelete]
         [Route("DeleteUserPost")]
         public object DeleteUserPost([FromBody] Post post)
         {
 
-            var message = "";
             var statusCode = 400;
+            var message = "";
             try
             {
                 if (ModelState.IsValid)
                 {
                     var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    var getPost = _context.Post.
-                        Where(u => u.ClientId == UserID && u.PostId == post.PostId).FirstOrDefault();
-
-                    if (getPost != null)
+                    if (UserID != null)
                     {
-                        _context.Post.Remove(getPost);
-                        _context.SaveChanges();
-                        message = "POST DELETED";
-                        statusCode = 200;
+                        var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
+                        if (userrole != null)
+                        {
+                            var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
+                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            {
+                                var getPost = _context.Post.
+                       Where(u => u.ClientId == UserID && u.PostId == post.PostId).FirstOrDefault();
+
+                                if (getPost != null)
+                                {
+                                    _context.Post.Remove(getPost);
+                                    _context.SaveChanges();
+                                    message = "POST DELETED";
+                                    statusCode = 200;
+                                }
+                                else
+                                {
+                                    message = "POST NOT FOUND";
+                                    statusCode = 400;
+                                }
+
+                            }
+
+                        }
+                        else
+                        {
+                            return Ok(new { status = "Access Denied", statusCode = 403 });
+                        }
+
                     }
                     else
                     {
-                        message = "POST NOT FOUND";
-                        statusCode = 400;
+                        statusCode = 500;
                     }
-                   
-                   
-                   
-
 
                 }
-            }
+
+            }          
             catch (Exception)
             {
                
@@ -452,6 +534,7 @@ namespace EcommerceApp.Controllers
         [Route("DeleteMultiplePost")]
         public object DeleteMultiplePost([FromBody] MultiplPostId list)
         {
+
             var statusCode = 400;
             try
             {
@@ -460,27 +543,39 @@ namespace EcommerceApp.Controllers
                     var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                     if (UserID != null)
                     {
-                        for (int i = 0; i < list.id.Count; i++)
+                        var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
+                        if (userrole != null)
                         {
-                            var Post = _context.Post.Where(u => u.PostId == list.id[i]).FirstOrDefault();
+                            var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
+                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            {
+                                for (int i = 0; i < list.id.Count; i++)
+                                {
+                                    var Post = _context.Post.Where(u => u.PostId == list.id[i]).FirstOrDefault();
 
-                          //  _context.Post.Remove(Post);
+                                     _context.Post.Remove(Post);
 
+
+                                }
+
+                                _context.SaveChanges();
+                                statusCode = 200;
+                            }
 
                         }
+                        else
+                        {
+                            return Ok(new { status = "Access Denied", statusCode = 403 });
+                        }
 
-                       // _context.SaveChanges();
-                        statusCode = 200;
                     }
                     else
                     {
                         statusCode = 500;
                     }
 
-                   
-
-
                 }
+
             }
             catch (Exception)
             {

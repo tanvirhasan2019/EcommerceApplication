@@ -18,6 +18,9 @@ import authService from '../../api-authorization/AuthorizeService'
 import { useDispatch } from 'react-redux';
 //import { fetchProducts } from '../../actions/Products';
 //import { fetchProducts } from '../../../actions/Products';
+import SimpleBackdrop from '../../spinner/SimpleBackdrop';
+
+
 
 import '../UploadProduct/UploadProduct.scss'
 
@@ -36,7 +39,7 @@ export default class PostTable extends Component {
 constructor(props) {
  super(props);
  
- this.state = { Post: [], loading : true };
+ this.state = { Post: [], loading : true , status : ''  };
 }
 
 async componentDidMount() {
@@ -49,7 +52,11 @@ async componentDidMount() {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
-            this.setState({ Post: data.data })
+            if (data.data) {
+                this.setState({ Post: data.data })
+            }
+
+            this.setState({ status: data.status })
             this.setState({loading:false})
 
             console.log('after fetch post ', { data })
@@ -82,10 +89,22 @@ async componentDidMount() {
             </div>
 
                 <div className="row" style={{ marginTop: '20px' }}>
+                    {
+                        this.state.loading ? <SimpleBackdrop /> : null
+                    } 
                     <div class="container">
-                       {
-                          !this.state.loading ? <TableList data={this.state.Post} /> : null
-                       } 
+                       
+
+                        {
+                            this.state.loading == false && this.state.Post.length != 0 ?
+                                <TableList data={this.state.Post} /> : 'No Data : '
+                        }
+
+                        {
+                            this.state.loading == false && this.state.Post.length == 0 ?
+                                this.state.status : null
+                        }
+
                     </div>
 
 

@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using EcommerceApp.Data;
 using EcommerceApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceApp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ChatController : ControllerBase
@@ -38,44 +40,68 @@ namespace EcommerceApp.Controllers
         [Route("AllChatMessages")]
         public async Task<IActionResult> AllChatMessages()
         {
+
+            var statusCode = 400;
             try
             {
-
                 if (ModelState.IsValid)
                 {
-                    var users = await _context.Users.ToListAsync();
-                    var mapper = InitializeAutomapper();
-
-                    var Chatdata = await _context.ChatTables
-                                          .Include(x=>x.User)
-                                          .ProjectTo<ChatTableDto>(mapper.ConfigurationProvider)
-                                          .ToListAsync();
-                                         
-
-                    
-
-                    static Mapper InitializeAutomapper()
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    if (UserID != null)
                     {
-                        var config = new MapperConfiguration(cfg => {
-                            cfg.CreateMap<ApplicationUser, UserCustomcs>();
-                            cfg.CreateMap<ChatTable, ChatTableDto>();
-                            
-                        });
-                        var mapper = new Mapper(config);
-                        return mapper;
+                        var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
+                        if (userrole != null)
+                        {
+                            var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
+                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            {
+                                var users = await _context.Users.ToListAsync();
+                                var mapper = InitializeAutomapper();
+
+                                var Chatdata = await _context.ChatTables
+                                                      .Include(x => x.User)
+                                                      .ProjectTo<ChatTableDto>(mapper.ConfigurationProvider)
+                                                      .ToListAsync();
+
+
+                                statusCode = 200;
+
+                                static Mapper InitializeAutomapper()
+                                {
+                                    var config = new MapperConfiguration(cfg => {
+                                        cfg.CreateMap<ApplicationUser, UserCustomcs>();
+                                        cfg.CreateMap<ChatTable, ChatTableDto>();
+
+                                    });
+                                    var mapper = new Mapper(config);
+                                    return mapper;
+                                }
+
+
+                                return Ok(new { data = Chatdata });
+                            }
+
+                        }
+                        else
+                        {
+                            return Ok(new { status = "Access Denied", statusCode = 403 });
+                        }
+
+                    }
+                    else
+                    {
+                        statusCode = 500;
                     }
 
-
-                    return Ok(new { data = Chatdata });
                 }
 
-            }
+            }       
             catch (Exception)
             {
-                return Ok(new { status = "FAILED" });
+                return Ok(new { status = "FAILED" , statusCode = statusCode });
             }
 
-            return Ok(new { status = "SUCCESS" });
+            return Ok(new { status = "SUCCESS" , statusCode = statusCode });
 
         }
 
@@ -138,27 +164,40 @@ namespace EcommerceApp.Controllers
         [Route("DeleteUserChatMessage")]
         public async Task<IActionResult> DeleteUserChatMessage(ChatTable chat)
         {
+
             var statusCode = 400;
             try
             {
-
                 if (ModelState.IsValid)
                 {
                     var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                     if (UserID != null)
                     {
-                        var Chat = await _context.ChatTables.Where(x => x.ChatTableId == chat.ChatTableId).FirstOrDefaultAsync();
-                        _context.ChatTables.Remove(Chat);
-                        await _context.SaveChangesAsync();
+                        var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
+                        if (userrole != null)
+                        {
+                            var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
+                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            {
+                                var Chat = await _context.ChatTables.Where(x => x.ChatTableId == chat.ChatTableId).FirstOrDefaultAsync();
+                                _context.ChatTables.Remove(Chat);
+                                await _context.SaveChangesAsync();
 
-                        statusCode = 200;
+                                statusCode = 200;
+                            }
+
+                        }
+                        else
+                        {
+                            return Ok(new { status = "Access Denied", statusCode = 403 });
+                        }
+
                     }
-                    else{
+                    else
+                    {
                         statusCode = 500;
                     }
-                  
 
-                    return Ok(new { status = "SUCCESS" , statusCode = statusCode});
                 }
 
             }
@@ -180,6 +219,7 @@ namespace EcommerceApp.Controllers
         [Route("DeleteMultipleUserMessage")]
         public async Task<IActionResult> DeleteMultipleUserMessage([FromBody] MultiplChatId Chat)
         {
+
             var statusCode = 400;
             try
             {
@@ -188,40 +228,52 @@ namespace EcommerceApp.Controllers
                     var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                     if (UserID != null)
                     {
-                        var size = 0;
-                        if (Chat.chat == null)
+                        var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
+                        if (userrole != null)
                         {
-                            size = 0;
+                            var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
+                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            {
+                                var size = 0;
+                                if (Chat.chat == null)
+                                {
+                                    size = 0;
+                                }
+                                else
+                                {
+                                    size = Chat.chat.Count;
+                                }
+                                for (int i = 0; i < size; i++)
+                                {
+                                    var Chat2 = await _context.ChatTables
+                                                       .Where(x => x.ChatTableId == Chat.chat[i])
+                                                       .FirstOrDefaultAsync();
+
+
+                                    _context.ChatTables.Remove(Chat2);
+
+
+                                }
+
+                                await _context.SaveChangesAsync();
+                                statusCode = 200;
+                            }
+
                         }
                         else
                         {
-                            size = Chat.chat.Count;
-                        }
-                        for (int i = 0; i <size; i++)
-                        {
-                            var Chat2 = await _context.ChatTables
-                                               .Where(x => x.ChatTableId == Chat.chat[i])
-                                               .FirstOrDefaultAsync();
-                                             
-
-                             _context.ChatTables.Remove(Chat2);
-
-
+                            return Ok(new { status = "Access Denied", statusCode = 403 });
                         }
 
-                        await  _context.SaveChangesAsync();
-                        statusCode = 200;
                     }
                     else
                     {
                         statusCode = 500;
                     }
 
-
-
-
                 }
-            }
+
+            }       
             catch (Exception)
             {
 
@@ -312,19 +364,7 @@ namespace EcommerceApp.Controllers
                         statusCode = 500;
                     }
 
-                    //9d005eb0-4879-4ce4-9823-ecece5d41aaa
-                    //  _ = _SignalRHub.Clients.All.SendAsync($"{UserID}");
-
-
-
-                    // await _SignalRHub.Clients.All.SendAsync("LoadMessages", message);
-
-                   // _SignalRHub.Clients.All.SendAsync("LoadMessages", message);
-
-                  //  await _SignalRHub.Clients.All.SendAsync("LoadMessages", message);
-
-                    //await _SignalRHub.Clients.Client(conn).SendAsync("LoadMessages", conn, message);
-
+                   
 
                 }
 
@@ -383,10 +423,7 @@ namespace EcommerceApp.Controllers
 
                             await _context.AddAsync(ChatTable);
                             await _context.SaveChangesAsync();
-                            // _context.SaveChanges();
-
-
-                            //ChatTable Chat = new ChatTable();
+                          
 
                             var chat = await _context.ChatTables
                                        .Where(x => x.UserId == message.UserId)
@@ -406,15 +443,7 @@ namespace EcommerceApp.Controllers
                         statusCode = 500;
                     }
 
-                    //9d005eb0-4879-4ce4-9823-ecece5d41aaa
-                    //  _ = _SignalRHub.Clients.All.SendAsync($"{UserID}");
-
-                    //  await _context.SaveChangesAsync();
-
-                    // await _SignalRHub.Clients.All.SendAsync("LoadMessages", message);
-                   // await _SignalRHub.Clients.All.SendAsync("LoadMessages", message.Messages);
-                    //  $"Author: {author.Name}:{author.Book}:{author.Price}"
-
+                  
 
                 }
 

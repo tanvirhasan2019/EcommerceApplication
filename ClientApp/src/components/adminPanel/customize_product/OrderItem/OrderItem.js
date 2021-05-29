@@ -49,11 +49,17 @@ class OrderItem extends Component {
         let { items } = this.props;
         console.log('REDUCER ITEMS')
         console.log({ items })
-        
+        let data_found = 0
         if (items.isLoading == false) {
-            console.log('reudecer data -  ', items.data.clientorder);
+            if (items.data.statusCode == 200) {
+                data_found = 1 
+            }
         }
-       // <TableList data={items.data} />
+        
+        
+        
+
+
 
 
         return (
@@ -62,11 +68,19 @@ class OrderItem extends Component {
                 <div className="d-flex justify-content-center header-txt-items">
                     ORDERED ITEMS
             </div>
-
+                {
+                    items.isLoading == true ? <SimpleBackdrop /> : null
+                }
                 <div className="row" style={{ marginTop: '20px' }}>
                     <div className="container-fluid">
                         {
-                            items.isLoading == false ? <TableList data={items.data.clientorder} /> : <SimpleBackdrop />                          
+                            items.isLoading == false && data_found == 1 ?
+                                <TableList data={items.data.clientorder} /> : 'No Data : '
+                        }
+
+                        {
+                            items.isLoading == false && data_found == 0 ?
+                                items.data.status : null
                         }
                        
                     </div>
@@ -93,3 +107,7 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderItem);
 
+/* {
+   items.isLoading == false ? <TableList data={items.data.clientorder} /> : <SimpleBackdrop />     
+}  */                    
+           

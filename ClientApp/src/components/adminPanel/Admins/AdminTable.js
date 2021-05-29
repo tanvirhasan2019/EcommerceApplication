@@ -21,6 +21,9 @@ import authService from '../../api-authorization/AuthorizeService'
 import { useDispatch } from 'react-redux';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import { AddAdminDrawer } from './AddAdminDrawer'
+
+import SimpleBackdrop from '../../spinner/SimpleBackdrop';
+
 //import { fetchProducts } from '../../actions/Products';
 //import { fetchProducts } from '../../../actions/Products';
 
@@ -35,7 +38,7 @@ export default class AdminTable extends Component {
 constructor(props) {
  super(props);
  
- this.state = { Users: [], loading : true };
+ this.state = { Users: [], loading : true , status : '' };
 }
 
 async componentDidMount() {
@@ -48,7 +51,10 @@ async componentDidMount() {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
-            this.setState({ Users: data.data })
+            if (data.data) {
+                this.setState({ Users: data.data })
+            }
+            this.setState({ status: data.status })
             this.setState({loading:false})
 
             console.log('after fetch UserList ', { data })
@@ -65,8 +71,7 @@ async componentDidMount() {
     render() {
       
 
-       
-
+ 
         return (
             <div className="upload-product-background">
 
@@ -80,12 +85,22 @@ async componentDidMount() {
 
                  </div>
 
+                {
+                    this.state.loading ? <SimpleBackdrop /> : null
+                }
                 <div className="row" style={{ marginTop: '20px' }}>
                    
                      <div class="container">
                         {
-                            !this.state.loading ? <TableList data={this.state.Users} /> : null
+                            this.state.loading == false && this.state.Users.length != 0 ?
+                                <TableList data={this.state.Users} /> : 'No Data : '
                         }
+
+                        {
+                            this.state.loading == false && this.state.Users.length == 0 ?
+                                this.state.status : null
+                        }
+
 
                      </div> 
 
@@ -95,6 +110,7 @@ async componentDidMount() {
         );
     }
 }
+
 
 
 /* <div class="container">

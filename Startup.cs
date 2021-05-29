@@ -13,6 +13,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using AutoMapper;
+using System.Security.Claims;
+using IdentityModel;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace EcommerceApp
 {
@@ -33,40 +37,31 @@ namespace EcommerceApp
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
+                     .AddRoles<IdentityRole>()
+                     .AddEntityFrameworkStores<ApplicationDbContext>();
+           
+            
+          
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                   .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+
+            
+
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                );
 
             services.AddAuthentication()
-                .AddIdentityServerJwt();
-
-            // services.AddAutoMapper(typeof(Startup));
-             //services.AddAutoMapper();
-
-            // MAPPING
-         /*   var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
-
-            IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
-            services.AddMvc(); */
-
-            //services.AddAutoMapper(typeof(MappingProfile));
-          //  services.AddAutoMapper(System.Reflection.Assembly.GetExecutingAssembly());
-            //
-
+                .AddIdentityServerJwt();         
 
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddSignalR();
 
+          
+
+          
 
 
             // In production, the React files will be served from this directory

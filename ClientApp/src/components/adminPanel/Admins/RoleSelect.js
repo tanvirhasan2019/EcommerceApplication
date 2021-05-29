@@ -31,8 +31,10 @@ export default function RoleSelect(props) {
                     value={data}
                     onChange={handleChange}
                 >
-                    <MenuItem value='Admin'>Admin</MenuItem>
-                    <MenuItem value='Manager'>Manager</MenuItem>
+                <MenuItem value='Administrator'>Administrator</MenuItem>
+                <MenuItem value='Admin'>Admin</MenuItem>
+                <MenuItem value='Manager'>Manager</MenuItem>
+                   
                 </Select>
         </>
     );

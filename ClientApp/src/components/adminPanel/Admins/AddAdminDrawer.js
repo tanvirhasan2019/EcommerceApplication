@@ -5,7 +5,7 @@ import {
 import AddBoxIcon from '@material-ui/icons/AddBox';
 
 import Paper from '@material-ui/core/Paper';
-
+import { toaster } from 'evergreen-ui'
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import { Typography } from '@material-ui/core';
@@ -17,6 +17,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MaterialButton from '@material-ui/core/Button'
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+
+import authService from '../../api-authorization/AuthorizeService';
 
 
 import Asynchronous from './Asynchronous'
@@ -36,12 +38,14 @@ export class AddAdminDrawer extends React.Component {
         rolename: null,
         claims : null
 
-    };
+      };
+
     this.close = this.close.bind(this);
     this.toggleDrawer = this.toggleDrawer.bind(this);
     this.handleChangeSize = this.handleChangeSize.bind(this);
-      this.handleEmail = this.handleEmail.bind(this);
-      this.handleRole = this.handleRole.bind(this);
+    this.handleEmail = this.handleEmail.bind(this);
+    this.handleRole = this.handleRole.bind(this);
+    this.HandleSubmit = this.HandleSubmit.bind(this);
 
   }
   close() {
@@ -66,12 +70,64 @@ export class AddAdminDrawer extends React.Component {
 
     handleRole(role) {
         this.setState({ rolename: role })
-        console.log('USER FROM role name  ', role)
+        //console.log('USER FROM role name  ', role)
     }
 
     handleClaims(claims) {
         this.setState({ claims: claims })
-        console.log('USER SELECTED CLAIMS  ', claims)
+        //console.log('USER SELECTED CLAIMS  ', claims)
+    }
+
+    async HandleSubmit() {
+
+        console.log('HANDLE SUBMIT')
+        console.log('SUBMIT DATA Claims', this.state.claims)
+        console.log('SUBMIT DATA Role', this.state.rolename)
+        console.log('SUBMIT DATA user', this.state.user)
+
+
+
+        //
+        if (this.state.claims != null && this.state.rolename != null && this.state.user != null)
+        {
+
+
+            const token = await authService.getAccessToken();
+            console.log("Token Data here : " + token);
+
+            fetch('Admin/CreateRole', {
+                method: 'POST', // or 'PUT'
+                headers: !token ? {} : {
+                    'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+
+                    'userid': this.state.user.id,
+                    'rolename': this.state.rolename,
+                    'claims': this.state.claims
+
+                }),
+            })
+                .then(response => response.json())
+                .then(Response => {
+                    toaster.success(
+                        '' + Response.status
+                    )
+                    console.log('Success:', Response);
+                    if (Response.statusCode == 200) {
+                        
+
+                    }
+
+                })
+                .catch((error) => {
+
+                    console.error('Error:', error);
+                    toaster.danger(
+                        'Something went wrong'
+                    )
+                });
+        }
     }
 
     render() {
@@ -136,7 +192,7 @@ export class AddAdminDrawer extends React.Component {
                             <div className="row">
 
                                 <div className="col-12" style={{ marginTop: '20px', marginBottom: '10px' }}>
-                                    <MaterialButton onClick={this.AccountLockHandle} style={{ width: '100%' }} variant="contained" color="secondary">
+                                    <MaterialButton onClick={this.HandleSubmit} style={{ width: '100%' }} variant="contained" color="secondary">
                                              SAVE                                      
                                     </MaterialButton>
                                 </div>

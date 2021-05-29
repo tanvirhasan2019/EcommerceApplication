@@ -33,13 +33,29 @@ export const orders = () => async dispatch => {
     await dispatch({ type: FETCH_ORDERS_REQUEST });
     try {
         
-       
-        const response = await axios.get(
+
+        const token = await authService.getAccessToken();
+        const response1 = await fetch('Product/AllOrderList', {
+            headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
+        }); 
+
+
+       // console.log('Response data from product controller ', response)
+        const response = await response1.json();
+
+        console.log('Data from Order action ', response)
+        // this.setState({ forecasts: data, loading: false });
+
+        /* const response = await axios.get(
             "Product/AllOrderList"
-        );
+         ); */
+
+       
+
+        
         return dispatch({
             type: FETCH_ORDERS_SUCCESS,
-            data: response.data
+            data: response
           
         });
     } catch (err) {

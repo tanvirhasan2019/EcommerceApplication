@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using EcommerceApp.Data;
 using EcommerceApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EcommerceApp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ClientOrderController : ControllerBase
