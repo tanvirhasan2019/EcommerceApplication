@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using System.Net.Mail;
+using System.Net;
 
 namespace EcommerceApp.Areas.Identity.Pages.Account
 {
@@ -40,6 +42,7 @@ namespace EcommerceApp.Areas.Identity.Pages.Account
         {
             if (ModelState.IsValid)
             {
+
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
@@ -49,18 +52,87 @@ namespace EcommerceApp.Areas.Identity.Pages.Account
 
                 // For more information on how to enable account confirmation and password reset please 
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
+
+                string returnUrl = null;
+                returnUrl = returnUrl ?? Url.Content("~/");
+
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
                 var callbackUrl = Url.Page(
                     "/Account/ResetPassword",
                     pageHandler: null,
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
+                Console.WriteLine(" ---------------------------------------");
+                Console.WriteLine("PASSWORD LINK IS " + callbackUrl);
+                Console.WriteLine(" ---------------------------------------");
 
-                await _emailSender.SendEmailAsync(
+
+
+                /* var callbackUrl = Url.Page(
+                          "/Account/ResetPassword",
+                          pageHandler: null,
+                          values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                          protocol: Request.Scheme); */
+                // Build the password reset link
+
+
+              /*  await _emailSender.SendEmailAsync(
                     Input.Email,
                     "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."); 
+
+
+                var smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("tanshen1999@gmail.com", "trpebkphleemdvji"),
+                    EnableSsl = true,
+                };
+
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("tanshen1999@gmail.com"),
+                    Subject = "Change Password",
+                    Body = $"Please change your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
+                    IsBodyHtml = true,
+                }; 
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("tanshen1999@gmail.com"),
+                    Subject = "Verify your Tanshenit account",
+                    Body = $"Please reset your password by <a href='{callbackUrl}'>clicking here</a>.",
+                    IsBodyHtml = true,
+                };
+                mailMessage.To.Add(Input.Email);
+
+                smtpClient.Send(mailMessage); 
+
+                */
+
+
+
+                var smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("tanshen1999@gmail.com", "trpebkphleemdvji"),
+                    EnableSsl = true,
+                };
+
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("tanshen1999@gmail.com"),
+                    Subject = "Verify your Tanshenit account",
+                    Body = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
+                    IsBodyHtml = true,
+                };
+                mailMessage.To.Add(Input.Email);
+
+                smtpClient.Send(mailMessage);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

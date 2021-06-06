@@ -14,6 +14,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using MimeKit;
+using MimeKit.Text;
+using System.Net.Mail;
+using MailKit.Security;
+using System.Net;
 
 namespace EcommerceApp.Areas.Identity.Pages.Account
 {
@@ -84,14 +89,54 @@ namespace EcommerceApp.Areas.Identity.Pages.Account
                    
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+
+
+                    /*var token = code;
+                    var confirmationLink = Url.Action("ConfirmEmail", "Email", new { token, email = user.Email }, Request.Scheme);
+                    EmailHelper emailHelper = new EmailHelper();
+                    bool emailResponse = emailHelper.SendEmail(user.Email, confirmationLink);
+
+                   if (emailResponse)
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    else
+                    {
+                        // log email failed 
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    } */
+
+                     var callbackUrl = Url.Page(
+                         "/Account/ConfirmEmail",
+                         pageHandler: null,
+                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                         protocol: Request.Scheme);
+
+                  /*   await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                   
+                    */
+
+                    var smtpClient = new SmtpClient("smtp.gmail.com")
+                    {
+                        Port = 587,
+                        Credentials = new NetworkCredential("tanshen1999@gmail.com", "trpebkphleemdvji"),
+                        EnableSsl = true,
+                    };
+
+
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress("tanshen1999@gmail.com"),
+                        Subject = "Verify your Tanshenit account",
+                        Body = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
+                        IsBodyHtml = true,
+                    };
+                    mailMessage.To.Add(Input.Email);
+
+                    smtpClient.Send(mailMessage);
+
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -101,7 +146,7 @@ namespace EcommerceApp.Areas.Identity.Pages.Account
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
-                    }
+                    } 
                 }
                 foreach (var error in result.Errors)
                 {

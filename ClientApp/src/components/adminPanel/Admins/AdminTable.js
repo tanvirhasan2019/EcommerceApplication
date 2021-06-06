@@ -21,6 +21,8 @@ import authService from '../../api-authorization/AuthorizeService'
 import { useDispatch } from 'react-redux';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import { AddAdminDrawer } from './AddAdminDrawer'
+import Alert from '@material-ui/lab/Alert';
+
 
 import SimpleBackdrop from '../../spinner/SimpleBackdrop';
 
@@ -46,11 +48,12 @@ async componentDidMount() {
         try {
 
             const token = await authService.getAccessToken()
-           // console.log('Token', token)
-            const response = await fetch('Admin/GetAllUser', {
+            console.log('Token', token)
+            const response = await fetch('Admin/GetAllRole', {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
+            console.log('Data from Admin ', data)
             if (data.data) {
                 this.setState({ Users: data.data })
             }
@@ -58,7 +61,7 @@ async componentDidMount() {
             this.setState({loading:false})
 
             console.log('after fetch UserList ', { data })
-            console.log('after fetch state ', this.state.Users)
+            console.log('after fetch state ', this.state.Users) 
 
         } catch (e) {
             console.log('ERROR CALLED')
@@ -93,12 +96,13 @@ async componentDidMount() {
                      <div class="container">
                         {
                             this.state.loading == false && this.state.Users.length != 0 ?
-                                <TableList data={this.state.Users} /> : 'No Data : '
+                                <TableList data={this.state.Users} /> : 'No Data '
                         }
 
                         {
-                            this.state.loading == false && this.state.Users.length == 0 ?
-                                this.state.status : null
+                            this.state.loading == false && this.state.Users.length == 0 ?                            
+                                <Alert variant="filled" severity="warning">
+                                    {this.state.status}!</Alert> : null
                         }
 
 
@@ -117,5 +121,5 @@ async componentDidMount() {
     {
         !this.state.loading ? <TableList data={this.state.Post} /> : null
     }
-</div> */
+</div>*/
 

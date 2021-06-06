@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import authService from '../../api-authorization/AuthorizeService'
 import { useDispatch } from 'react-redux';
 import SimpleBackdrop from '../../spinner/SimpleBackdrop';
+import Alert from '@material-ui/lab/Alert';
 
 
 //import { fetchProducts } from '../../actions/Products';
@@ -90,12 +91,14 @@ async componentDidMount() {
                        
                         {
                             this.state.loading == false && this.state.Chat.length != 0 ?
-                                <TableList data={this.state.Post} /> : 'No Data : '
+                                <TableList data={this.state.Chat} /> : 'No Data '
                         }
 
                         {
                             this.state.loading == false && this.state.Chat.length == 0 ?
-                                this.state.status : null
+                                <Alert variant="filled" severity="warning">
+                                    {this.state.status}!</Alert> : null
+                                
                         }
 
                     </div>

@@ -7,6 +7,7 @@ import { Counter } from './components/Counter';
 import { Temp } from './components/HomeComponents/Temp';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
+//import ApiRoleAuthorization from './components/api-authorization/ApiRoleAuthorization';
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
 import { dashboard } from './components/adminPanel/dashboard';
 import { updateSingleProduct } from './components/adminPanel/customize_product/updateSingleProduct';
@@ -17,6 +18,7 @@ import EditPost from './components/HomeComponents/Post/EditPost';
 import BlogPage from './components/HomeComponents/Post/BlogSection';
 import MyStatefulEditor from './components/HomeComponents/Post/MyStatefulEditor';
 import Orderlist from './components/HomeComponents/user/Orderlist'
+//ApiRoleAuthorization
 import './custom.css'
 
  export default class App extends Component {

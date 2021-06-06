@@ -47,6 +47,53 @@ namespace EcommerceApp.Controllers
          } */
 
 
+        [HttpGet]
+        [Route("RoleCheck")]
+        public async Task<IActionResult> RoleCheck()
+        {
+
+
+            var statusCode = 400;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    if (UserID != null)
+                    {
+                        var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
+                        if (userrole != null)
+                        {
+                            var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
+
+                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            {
+                                statusCode = 200;
+                            }
+                        }                          
+                        else
+                        {
+                            statusCode = 500;
+                        }
+                    }
+                    else
+                    {
+                        statusCode = 500;
+                    }
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Ok(new { status = "FAILED", statusCode = statusCode });
+            }
+
+            return Ok(new { status = "SUCCESS", statusCode = statusCode });
+        }
+
+
+
         // [Authorize(Roles = Role.Admin)]
         [HttpPost]
         [Route("CreateRole")]
@@ -577,6 +624,11 @@ namespace EcommerceApp.Controllers
                     var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                     if (UserID != null)
                     {
+                        var x = User;
+                        var temp = User.IsInRole(Role.Admin);
+                        var temp1 = User.IsInRole(Role.Administrator);
+                        var temp2 = User.IsInRole(Role.Manager);
+
                         var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
                         if (userrole != null)
                         {
@@ -588,6 +640,86 @@ namespace EcommerceApp.Controllers
 
                                 return Ok(new { data = Users, statusCode = statusCode });
 
+                            }
+
+                        }
+                        else
+                        {
+                            return Ok(new { status = "Access Denied", statusCode = 403 });
+                        }
+
+                    }
+                    else
+                    {
+                        statusCode = 500;
+                    }
+
+
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                return Ok(new { status = "FAILED", statusCode = statusCode });
+            }
+
+            return Ok(new { status = "SUCCESS", statusCode = statusCode });
+
+        }
+
+
+
+
+
+        [HttpGet]
+        [Route("GetAllRole")]
+        public async Task<IActionResult> GetAllRole()
+        {
+            var statusCode = 400;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                   
+                    if (UserID != null)
+                    {
+                       
+
+                        var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
+                        if (userrole != null)
+                        {
+                            var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
+                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            {
+                                var Users = await _context.Users.ToListAsync();
+
+
+                                /* var sql = @"
+                                         SELECT AspNetUsers.UserName, AspNetRoles.Name As Role
+                                         FROM AspNetUsers 
+                                         LEFT JOIN AspNetUserRoles ON  AspNetUserRoles.UserId = AspNetUsers.Id 
+                                         LEFT JOIN AspNetRoles ON AspNetRoles.Id = AspNetUserRoles.RoleId"; */
+                                /*  var sql = @"
+                                          SELECT *
+                                          FROM AspNetUsers 
+                                          LEFT JOIN AspNetUserRoles ON  AspNetUserRoles.UserId = AspNetUsers.Id"; */
+                                var sql = @"
+                                        SELECT *
+                                        FROM AspNetUsers where AspNetUsers.Id IN 
+                                        (select AspNetUserRoles.UserId from AspNetUserRoles)";
+
+                              
+                                var result = _context.Users.FromSqlRaw(sql).ToList();
+
+
+                                if (result != null)
+                                {
+                                    statusCode = 200;
+                                    return Ok(new { data = result, statusCode = statusCode });
+
+                                }                             
                             }
 
                         }
@@ -975,5 +1107,12 @@ namespace EcommerceApp.Controllers
             public string? img5 { get; set; }
         }
 
+
+        public class UserWithRole
+        {
+            public string UserName { get; set; } // You can alias the SQL output to give these better names
+            public string Name { get; set; }
+
+        }
     }
 }

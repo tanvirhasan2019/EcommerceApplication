@@ -19,6 +19,8 @@ import { useDispatch } from 'react-redux';
 //import { fetchProducts } from '../../actions/Products';
 //import { fetchProducts } from '../../../actions/Products';
 import SimpleBackdrop from '../../spinner/SimpleBackdrop';
+import Alert from '@material-ui/lab/Alert';
+
 
 
 
@@ -102,7 +104,8 @@ async componentDidMount() {
 
                         {
                             this.state.loading == false && this.state.Post.length == 0 ?
-                                this.state.status : null
+                                <Alert variant="filled" severity="warning">
+                                    {this.state.status}!</Alert> : null
                         }
 
                     </div>
