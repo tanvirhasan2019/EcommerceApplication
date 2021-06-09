@@ -3,6 +3,7 @@ import PicturesWall from './PicturesWall';
 
 import './MenCategory.scss';
 
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { Form, Input, InputNumber} from 'antd';
 import { Select, Tag } from 'antd';
 import Fab from '@material-ui/core/Fab';
@@ -60,6 +61,7 @@ class MenCategory extends Component {
        
 
         this.onFinish = this.onFinish.bind(this);
+        this.OnchangeDesc = this.OnchangeDesc.bind(this);
      
     }
 
@@ -200,7 +202,9 @@ class MenCategory extends Component {
       
     }
 
-
+    OnchangeDesc(e) {
+        console.log('data ', e.target.value)
+}
 
     render() {
 
@@ -312,7 +316,13 @@ class MenCategory extends Component {
                         },
                     ]}
                 >
-                    <Input.TextArea  />
+                    <TextareaAutosize
+                        style={{ width: '100%', whiteSpace: 'pre-line'}}
+                        onChange={this.OnchangeDesc}
+                        aria-label="minimum height" rowsMin={5} placeholder="Description ..."
+                    />
+                    
+                  
                 </Form.Item>
 
                 <Form.Item
@@ -450,3 +460,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenCategory);
 
+//  <Input.TextArea onChange={this.OnchangeDesc} />

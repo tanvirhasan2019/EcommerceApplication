@@ -11,6 +11,7 @@ import { cartUpdate } from '../../../actions/cartItem';
 //import { cartWithId } from '../../../actions/cartItem';
 import { ToastContainer } from 'react-toastify';
 import IncDec from './IncDecButton';
+import Typography from '@material-ui/core/Typography';
 
 import { notification } from 'antd';
 
@@ -126,20 +127,30 @@ class ProductsList extends Component {
                 <div className="card shadow mb-5 bg-white rounded">
                     <img className="card-img-top" src={titleImage} alt="NO IMAGE" />
                     <div className="card-body">
-                        <h5 className="card-title">{this.props.value.title}</h5>
+                        
+                        <Typography variant="h6" gutterBottom>
+                            {this.props.value.title}
+                        </Typography>
 
                     </div>
 
-                    <Collapse className="card-footer" style={{ margin: '0px', padding: '0px', border: 'none' }}
+                    <Collapse className="card-footer" style={{margin: '0px', padding: '0px', border: 'none' }}
                     >
-                        <Panel className="description-text card-footer" header="DESCRIPTION" key="1">
-                            <div>{this.props.value.description}</div>
+                        <Panel  className="description-text card-footer" header="DESCRIPTION" key="1">
+                           
+                            <Typography style={{ whiteSpace: 'pre-wrap' }} variant="body1" gutterBottom>
+                                {this.props.value.description}
+                             </Typography>
                         </Panel>
                     </Collapse>
 
 
                     <div className="card-footer">
-                        <p className="price-text">BDT : {this.props.value.price} /-</p>
+                        <Typography style={{color:'black'}} className="price-text" variant="h6" gutterBottom>
+                            BDT &nbsp;{this.props.value.price}&nbsp;/-
+                        </Typography>
+                       
+                       
                     </div>
 
 
@@ -179,3 +190,4 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsList);
+//<h5 className="card-title">{this.props.value.title}</h5>

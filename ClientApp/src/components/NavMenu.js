@@ -70,16 +70,12 @@ const StyledBadge = withStyles((theme) => ({
                                   </NavLink>
                             </NavItem>
                             <NavItem>
-                                     <NavLink tag={Link} to="/blog-page">
-                                        <NotificationsActiveIcon className="custom-icon" style={{ fontSize: '30px' }}/>
-                                </NavLink>
+                                  <NavLink tag={Link} to="/blog-page">
+                                      <NotificationsActiveIcon className="custom-icon" style={{ fontSize: '30px' }}/>
+                                  </NavLink>
                             </NavItem>
 
-                            <NavItem>
-                                <NavLink>
-                                    <MessageIcon className="custom-icon" style={{ fontSize: '30px' }} />
-                                </NavLink>
-                            </NavItem>
+                           
 
                             <LoginMenu>
                             </LoginMenu>

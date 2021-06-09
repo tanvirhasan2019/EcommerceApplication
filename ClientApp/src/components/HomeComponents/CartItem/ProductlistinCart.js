@@ -13,6 +13,8 @@ import IncDec from '../NewFolder/IncDecButton';
 import addToCart from '../NewFolder/cartItemStore';
 import { notification } from 'antd';
 import SimpleBackdrop from '../../../components/spinner/SimpleBackdrop';
+import Typography from '@material-ui/core/Typography';
+
 
 import './CustomizeProduct.scss';
 
@@ -131,18 +133,27 @@ class ProductlistinCart extends Component {
 
 
                                 <div style={{ fontSize: '1rem' }}>
-                                    {item.title}
+                                    
+                                    <Typography variant="h6" gutterBottom>
+                                        {item.title}
+                                    </Typography>
                                 </div>
 
                                 <Collapse className="card-footer" style={{ margin: '0px', padding: '0px', border: 'none' }}
                                 >
                                     <Panel className="description-text card-footer" header="DESCRIPTION" key="1">
-                                        <div>{item.description}</div>
+                                        
+                                        <Typography style={{ whiteSpace: 'pre-wrap' }} variant="body1" gutterBottom>
+                                            {item.description}
+                                        </Typography>
                                     </Panel>
                                 </Collapse>
 
                                 <div style={{ fontSize: '.8rem' }}>
-                                    {item.quantity} x {item.price} = {item.quantity * item.price}
+                                    <Typography  variant="body2" gutterBottom>
+                                        {item.quantity} &nbsp; x&nbsp; {item.price} &nbsp; = &nbsp; {item.quantity * item.price}
+                                    </Typography>
+                                    
 
                                 </div>
 
