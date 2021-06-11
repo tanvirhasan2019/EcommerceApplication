@@ -3,7 +3,7 @@ import { Toast } from 'primereact/toast';
 import RichTextEditor from 'react-rte';
 
 import { NavMenu } from '../../NavMenu'
-import FooterLayout from '../../FooterLayout'
+import FooterLayout from '../../Footer/FooterLayout'
 
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';

@@ -18,6 +18,7 @@ import EditPost from './components/HomeComponents/Post/EditPost';
 import BlogPage from './components/HomeComponents/Post/BlogSection';
 import MyStatefulEditor from './components/HomeComponents/Post/MyStatefulEditor';
 import Orderlist from './components/HomeComponents/user/Orderlist'
+import Map from './components/Footer/Map';
 //ApiRoleAuthorization
 import './custom.css'
 
@@ -30,6 +31,7 @@ import './custom.css'
           <Fragment>
              
               <Route exact path='/' component={Home} />
+              <Route exact path='/location' component={Map} />
               <Route strict exact path='/cart-item' component={CartItem} /> 
               <AuthorizeRoute strict exact path='/checkout' component={Checkout} /> 
               <AuthorizeRoute strict exact path='/blog-page' component={BlogPage} /> 

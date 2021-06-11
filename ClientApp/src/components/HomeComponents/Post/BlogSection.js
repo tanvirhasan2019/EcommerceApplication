@@ -2,7 +2,7 @@
 import './StyleSheet.scss';
 import { Redirect } from "react-router";
 import { NavMenu } from '../../NavMenu'
-import FooterLayout from '../../FooterLayout'
+import FooterLayout from '../../Footer/FooterLayout'
 import PostList from './PostList'
 import authService from '../../api-authorization/AuthorizeService'
 

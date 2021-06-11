@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SimpleBackdrop from '../../spinner/SimpleBackdrop'
 import authService from '../../api-authorization/AuthorizeService';
-import FooterLayout from '../../FooterLayout';
+import FooterLayout from '../../Footer/FooterLayout';
 import { NavMenu } from '../../NavMenu'; 
 
 var user_id = 0
