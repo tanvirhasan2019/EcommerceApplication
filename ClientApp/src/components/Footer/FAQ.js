@@ -24,7 +24,7 @@ import { NavMenu } from '../NavMenu';
 import MapImage from '../../images/Location.png'
 import ButtonAppBar from './ButtonAppBar'
 
-export default function Map() {
+export default function FAQ() {
     const [currentImage, setCurrentImage] = useState(0);
     const [viewerIsOpen, setViewerIsOpen] = useState(false);
 
@@ -42,8 +42,8 @@ export default function Map() {
         <div>
             <ButtonAppBar />
             <div className="row">
-                   <img src={MapImage} className="img-fluid" alt="shop location"/>
-             </div>
+                <img src={MapImage} className="img-fluid" alt="shop location" />
+            </div>
             <Gallery photos={photos} onClick={openLightbox} />
             <ModalGateway>
                 {viewerIsOpen ? (

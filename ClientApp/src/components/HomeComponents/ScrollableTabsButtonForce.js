@@ -85,7 +85,7 @@ function ScrollableTabsButtonForce({ pageNumber, cart_size, allProducts, fetchPr
 
     if (allProducts.isLoading === false && allProducts.isLoading !== undefined) {
 
-
+        console.log('All products data from database ', allProducts)
         if (filterProduct.length > 0 || filterPrice.min !== 0 || filterPrice.max !== 100000) {
 
 

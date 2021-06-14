@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210326061028_OrderDetailsLinkedToProduct5")]
-    partial class OrderDetailsLinkedToProduct5
+    [Migration("20210613064332_demo")]
+    partial class demo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,12 +86,37 @@ namespace EcommerceApp.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("EcommerceApp.Models.ChatTable", b =>
+                {
+                    b.Property<int>("ChatTableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AdminId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ChatTableId");
+
+                    b.HasIndex("AdminId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ChatTables");
+                });
+
             modelBuilder.Entity("EcommerceApp.Models.ClientOrder", b =>
                 {
                     b.Property<int>("Orderid")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("dateTime")
                         .HasColumnType("datetime2");
@@ -104,6 +129,62 @@ namespace EcommerceApp.Migrations
                     b.ToTable("ClientOrder");
                 });
 
+            modelBuilder.Entity("EcommerceApp.Models.Comments", b =>
+                {
+                    b.Property<int>("CommentsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CommentContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CommentsId");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.Message", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ChatTableId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Messages")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ChatTableId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("EcommerceApp.Models.OrderDetails", b =>
                 {
                     b.Property<int>("id")
@@ -111,10 +192,13 @@ namespace EcommerceApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClientOrderOrderid")
+                    b.Property<int?>("ClientOrderOrderid")
                         .HasColumnType("int");
 
                     b.Property<int>("Productid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("corderid")
                         .HasColumnType("int");
 
                     b.Property<double>("price")
@@ -127,10 +211,60 @@ namespace EcommerceApp.Migrations
 
                     b.HasIndex("ClientOrderOrderid");
 
-                    b.HasIndex("Productid")
-                        .IsUnique();
+                    b.HasIndex("Productid");
 
                     b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Approved")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PostContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Post");
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.PostLike", b =>
+                {
+                    b.Property<int>("PostLikeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostLikeId");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostLikes");
                 });
 
             modelBuilder.Entity("EcommerceApp.Models.Product", b =>
@@ -196,7 +330,8 @@ namespace EcommerceApp.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("productid");
+                    b.HasIndex("productid")
+                        .IsUnique();
 
                     b.ToTable("ProductImage");
                 });
@@ -237,7 +372,8 @@ namespace EcommerceApp.Migrations
 
                     b.HasKey("shippingid");
 
-                    b.HasIndex("ClientOrderOrderid");
+                    b.HasIndex("ClientOrderOrderid")
+                        .IsUnique();
 
                     b.ToTable("ShippingDetails");
                 });
@@ -260,7 +396,8 @@ namespace EcommerceApp.Migrations
 
                     b.HasKey("trsansactionid");
 
-                    b.HasIndex("ClientOrderOrderid");
+                    b.HasIndex("ClientOrderOrderid")
+                        .IsUnique();
 
                     b.ToTable("Transaction");
                 });
@@ -482,17 +619,72 @@ namespace EcommerceApp.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("EcommerceApp.Models.OrderDetails", b =>
+            modelBuilder.Entity("EcommerceApp.Models.ChatTable", b =>
                 {
-                    b.HasOne("EcommerceApp.Models.ClientOrder", null)
-                        .WithMany("order")
-                        .HasForeignKey("ClientOrderOrderid")
+                    b.HasOne("EcommerceApp.Models.ApplicationUser", "Admin")
+                        .WithMany()
+                        .HasForeignKey("AdminId");
+
+                    b.HasOne("EcommerceApp.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.Comments", b =>
+                {
+                    b.HasOne("EcommerceApp.Models.ApplicationUser", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
+                    b.HasOne("EcommerceApp.Models.Post", "post")
+                        .WithMany("comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.Message", b =>
+                {
+                    b.HasOne("EcommerceApp.Models.ChatTable", "ChatTable")
+                        .WithMany("Messages")
+                        .HasForeignKey("ChatTableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EcommerceApp.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.OrderDetails", b =>
+                {
+                    b.HasOne("EcommerceApp.Models.ClientOrder", null)
+                        .WithMany("OrderDetail")
+                        .HasForeignKey("ClientOrderOrderid");
+
                     b.HasOne("EcommerceApp.Models.Product", "Product")
-                        .WithOne("OrderDetails")
-                        .HasForeignKey("EcommerceApp.Models.OrderDetails", "Productid")
+                        .WithMany()
+                        .HasForeignKey("Productid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.Post", b =>
+                {
+                    b.HasOne("EcommerceApp.Models.ApplicationUser", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.PostLike", b =>
+                {
+                    b.HasOne("EcommerceApp.Models.ApplicationUser", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
+                    b.HasOne("EcommerceApp.Models.Post", "post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -500,8 +692,8 @@ namespace EcommerceApp.Migrations
             modelBuilder.Entity("EcommerceApp.Models.ProductImage", b =>
                 {
                     b.HasOne("EcommerceApp.Models.Product", null)
-                        .WithMany("Img")
-                        .HasForeignKey("productid")
+                        .WithOne("Img")
+                        .HasForeignKey("EcommerceApp.Models.ProductImage", "productid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -509,8 +701,8 @@ namespace EcommerceApp.Migrations
             modelBuilder.Entity("EcommerceApp.Models.ShippingDetails", b =>
                 {
                     b.HasOne("EcommerceApp.Models.ClientOrder", null)
-                        .WithMany("shipping")
-                        .HasForeignKey("ClientOrderOrderid")
+                        .WithOne("shipping")
+                        .HasForeignKey("EcommerceApp.Models.ShippingDetails", "ClientOrderOrderid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -518,8 +710,8 @@ namespace EcommerceApp.Migrations
             modelBuilder.Entity("EcommerceApp.Models.Transaction", b =>
                 {
                     b.HasOne("EcommerceApp.Models.ClientOrder", null)
-                        .WithMany("transaction")
-                        .HasForeignKey("ClientOrderOrderid")
+                        .WithOne("transaction")
+                        .HasForeignKey("EcommerceApp.Models.Transaction", "ClientOrderOrderid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

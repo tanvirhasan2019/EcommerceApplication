@@ -6,6 +6,9 @@ import PinDropIcon from '@material-ui/icons/PinDrop';
 import InfoIcon from '@material-ui/icons/Info';
 import HelpIcon from '@material-ui/icons/Help';
 import AppleIcon from '@material-ui/icons/Apple';
+import { Link } from 'react-router-dom';
+
+
 export default class FooterLayout extends Component {
 
     render() {
@@ -25,9 +28,15 @@ export default class FooterLayout extends Component {
                                     </button>
 								</li>
 								<li>
-									<button type="submit" class="btn btn-outline-light mb-4">
-										<PinDropIcon /> &nbsp;Find our store
-                                    </button>
+									<Link to="/location">
+										<button type="submit" class="btn btn-outline-light mb-4">
+										<PinDropIcon /> &nbsp;Find our store 
+                                    </button> </Link>
+								</li>
+								<li>
+									<Typography style={{ color: 'white', fontStyle:'italic' }} variant="h6" gutterBottom>
+										tanshen technology
+							        </Typography>
 								</li>
 								
 							</ul>
@@ -41,12 +50,39 @@ export default class FooterLayout extends Component {
 							</Typography>
 							<ul className="list-unstyled quick-links">
 								
-								<li><a href="https://www.fiverr.com/share/qb8D02">Info</a></li>
-								<li><a href="https://www.fiverr.com/share/qb8D02">Contact Us</a></li>
-								<li><a href="https://www.fiverr.com/share/qb8D02">FAQ</a></li>
-								<li><a href="https://www.fiverr.com/share/qb8D02">Brands</a></li>
-
 								
+								<li>
+									<button type="submit" class="btn btn-outline-light mb-4">
+										Info
+                                    </button>
+								</li>
+								
+								<li>
+								<button type="submit" class="btn btn-outline-light mb-4">
+									FAQ
+                                    </button>
+								</li>
+                                <li>
+									<Link to="/contact-us">
+										<button type="submit" class="btn btn-outline-light mb-4">
+											Contact Us
+                                    </button> </Link>
+								</li>
+
+								<li>
+									<Link to="/brands">
+										<button type="submit" class="btn btn-outline-light mb-4">
+											Brands contact-us
+                                    </button> </Link>
+								</li>
+								<li>
+									<Link to="/aboutus">
+										<button type="submit" class="btn btn-outline-light mb-4">
+											about us
+                                    </button> </Link>
+								</li>
+
+															
 							</ul>
 						</div>
 
@@ -55,7 +91,7 @@ export default class FooterLayout extends Component {
 					<div className="row">
 						<div className="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
 							<ul className="list-unstyled list-inline social text-center">
-								<li className="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i className="fa fa-facebook"></i></a></li>
+								<li className="list-inline-item"><a href=""><i className="fa fa-facebook"></i></a></li>
 								<li className="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i className="fa fa-twitter"></i></a></li>
 								<li className="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i className="fa fa-instagram"></i></a></li>
 								<li className="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i className="fa fa-google-plus"></i></a></li>

@@ -21,7 +21,7 @@ namespace EcommerceApp.Models
 
         public string? Status { get; set; }
 
-        public virtual List<OrderDetails>? order { get; set; }
+        public virtual List<OrderDetails>? OrderDetail { get; set; }
 
         public virtual Transaction? transaction { get; set; }
 

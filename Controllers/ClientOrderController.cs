@@ -32,7 +32,7 @@ namespace EcommerceApp.Controllers
 
         }
 
-
+        
 
         [HttpPost]
         [Route("PlaceOrder")]
@@ -68,7 +68,7 @@ namespace EcommerceApp.Controllers
                     {
                         var order_details = new OrderDetails();
 
-                        order_details.ClientOrderOrderid = ordeID;
+                        order_details.corderid = ordeID;
                         order_details.Productid = order.productid[i];
                         order_details.quantity = order.quantity[i];
                         order_details.price = order.price[i];
@@ -177,5 +177,6 @@ namespace EcommerceApp.Controllers
             public string? country { get; set; }
             public string? zip { get; set; }
         
-    }
+    } 
 }
+        

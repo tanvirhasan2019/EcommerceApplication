@@ -190,10 +190,13 @@ namespace EcommerceApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClientOrderOrderid")
+                    b.Property<int?>("ClientOrderOrderid")
                         .HasColumnType("int");
 
                     b.Property<int>("Productid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("corderid")
                         .HasColumnType("int");
 
                     b.Property<double>("price")
@@ -654,10 +657,8 @@ namespace EcommerceApp.Migrations
             modelBuilder.Entity("EcommerceApp.Models.OrderDetails", b =>
                 {
                     b.HasOne("EcommerceApp.Models.ClientOrder", null)
-                        .WithMany("order")
-                        .HasForeignKey("ClientOrderOrderid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("OrderDetail")
+                        .HasForeignKey("ClientOrderOrderid");
 
                     b.HasOne("EcommerceApp.Models.Product", "Product")
                         .WithMany()

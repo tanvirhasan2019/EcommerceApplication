@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Layout from '../../Layout'
-
+import Alert from '@material-ui/lab/Alert';
 
 
 
@@ -31,6 +31,7 @@ export default function Orderlist() {
 
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    //const [dataSize, setDatasize] = useState(true);
     const isMounted = useRef(false);
 
 
@@ -63,7 +64,8 @@ export default function Orderlist() {
                 const data = await response.json();
                 setData(data)
                 setLoading(false)
-                //setResult(data.data)
+
+               
 
                 console.log('after fetch ', { data })
 
@@ -84,85 +86,8 @@ export default function Orderlist() {
 
 
 
-   /* useEffect(async () => {
-
-       
-
-         //return () => { isMounted = false }; 
-
-        isMounted.current = true;
-
-
-        const token = await authService.getAccessToken()
-        // console.log('token', token)
-        let isMounted = true;
-        if (token) {
-
-           // const token = await authService.getAccessToken()
-            const response = await fetch('ClientOrder/Getuserorder', {
-                headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await response.json();
-            setData(data)
-            setLoading(false)
-
-            console.log('after fetch ', { data })
-
-        }
-
-        return () => isMounted.current = false;
-
-
-
-    }, []); */
-
-
     let isRendered = useRef(false);
 
-    /* useEffect(async() => {
-        isRendered = true;
-        const token = await authService.getAccessToken()
-        // console.log('token', token)
-        let isMounted = true;
-        if (token) {
-
-            const token = await authService.getAccessToken()
-            const response = await fetch('ClientOrder/Getuserorder', {
-                headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await response.json();
-            setData(data)
-            setLoading(false)
-
-            console.log('after fetch ', { data })
-
-        }
-        return () => {
-            isRendered = false;
-        };
-    }, []);*/
-
-
-   /*  useEffect(async () => {
-        const token = await authService.getAccessToken()
-       // console.log('token', token)
-         let isMounted = true; 
-        if (token) {
-                      
-            const response = await fetch('ClientOrder/Getuserorder', {
-                headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await response.json();
-            setData(data)
-            setLoading(false)
-            
-            console.log('after fetch ', { data })
-
-         }
-
-       
-
-    }, []); */
 
    
     return (
@@ -177,6 +102,12 @@ export default function Orderlist() {
                     <Paper className={classes.paper}>
                         {
                             !loading ? <Allorderlist data={data.data} /> : spinner
+                        }
+
+                        {
+                            !loading && data.data.length == 0 ? <Alert style={{marginTop:'10px'}} variant="filled" severity="error">
+                                                                    Opps your order list is empty
+                                                                </Alert> : null
                         }
                     </Paper>
 

@@ -11,6 +11,7 @@ import { Redirect } from "react-router";
 import { Menu, Dropdown, Button, message, Space, Tooltip } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import Typography from '@material-ui/core/Typography';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 
 
@@ -70,38 +71,8 @@ import Typography from '@material-ui/core/Typography';
      authenticatedView(userName, profilePath, logoutPath) {
 
 
-         var userSign = "Signed in as "+ this.state.userName
-         const friendOptions = [
-             {
-                 key: '0',
-               
-                 text:  userSign ,
-                 value: 0,
-                 image: { avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg' },
-             },
-             {
-                 key: '1',
-                
-                 text: 'My Profile',
-                 value: {profilePath},
-                 image: { avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg' },
-             },
-             {
-                 key: '2',
-                
-                 text: 'My Order',
-                 value: "/user-orders-item",
-                 
-             },
-
-             {
-                 key: '3',
-                 path: 3,
-                 text: 'Logout',
-                 value: { logoutPath },
-             }
-             
-         ]
+         var userSign = "Signed in as " + this.state.userName
+        
 
          const redirectHandler = (event, data) => {
              console.log('Riderect handler is called', data)
@@ -115,7 +86,7 @@ import Typography from '@material-ui/core/Typography';
          }
 
          const renderRedirect = () => {
-             //this.setState({ redirect: true})
+
              if (this.state.redirect) {
                  console.log('selected option render path ', this.state.path)
                  return <Redirect to={this.state.path} />
@@ -123,8 +94,6 @@ import Typography from '@material-ui/core/Typography';
                  this.setState({ path: '' })
              }
 
-            // this.setState({ redirect: false })
-           //  this.setState({ path: '' })   
          }
          const menu = (
                  <Menu>                            
@@ -150,7 +119,7 @@ import Typography from '@material-ui/core/Typography';
                      <Dropdown overlay={menu}>
                          <Button>                             
                              <Typography style={{ textAlign: 'center', color: 'blue' }} variant="subtitle2" gutterBottom>
-                                 {userSign}
+                                 {userSign} &nbsp; <GetAppIcon />
                              </Typography>
                          </Button>
                      </Dropdown>
@@ -163,111 +132,10 @@ import Typography from '@material-ui/core/Typography';
          </Fragment>);
 
 
-       /*  return (<Fragment>
-             <NavItem style={{ height: '100%', textAlign: 'center' }}>
-                 { renderRedirect()}
-                 <NavLink>
-                     <Dropdown
-                         inline
-                         onChange={redirectHandler}
-                         options={friendOptions}
-                         defaultValue={friendOptions[0].value}
-                     />
-
-                 </NavLink>
-
-
-             </NavItem>
-
-         </Fragment>); 
-         
-         
-          <Menu.Item as={Link} to="/user-orders-item" key="2" icon={<UserOutlined />}>
-                             My Orders
-                         </Menu.Item>
-                         <Menu.Item as={Link} to={logoutPath} key="3" icon={<UserOutlined />}>
-                             Logout
-                         </Menu.Item>
-         
-         
-         
-         */
-
-
-       /*  return (<Fragment>
-             <NavItem style={{height:'100%', textAlign:'center'}}>
-                 <NavLink>
-                     <Dropdown className="text-dark" trigger={trigger} options={options} />
-
-                 </NavLink>
-
-                 
-             </NavItem>
-            
-         </Fragment>); 
-
-         return (<Fragment>
-             <NavItem style={{ height: '100%', textAlign: 'center' }}>
-                 <NavLink className="text-dark">
-
-                     <DropdownButton id="dropdown-basic-button" title={userSign}>
-                         <Dropdown.Item as={Link} to={profilePath}>My Profile</Dropdown.Item>
-                         <Dropdown.Item as={Link} to="/user-orders-item">My Orders</Dropdown.Item>
-                         <Dropdown.Item as={Link} to={logoutPath}>Sign Out</Dropdown.Item>
-                         <Dropdown.Item>Close</Dropdown.Item>
-                     </DropdownButton>
-
-                 </NavLink>
-
-
-             </NavItem>
-
-         </Fragment>);
-
-
-        /* return (<Fragment>
-             <NavItem style={{ height: '100%', textAlign: 'center', backgroundColor: 'none' }}>
-                 <NavLink>
-                     <Dropdown style={{background:'none'}}>
-                         <Dropdown.Toggle variant="success" id="dropdown-basic-button">
-                            <span>
-                                Signed in as <strong>{this.state.userName}</strong>
-                          </span>
-                        </Dropdown.Toggle>
-
-                         <Dropdown.Menu>                            
-                              
-                             <Dropdown.Item as={Link} to={profilePath}>My Profile</Dropdown.Item>
-                             <Dropdown.Item as={Link} to="/user-orders-item">My Orders</Dropdown.Item>
-                             <Dropdown.Item as={Link} to={logoutPath}>Sign Out</Dropdown.Item>
-                             <Dropdown.Item>Close</Dropdown.Item>
-                            
-
-                         </Dropdown.Menu>
-                     </Dropdown>
-
-                 </NavLink>
-
-
-             </NavItem>
-
-         </Fragment>); */
-
-
+   
      }
 
-   /* authenticatedView(userName, profilePath, logoutPath) {
-        return (<Fragment>
-            <NavItem>
-                <NavLink tag={Link} className="text-dark" to={profilePath}>Hello {userName}</NavLink>
-            </NavItem>
-            <NavItem>
-                <NavLink tag={Link} className="text-dark" to={logoutPath}>Logout</NavLink>
-            </NavItem>
-        </Fragment>);
-
-    } */
-
+   
     anonymousView(registerPath, loginPath) {
         return (<Fragment>
             <NavItem>

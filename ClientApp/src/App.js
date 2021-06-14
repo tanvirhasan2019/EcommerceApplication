@@ -19,6 +19,10 @@ import BlogPage from './components/HomeComponents/Post/BlogSection';
 import MyStatefulEditor from './components/HomeComponents/Post/MyStatefulEditor';
 import Orderlist from './components/HomeComponents/user/Orderlist'
 import Map from './components/Footer/Map';
+import AboutUs from './components/Footer/AboutUs';
+import Brands from './components/Footer/Brands';
+import Contact from './components/Footer/Contact';
+
 //ApiRoleAuthorization
 import './custom.css'
 
@@ -31,7 +35,10 @@ import './custom.css'
           <Fragment>
              
               <Route exact path='/' component={Home} />
-              <Route exact path='/location' component={Map} />
+              <Route strict exact path='/location' component={Map} />
+              <Route strict exact path='/aboutus' component={AboutUs} />
+              <Route strict exact path='/brands' component={Brands} />
+              <Route strict exact path='/contact-us' component={Contact} />
               <Route strict exact path='/cart-item' component={CartItem} /> 
               <AuthorizeRoute strict exact path='/checkout' component={Checkout} /> 
               <AuthorizeRoute strict exact path='/blog-page' component={BlogPage} /> 

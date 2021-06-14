@@ -1,8 +1,47 @@
 ﻿import React, { Component } from "react";
-import { Map, TileLayer } from "react-leaflet";
-import L from "leaflet";
 
-const height = { height: "100vh" };
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+
+const mapStyles = {
+    width: '100%',
+    height: '100%'
+};
+
+class MapExample extends Component {
+    constructor() {
+        super();
+        this.state = {
+            name: "React"
+        };
+    }
+
+    render() {
+        return (
+            <div className="container">
+                <Map
+                    google={this.props.google}
+                    zoom={14}
+                    style={mapStyles}
+                    initialCenter={{
+                        lat: 23.759042086984, 
+                        lng: 90.41160383140395
+                    }}
+                >
+                    <Marker
+                        onClick={this.onMarkerClick}
+                        name={'This is test name'}
+                    />
+                </Map>
+            </div>
+        );
+    }
+}
+
+export default GoogleApiWrapper({
+    apiKey: 'AIzaSyC5URSKoNwsCUV5kRlO5lTR4IYxuNHhDdk'
+})(Map);
+
+/*const height = { height: "100vh" };
 const center = { lat: 51.5, lng: 0.12 };
 
 class MapExample extends Component {
@@ -54,4 +93,4 @@ class MapExample extends Component {
   }
 }
 
-export default MapExample;
+export default MapExample; */
