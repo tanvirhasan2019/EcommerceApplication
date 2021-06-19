@@ -111,7 +111,8 @@ namespace EcommerceApp
 
                 if (env.IsDevelopment())
                 {
-                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(120);
+                    //spa.Options.StartupTimeout = TimeSpan.FromSeconds(120);
+                   // spa.UseProxyToSpaDevelopmentServer(npmScript: "start");
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });

@@ -37,15 +37,10 @@ namespace EcommerceApp.Controllers
 
         }
 
-        /* public AdminController(ApplicationDbContext context, ILogger<AdminController> logger, UserManager<ApplicationUser> userManager)
-         {
-             _logger = logger;
-             _context = context;
-             _userManager = userManager;
-            // _roleManager = roleMgr;
-
-         } */
-
+      
+        // @Role
+        // ACCESS : ADMIN , MANAGER , ADMINISTRATOR
+        //DESC : Check Role for Administrator
 
         [HttpGet]
         [Route("RoleCheck")]
@@ -94,7 +89,11 @@ namespace EcommerceApp.Controllers
 
 
 
-        // [Authorize(Roles = Role.Admin)]
+
+        // @Role
+        // ACCESS : ADMINISTRATOR
+        //DESC : create role
+
         [HttpPost]
         [Route("CreateRole")]
         public async Task<IActionResult> CreateRole([FromBody] Admin admin)
@@ -113,7 +112,7 @@ namespace EcommerceApp.Controllers
                         if (userrole != null)
                         {
                             var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
-                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            if (rolename.Name == Role.Administrator)
                             {
                                 var user = await _userManager.FindByIdAsync(admin.userid);
                                 var roleExist = await _roleManager.RoleExistsAsync(Role.Admin);
@@ -141,7 +140,7 @@ namespace EcommerceApp.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "FAILED", statusCode = statusCode });
             }
@@ -151,7 +150,10 @@ namespace EcommerceApp.Controllers
 
 
 
-        
+        // @Role
+        // ACCESS : ADMIN , MANAGER , ADMINISTRATOR
+        //DESC : add new product
+
         [HttpPost]
         [Route("CreateProduct")]
         public object CreateProduct([FromBody] Productnew products)
@@ -225,7 +227,7 @@ namespace EcommerceApp.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
             }
@@ -237,6 +239,9 @@ namespace EcommerceApp.Controllers
 
 
 
+        // @Role
+        // ACCESS : ADMIN , MANAGER , ADMINISTRATOR
+        //DESC : update any product
 
         [HttpPost]
         [Route("UpdateProduct")]
@@ -309,7 +314,7 @@ namespace EcommerceApp.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" , statusCode = statusCode });
             }
@@ -320,6 +325,9 @@ namespace EcommerceApp.Controllers
 
 
 
+        // @Role
+        // ACCESS : ADMINISTRATOR , MANAGER
+        //DESC : delete any product
 
         [HttpPost]
         [Route("DeleteProductId")]
@@ -338,10 +346,9 @@ namespace EcommerceApp.Controllers
                         if (userrole != null)
                         {
                             var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
-                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            if (rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
                             {
                                 var id2 = productid.id;
-
 
                                 var ProductImage = _context.ProductImage.Where(u => u.productid == productid.id);
                                 foreach (var data in ProductImage)
@@ -380,7 +387,7 @@ namespace EcommerceApp.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" , statusCode = statusCode });
             }
@@ -390,11 +397,12 @@ namespace EcommerceApp.Controllers
 
         }
 
-         
 
 
 
-
+        // @Role
+        // ACCESS : ADMINISTRATOR , MANAGER
+        //DESC : delete multiple  product at a time
         [HttpPost]
         [Route("DeleteMultipleProductId")]
         public object DeleteMultipleProductId([FromBody] MultipleProductId multipleProductId)
@@ -412,7 +420,7 @@ namespace EcommerceApp.Controllers
                         if (userrole != null)
                         {
                             var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
-                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            if (rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
                             {
                                 for (int i = 0; i < multipleProductId.id.Count; i++)
                                 {
@@ -458,7 +466,7 @@ namespace EcommerceApp.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" , statusCode = statusCode });
             }
@@ -471,7 +479,9 @@ namespace EcommerceApp.Controllers
 
 
 
-
+        // @Role
+        // ACCESS : ADMINISTRATOR , MANAGER
+        //DESC : delete any product
 
         [HttpPost]
         [Route("DeleteOrderItem")]
@@ -490,23 +500,9 @@ namespace EcommerceApp.Controllers
                         if (userrole != null)
                         {
                             var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
-                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            if (rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
                             {
-                                /*  var Transaction = _context.Transaction.Where(u => u.ClientOrderOrderid == order.Orderid);
-                      foreach (var data in Transaction)
-                      {
-                          var x = data;
-                          _context.Transaction.Remove(data);
-                      }
-
-
-
-                      var ShippingDetails = _context.ShippingDetails.Where(u => u.ClientOrderOrderid == order.Orderid);
-                      foreach (var data in ShippingDetails)
-                      {
-                          var x = data;
-                          _context.ShippingDetails.Remove(data);
-                      } */
+                               
 
                                 var ClientOrder = _context.ClientOrder.Where(u => u.Orderid == order.Orderid);
                                 foreach (var data in ClientOrder)
@@ -535,19 +531,21 @@ namespace EcommerceApp.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" , statusCode = statusCode });
             }
 
             return Ok(new { status = "SUCCESS", statusCode = statusCode , message = "SUCCESS" });
-            //  return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" });
 
         }
 
-        
 
 
+
+        // @Role
+        // ACCESS : ADMINISTRATOR , MANAGER
+        //DESC : delete any Ordered item
 
         [HttpPost]
         [Route("DeleteOrderItems")]
@@ -566,7 +564,7 @@ namespace EcommerceApp.Controllers
                         if (userrole != null)
                         {
                             var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
-                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            if (rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
                             {
                                 for (int i = 0; i < list.id.Count; i++)
                                 {
@@ -599,18 +597,19 @@ namespace EcommerceApp.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" , statusCode = statusCode });
             }
 
             return Ok(new { status = "SUCCESS", statusCode = statusCode, message = "SUCCESS" });
-            // return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" });
         }
 
-   
 
 
+        // @Role
+        // ACCESS : ADMIN , ADMINISTRATOR , MANAGER
+        //DESC : return all registered users
 
         [HttpGet]
         [Route("GetAllUser")]
@@ -659,7 +658,7 @@ namespace EcommerceApp.Controllers
 
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "FAILED", statusCode = statusCode });
             }
@@ -671,6 +670,9 @@ namespace EcommerceApp.Controllers
 
 
 
+        // @Role
+        // ACCESS : ADMINISTRATOR
+        //DESC : return all administrator(admin , manager , administrator)
 
         [HttpGet]
         [Route("GetAllRole")]
@@ -686,70 +688,47 @@ namespace EcommerceApp.Controllers
                     if (UserID != null)
                     {
                        
-
                         var userrole = _context.UserRoles.Where(x => x.UserId == UserID).FirstOrDefault();
                         if (userrole != null)
                         {
                             var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
-                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            if (rolename.Name == Role.Administrator)
                             {
                                 var Users = await _context.Users.ToListAsync();
-
-
-                                /* var sql = @"
-                                         SELECT AspNetUsers.UserName, AspNetRoles.Name As Role
-                                         FROM AspNetUsers 
-                                         LEFT JOIN AspNetUserRoles ON  AspNetUserRoles.UserId = AspNetUsers.Id 
-                                         LEFT JOIN AspNetRoles ON AspNetRoles.Id = AspNetUserRoles.RoleId"; */
-                                /*  var sql = @"
-                                          SELECT *
-                                          FROM AspNetUsers 
-                                          LEFT JOIN AspNetUserRoles ON  AspNetUserRoles.UserId = AspNetUsers.Id"; */
                                 var sql = @"
                                         SELECT *
                                         FROM AspNetUsers where AspNetUsers.Id IN 
-                                        (select AspNetUserRoles.UserId from AspNetUserRoles)";
-
-                              
+                                        (select AspNetUserRoles.UserId from AspNetUserRoles)";                             
                                 var result = _context.Users.FromSqlRaw(sql).ToList();
-
-
                                 if (result != null)
                                 {
                                     statusCode = 200;
                                     return Ok(new { data = result, statusCode = statusCode });
-
                                 }                             
                             }
-
                         }
                         else
                         {
                             return Ok(new { status = "Access Denied", statusCode = 403 });
                         }
-
                     }
                     else
                     {
                         statusCode = 500;
                     }
-
-
                 }
-
-
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "FAILED", statusCode = statusCode });
             }
-
             return Ok(new { status = "SUCCESS", statusCode = statusCode });
-
         }
 
 
-
+        // @Role
+        // ACCESS : ADMINISTRATOR
+        //DESC : Lock any User
 
         [HttpDelete]
         [Route("LockUser")]
@@ -786,7 +765,6 @@ namespace EcommerceApp.Controllers
                                         user.LockoutEnd = DateTime.Now + TimeSpan.FromDays(30);
                                     }
 
-                                    // user.LockoutEnabled = !user.LockoutEnabled;
                                     await _context.SaveChangesAsync();
                                     statusCode = 200;
                                 }
@@ -824,10 +802,13 @@ namespace EcommerceApp.Controllers
             }
             return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS", statusCode = statusCode });
         }
-    
 
 
 
+
+        // @Role
+        // ACCESS : ADMINISTRATOR
+        //DESC :  delete any user
 
         [HttpDelete]
         [Route("DeleteUser")]
@@ -847,9 +828,8 @@ namespace EcommerceApp.Controllers
                         if (userrole != null)
                         {
                             var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
-                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            if (rolename.Name == Role.Administrator)
                             {
-                               // var UserID = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
                                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id.userid);
 
@@ -929,7 +909,7 @@ namespace EcommerceApp.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED", statusCode = statusCode });
             }
@@ -938,6 +918,10 @@ namespace EcommerceApp.Controllers
 
         }
 
+
+        // @Role
+        // ACCESS : ADMINISTRATOR
+        //DESC : delete multiple user at a time
 
         [HttpDelete]
         [Route("DeleteUsers")]

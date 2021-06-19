@@ -35,6 +35,10 @@ namespace EcommerceApp.Controllers
         }
 
 
+        // @User
+        // ACCESS : MANAGER ,ADMINISTRATOR , ADMIN , USER
+        //DESC : comment add on a post
+
         [HttpPost]
         [Route("AddComment")]
         public object AddComment([FromBody] Comments comments)
@@ -68,6 +72,11 @@ namespace EcommerceApp.Controllers
         }
 
 
+
+        // @User
+        // ACCESS : MANAGER ,ADMINISTRATOR , ADMIN , USER
+        //DESC : post creation
+
         [HttpPost]
         [Route("CreatePost")]
         public object CreatePost([FromBody] Post post)
@@ -95,9 +104,9 @@ namespace EcommerceApp.Controllers
 
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
+                
                 return Ok((status: "SOMETHING WENT WRONG", message: "FAILED"));
             }
 
@@ -108,8 +117,11 @@ namespace EcommerceApp.Controllers
 
 
 
-        //@ Admin
+  
 
+        // @Role
+        // ACCESS : MANAGER ,ADMINISTRATOR , ADMIN 
+        //DESC : return all post 
 
         [HttpGet]
         [Route("AdminGetAllpost")]
@@ -163,7 +175,9 @@ namespace EcommerceApp.Controllers
 
 
 
-        // @ Admin
+        // @Role
+        // ACCESS : MANAGER , ADMINISTRATOR , ADMIN
+        //DESC : post should approve or delete
 
         [HttpPost]
         [Route("ChangePostApproval")]
@@ -229,7 +243,10 @@ namespace EcommerceApp.Controllers
 
 
 
-        // @ USER 
+        // @User
+        // ACCESS : MANAGER , ADMINISTRATOR , ADMIN , USER
+        //DESC : Delete Post
+
 
         [HttpPost]
         [Route("DeletPost")]
@@ -261,6 +278,11 @@ namespace EcommerceApp.Controllers
             return Ok(new { status = "DATA DELETED SUCCESSFULLY", message = "SUCCESS" });
         }
 
+
+
+        // @User
+        // ACCESS : MANAGER , ADMINISTRATOR , ADMIN
+        //DESC : Like Add on a post
 
 
         [HttpPost]
@@ -312,9 +334,9 @@ namespace EcommerceApp.Controllers
 
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                    Console.WriteLine(e);
+                   
                     return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
             }
 
@@ -329,6 +351,11 @@ namespace EcommerceApp.Controllers
 
         }
 
+
+
+        // @User
+        // ACCESS : MANAGER , ADMINISTRATOR , ADMIN , USER
+        //DESC : adding dislike on a post
 
 
         [HttpPost]
@@ -380,9 +407,9 @@ namespace EcommerceApp.Controllers
 
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
+                
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
             }
 
@@ -397,6 +424,11 @@ namespace EcommerceApp.Controllers
 
         }
 
+
+
+        // @User
+        // ACCESS : MANAGER , ADMINISTRATOR , ADMIN , USER
+        //DESC : user can see all post that admin has approved
 
 
         [HttpGet]
@@ -443,9 +475,9 @@ namespace EcommerceApp.Controllers
 
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return Ok(new { status = "FAILED", e = e, });
+                return Ok(new { status = "FAILED"});
             }
 
             return Ok(new { status = "SUCCESS" });
@@ -453,8 +485,11 @@ namespace EcommerceApp.Controllers
         }
 
 
-        // @ ADMIN
-       
+        // @Role
+        // ACCESS : MANAGER , ADMINISTRATOR
+        //DESC : user post delete
+
+
         [HttpDelete]
         [Route("DeleteUserPost")]
         public object DeleteUserPost([FromBody] Post post)
@@ -473,7 +508,7 @@ namespace EcommerceApp.Controllers
                         if (userrole != null)
                         {
                             var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
-                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            if (rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
                             {
                                 var getPost = _context.Post.
                        Where(u => u.ClientId == UserID && u.PostId == post.PostId).FirstOrDefault();
@@ -527,8 +562,10 @@ namespace EcommerceApp.Controllers
 
 
 
-        // ADMIN
-        // DELETE MULTIPLE POST ID
+        // @Role
+        // ACCESS : MANAGER , ADMINISTRATOR
+        //DESC : delete multiple post at a time
+
 
         [HttpDelete]
         [Route("DeleteMultiplePost")]
@@ -547,14 +584,13 @@ namespace EcommerceApp.Controllers
                         if (userrole != null)
                         {
                             var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
-                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            if (rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
                             {
                                 for (int i = 0; i < list.id.Count; i++)
                                 {
                                     var Post = _context.Post.Where(u => u.PostId == list.id[i]).FirstOrDefault();
 
                                      _context.Post.Remove(Post);
-
 
                                 }
 

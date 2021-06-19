@@ -94,7 +94,7 @@ async componentDidMount() {
                     {
                         this.state.loading ? <SimpleBackdrop /> : null
                     } 
-                    <div class="container">
+                    <div className="container">
                        
 
                         {

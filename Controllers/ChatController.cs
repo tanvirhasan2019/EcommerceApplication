@@ -35,7 +35,11 @@ namespace EcommerceApp.Controllers
 
         }
 
-        // ADMIN  READ 
+        
+        // @Role
+        // ACCESS : ADMIN, MANAGER , ADMINISTRATOR
+        //DESC : return all users chat message
+
         [HttpGet]
         [Route("AllChatMessages")]
         public async Task<IActionResult> AllChatMessages()
@@ -106,6 +110,9 @@ namespace EcommerceApp.Controllers
         }
 
 
+        // @User
+        // ACCESS : ADMIN , MANAGER ,ADMINISTRATOR , User
+        //DESC : return chat list for a user currently logged in
 
         [HttpGet]
         [Route("GetUserChatMessage")]
@@ -158,6 +165,9 @@ namespace EcommerceApp.Controllers
 
 
 
+        // @Role
+        // ACCESS : MANAGER , ADMINISTRATOR
+        //DESC : return chat list for a user currently logged in
 
 
         [HttpDelete]
@@ -177,7 +187,7 @@ namespace EcommerceApp.Controllers
                         if (userrole != null)
                         {
                             var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
-                            if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
+                            if (rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
                             {
                                 var Chat = await _context.ChatTables.Where(x => x.ChatTableId == chat.ChatTableId).FirstOrDefaultAsync();
                                 _context.ChatTables.Remove(Chat);
@@ -212,8 +222,9 @@ namespace EcommerceApp.Controllers
 
 
 
-        // ADMIN
-        // DELETE MULTIPLE POST ID
+        // @Role
+        // ACCESS : MANAGER ,ADMINISTRATOR
+        //DESC : delete multiple chat list at a time
 
         [HttpDelete]
         [Route("DeleteMultipleUserMessage")]
@@ -289,7 +300,9 @@ namespace EcommerceApp.Controllers
 
 
 
-
+        // @User
+        // ACCESS : MANAGER ,ADMINISTRATOR , ADMIN , USER
+        //DESC :  real time chat via signalR
 
         [HttpPost]
         [Route("CreateChat")]
@@ -335,16 +348,13 @@ namespace EcommerceApp.Controllers
                             var ChatTable = new ChatTable
                             {
                                 UserId = UserID,
-                                AdminId = "9d005eb0-4879-4ce4-9823-ecece5d41aaa"
+                                AdminId = "f4561b17-8499-4665-833b-f8bc5e91338b"
 
                             };
 
                             await _context.AddAsync(ChatTable);
                             await _context.SaveChangesAsync();
-                            // _context.SaveChanges();
-
-
-                            //ChatTable Chat = new ChatTable();
+                           
 
                             var chat = await _context.ChatTables
                                        .Where(x => x.UserId == UserID)
@@ -364,12 +374,10 @@ namespace EcommerceApp.Controllers
                         statusCode = 500;
                     }
 
-                   
-
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "FAILED" });
             }
@@ -377,6 +385,12 @@ namespace EcommerceApp.Controllers
             return Ok(new { status = "SUCCESS", statusCode = statusCode });
 
         }
+
+
+
+        // @Role
+        // ACCESS : MANAGER , ADMINISTRATOR , ADMIN
+        //DESC : administrator real time chat via SignalR
 
 
         [HttpPost]
@@ -417,7 +431,7 @@ namespace EcommerceApp.Controllers
                             var ChatTable = new ChatTable
                             {
                                 UserId = message.UserId,
-                                AdminId = UserID
+                                AdminId = "f4561b17-8499-4665-833b-f8bc5e91338b"
 
                             };
 
@@ -442,13 +456,10 @@ namespace EcommerceApp.Controllers
                     {
                         statusCode = 500;
                     }
-
-                  
-
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { status = "FAILED" });
             }
@@ -456,16 +467,12 @@ namespace EcommerceApp.Controllers
             return Ok(new { status = "SUCCESS", statusCode = statusCode });
 
         }
-
-
-
-
     }
 
 
     public class MultiplChatId
     {
-        public virtual List<int> chat { get; set; }
+        public virtual List<int>? chat { get; set; }
 
     }
 

@@ -1,12 +1,12 @@
 ﻿@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
 
-* {
+/* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     text-decoration: none;
-}
+} */
 
 /* body {
     width: 100vw;
@@ -67,12 +67,12 @@
     border-radius: 50%;
 }
 
-.profile-card__header > h2 {
+.profile-card__header > contact_h2 {
     margin: 12px;
     color: #e66767;
 }
 
-.profile-card__header > p {
+.profile-card__header > contact_p {
     color: #ececec;
     font-weight: 600;
     margin-bottom: 11px;

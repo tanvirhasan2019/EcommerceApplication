@@ -34,6 +34,13 @@ namespace EcommerceApp.Controllers
 
         }
 
+
+        // @User
+        // ACCESS : MANAGER , ADMINISTRATOR , ADMIN , USER
+        //DESC : return all products that is available
+
+
+
         [AllowAnonymous]
         [HttpGet]
         [Route("GetProducts")]
@@ -47,6 +54,11 @@ namespace EcommerceApp.Controllers
 
             return Ok(new { data = productList });
         }
+
+
+        // @User
+        // ACCESS : MANAGER , ADMINISTRATOR , ADMIN , USER
+        //DESC : return a products through id
 
         [AllowAnonymous]
         [HttpGet]
@@ -62,7 +74,10 @@ namespace EcommerceApp.Controllers
 
 
 
-        
+        // @User
+        // ACCESS : MANAGER , ADMINISTRATOR , ADMIN , USER
+        //DESC : task is not completed or removed
+
         [HttpPost]
         [Route("PlaceOrder")]
         public object PlaceOrder([FromBody] Productnew products)
@@ -92,7 +107,7 @@ namespace EcommerceApp.Controllers
             }
             catch (Exception)
             {
-                // Console.WriteLine(e);
+                
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
             }
             return Ok(new { status = "DATA SAVED SUCCESSFULLY", message = "SUCCESS" });
@@ -100,8 +115,10 @@ namespace EcommerceApp.Controllers
 
 
 
+        // @Role
+        // ACCESS : MANAGER , ADMINISTRATOR , ADMIN 
+        //DESC : return all Order List
 
-       
         [HttpGet]
         [Route("AllOrderList")]
         public async Task<IActionResult> AllOrderList()
@@ -159,7 +176,7 @@ namespace EcommerceApp.Controllers
                     statusCode = 500;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 
                 return Ok(new
@@ -174,9 +191,11 @@ namespace EcommerceApp.Controllers
 
         }
 
-    
 
 
+        // @User
+        // ACCESS : MANAGER , ADMINISTRATOR , ADMIN , USER
+        //DESC : return order item through id
 
         [HttpGet]
         [Route("GetSingleOrderItem")]

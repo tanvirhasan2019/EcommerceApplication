@@ -12,7 +12,7 @@ import { Menu, Dropdown, Button, message, Space, Tooltip } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import Typography from '@material-ui/core/Typography';
 import GetAppIcon from '@material-ui/icons/GetApp';
-
+import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 
 
  export class LoginMenu extends Component {
@@ -119,7 +119,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
                      <Dropdown overlay={menu}>
                          <Button>                             
                              <Typography style={{ textAlign: 'center', color: 'blue' }} variant="subtitle2" gutterBottom>
-                                 {userSign} &nbsp; <GetAppIcon />
+                                 {userSign} &nbsp; <ArrowDropDownCircleIcon />
                              </Typography>
                          </Button>
                      </Dropdown>

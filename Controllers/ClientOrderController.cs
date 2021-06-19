@@ -32,7 +32,10 @@ namespace EcommerceApp.Controllers
 
         }
 
-        
+
+        // @User
+        // ACCESS : MANAGER ,ADMINISTRATOR , ADMIN , USER
+        //DESC : MAKE ORDER FOR PURCHASING PRODUCT
 
         [HttpPost]
         [Route("PlaceOrder")]
@@ -117,9 +120,9 @@ namespace EcommerceApp.Controllers
 
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
+                
                 return Ok(new { status = "SOMETHING WENT WRONG", message = "FAILED" });
             }
 
@@ -129,6 +132,9 @@ namespace EcommerceApp.Controllers
 
 
 
+        // @User
+        // ACCESS : MANAGER ,ADMINISTRATOR , ADMIN , USER
+        //DESC : User get Order that already been purchased or pending
 
         [HttpGet]
         [Route("Getuserorder")]

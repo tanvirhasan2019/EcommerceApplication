@@ -124,7 +124,7 @@ class ProductsList extends Component {
                 />
 
 
-                <div className="card shadow mb-5 bg-white rounded">
+                <div style={{padding:'0px'}}className="card shadow mb-5 bg-white rounded">
                     <img className="card-img-top" src={titleImage} alt="NO IMAGE" />
                     <div className="card-body">
                         

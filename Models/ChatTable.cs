@@ -11,6 +11,7 @@ namespace EcommerceApp.Models
         public string? AdminId { get; set; }
         public string? UserId { get; set; }
         public ApplicationUser? Admin { get; set; }
+
         public ApplicationUser? User { get; set; }
 
         public virtual List<Message>? Messages { get; set; }

@@ -127,7 +127,10 @@ class SideCart extends Component {
                             <ArrowForwardIosIcon className="sidecart-close" onClick={this.props.Show} />
 
                             <Link to="/cart-item" className="main-link">
-                            cart page
+                        
+                        <Button style={{width:'100%'}} variant="contained" color="secondary">
+                                     Go to cart
+                                </Button>
                             </Link>
                        
                         </div>
