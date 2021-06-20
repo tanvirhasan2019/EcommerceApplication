@@ -11,6 +11,8 @@ import ButtonAppBar from './ButtonAppBar'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import './contact.css'
+import Footer from './FooterLayout';
+
 
 export default function Contact() {
 
@@ -22,11 +24,11 @@ export default function Contact() {
                 <div className="profile-card">
                     <div className="profile-card__header">
                         
-                        <h2 className="contact_h2">tanshen technology</h2>
-                        <p className="contact_p">1st Floor, Road# 12, Kemal Ataturk Ave, Dhaka.</p>
-                        <p className="contact_p">Phone- 01xxxxxxxxx</p>
-                        <p className="contact_p">Phone- 01xxxxxxxxx</p>
-                        <p className="contact_p">Email- tanshenit@gmail.com</p>
+                        <h2 style={{color:'white'}} className="contact_h2">tanshen technology</h2>
+                        <p style={{ color: 'white' }} className="contact_p">5th floor , New market comilla 3500</p>
+                        <p style={{ color: 'white' }} className="contact_p">Phone- 01xxxxxxxxx</p>
+                        <p style={{ color: 'white' }} className="contact_p">Phone- 01xxxxxxxxx</p>
+                        <p style={{ color: 'white' }} className="contact_p">Email- tanshenit@gmail.com</p>
                         <div className="profile-card__header__link-social">
                             <a  href="" className="fa fa-facebook"></a>
                             <a  href="#" className="fa fa-instagram"></a>
@@ -50,7 +52,7 @@ export default function Contact() {
                     </div>
                 </div>
             </div>
-
+            <Footer />
         </div>
 
 

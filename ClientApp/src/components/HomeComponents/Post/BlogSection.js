@@ -40,8 +40,7 @@ export default class Blogsection extends Component {
 
             this.setState({ Post: data.data })
             this.setState({ loading: false })
-            //setResult(data.data)
-
+           
             console.log('after fetch post ', { data })
             console.log('after fetch state ', this.state.Post)
 

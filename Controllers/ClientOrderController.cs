@@ -150,7 +150,7 @@ namespace EcommerceApp.Controllers
                     var OrderDetails = await _context.OrderDetails.ToListAsync();
                     var Transaction = await _context.Transaction.ToListAsync();
                     var ShippingDetails = await _context.ShippingDetails.ToListAsync();
-                    var ClientOrder = await _context.ClientOrder.Where(c => c.userid == UserID).ToListAsync();
+                    var ClientOrder = await _context.ClientOrder.OrderByDescending(x=>x.Orderid).Where(c => c.userid == UserID).ToListAsync();
                     return Ok(new { data = ClientOrder });
                 }
 

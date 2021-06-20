@@ -19,6 +19,7 @@ import { toaster } from 'evergreen-ui';
 import SimpleBackdrop from '../spinner/SimpleBackdrop'
 import { useDispatch } from 'react-redux';
 import { cartUpdate } from '../../actions/cartItem'
+import Alert from '@material-ui/lab/Alert';
 
 
 function Copyright() {
@@ -145,7 +146,7 @@ export default function Checkout() {
                         'productid': productid,
                         'quantity': quantity,
                         'price': price,
-                        'payementType': 'VISA',
+                        'payementType': 'CASH',
                         'firstname': Shipping_Data.firstName,
                         'lastname': Shipping_Data.lastName,
                         'address1': Shipping_Data.address1,
@@ -221,12 +222,14 @@ export default function Checkout() {
                                             
                                                 loading == false ? (<React.Fragment>
                                                      <Typography variant="h5" gutterBottom>
-                                                        Thank you for your order.
-                                                                </Typography>
-                                                    <Typography variant="subtitle1">
-                                                        Your order number is {orderid}. We have emailed your order confirmation, and will
-                                                                    send you an update when your order has shipped.
-                                                                 </Typography>
+                                                         Thank you for your order.
+                                                     </Typography>
+                                                      <Typography variant="subtitle1">
+                                                         Your order number is {orderid}
+                                                      </Typography>
+                                                      <Alert severity="success">
+                                                         The payement Api is under construction. we assume your order as a cash on delivery
+                                                     </Alert>
                                             </React.Fragment>) : <SimpleBackdrop />
                                             
                                            

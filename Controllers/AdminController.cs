@@ -634,7 +634,7 @@ namespace EcommerceApp.Controllers
                             var rolename = _context.Roles.Where(x => x.Id == userrole.RoleId).FirstOrDefault();
                             if (rolename.Name == Role.Admin || rolename.Name == Role.Manager || rolename.Name == Role.Administrator)
                             {
-                                var Users = await _context.Users.ToListAsync();
+                                var Users = await _context.Users.OrderByDescending(x=>x.Id).ToListAsync();
                                 statusCode = 200;
 
                                 return Ok(new { data = Users, statusCode = statusCode });

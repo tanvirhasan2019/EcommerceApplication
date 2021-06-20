@@ -9,6 +9,7 @@ import ButtonAppBar from './ButtonAppBar'
 import UserCards from './UserCards'
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Footer from './FooterLayout';
 
 
 export default function AboutUS() {
@@ -55,17 +56,47 @@ export default function AboutUS() {
 			              </Typography>
 
                           <Typography style={{marginTop:'30px'}} variant="h6" gutterBottom>
-	                        
+                             Services Being Provided
 			              </Typography>
 
                           <Typography   variant="body1" gutterBottom>
-	                         
-			              </Typography>
+                            We are a Tech-based product seller. We are providing our customers with the best quality products at the most reasonable price. We have varieties of products that our customers can choose from. The product range starts from Desktop PC, Laptop & Netbook, UPS, Tablet PC, Monitors, Office Equipment, Camera, Security Camera, Television and many other products. Each of our products is checked and reviewed before it is sold to our Loyal Customers. You are our driving force to better ourselves in all the aspects of the service-providing sector. We strive to become a Perfectionist Company that delivers everything, word for word.
+                          </Typography>
 
-                       </Paper>
-                     
+
+
+                        <Typography style={{ marginTop: '30px' }} variant="h6" gutterBottom>
+                            Dealing with Corporate Sector
+                        </Typography>
+
+                        <Typography variant="body1" gutterBottom>
+                            We also are working with Corporate Customers from the beginning of Star Tech. We are working with many well-known offices in Bangladesh and have a very good relationship with them. We have worked with many Corporate offices like the bank, hospital, Government organizations, Multi-National Companies, Telecom Companies, to name a few. We provide them with all the Tech product-related support and facilities for their business. The Tech facilities that we provide are all IT-related hardware products like network-based products, servers and routers, laptops, desktops, printers, and other Tech-related hardware accessories.
+                        </Typography>
+
+
+                        <Typography style={{ marginTop: '30px' }} variant="h6" gutterBottom>
+                            Customer Satisfaction
+                        </Typography>
+
+                        <Typography variant="body1" gutterBottom>
+                            We have been in the market for a long time, and we have come to know what the customers want and desire. We have made changes around our customers so that we will be able to fulfill the desires of each of our customers. We want to improve more and more to be able to give everyone their desired or dreamed products. We are providing online buying opportunities for our customers, providing delivery service for all of our products all over Bangladesh. We provide the best after sells customer service to our customers to make them feel that we do care about their possession and provide them with the best solutions for their problems.
+                        </Typography>
+
+
+                        <Typography style={{ marginTop: '30px' }} variant="h6" gutterBottom>
+                            The Brand That Cares For You
+                        </Typography>
+
+                        <Typography variant="body1" gutterBottom>
+                            This is STAR TECH! A Brand that is Truly concerned about its customers and loyally provides all the needs of the customers. Customers come first to this Company. Our customers will receive the best service and deals that Star Tech offers. To us, our customer’s wants and needs take the top priority. We always have and will aim to provide the perfect result to our loyal customers. And our after-sales service will ensure that no one of our customers will come to us with the same issue twice. Come and Experience the service, product, and facilities Star Tech offers.
+                        </Typography>
+
+                    </Paper>
+
+                      
                  </div>
             </div>
+            <Footer />
 
         </div>
     );

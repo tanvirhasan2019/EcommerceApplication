@@ -63,6 +63,7 @@ namespace EcommerceApp.Controllers
                                 var mapper = InitializeAutomapper();
 
                                 var Chatdata = await _context.ChatTables
+                                                      .OrderByDescending(x=>x.ChatTableId)
                                                       .Include(x => x.User)
                                                       .ProjectTo<ChatTableDto>(mapper.ConfigurationProvider)
                                                       .ToListAsync();

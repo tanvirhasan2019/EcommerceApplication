@@ -30,12 +30,7 @@ export default class FooterLayout extends Component {
 										<PinDropIcon /> &nbsp;Find our store 
                                     </button> </Link>
 								</li>
-								<li>
-									<Link to="/brands">
-										<button type="submit" class="btn btn-outline-light mb-4">
-											Brands
-                                    </button> </Link>
-								</li>
+								
 								<li>
 									<Typography style={{ color: '#E66767', fontStyle:'italic' }} variant="h6" gutterBottom>
 										tanshen technology
@@ -64,19 +59,17 @@ export default class FooterLayout extends Component {
                                     </button> </Link>
 								</li>
 								
-
 								<li>
-									<Link to="/faq">
+									<Link to="/brands">
 										<button type="submit" class="btn btn-outline-light mb-4">
-											FAQ
+											Brands
                                     </button> </Link>
 								</li>
+								
 
 							
 
-								
-								
-
+							
 															
 							</ul>
 						</div>

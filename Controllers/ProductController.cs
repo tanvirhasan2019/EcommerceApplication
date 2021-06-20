@@ -48,7 +48,7 @@ namespace EcommerceApp.Controllers
         {
 
             var productImage = await _context.ProductImage.ToListAsync();
-            var productList = await _context.Products.ToListAsync();
+            var productList = await _context.Products.OrderByDescending(x=>x.id).ToListAsync();
 
 
 
@@ -148,7 +148,7 @@ namespace EcommerceApp.Controllers
 
                                 var ShippingDetails = await _context.ShippingDetails.ToListAsync();
 
-                                var ClientOrder = await _context.ClientOrder.ToListAsync();
+                                var ClientOrder = await _context.ClientOrder.OrderByDescending(x=>x.Orderid).ToListAsync();
                                 statusCode = 200 ;
 
 

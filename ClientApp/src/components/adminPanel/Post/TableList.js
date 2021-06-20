@@ -59,9 +59,9 @@ const TableList = (props) => {
             },
             {
                 Header: 'POST DATE',
-                accessor: 'DateTime',
+                accessor: 'dateTime',
                  Cell: ({ cell }) => (
-                    <div> <Demo value={ cell.row.values.DateTime}/> </div>              
+                    <div> <Demo value={ cell.row.values.dateTime}/> </div>              
                 )
                 
                 
@@ -300,18 +300,18 @@ const TableList = (props) => {
 
          list_data = []
         
-           
+        console.log('PROPS DATA  for date ', props.data)
         props.data.map(item => {
 
             
           
             
-            var temp = {
+          var temp = {
 
                     postId: item.postId,
                     userName: item.client.userName,                
                     approved: item.approved,
-                    DateTime : item.DateTime                 
+                    dateTime : item.dateTime                 
                     
                 }
                 list_data.push(temp)
@@ -319,8 +319,8 @@ const TableList = (props) => {
 
             })
        
-        console.log('list data')
-        console.log({list_data})
+        console.log('list data date time ', {list_data})
+        
 
         setData(makeData(list_data, false, 20))
 
@@ -418,7 +418,7 @@ const newPerson = (temp) => {
         postId: temp.postId,
         userName: temp.userName,                
         approved: temp.approved,
-        DateTime : temp.DateTime 
+        dateTime : temp.dateTime 
         
            
     }
@@ -431,7 +431,7 @@ const newPerson2 = (temp) => {
        postId: '',
        userName: '',                
        approved: '',
-       DateTime : ''      
+       dateTime : ''      
         
 
     }

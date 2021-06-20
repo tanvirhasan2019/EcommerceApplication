@@ -144,6 +144,7 @@ namespace EcommerceApp.Controllers
                             {
                                 var users = _context.Users.ToList();
                                 var Post = await _context.Post.OrderByDescending(b => b.PostId).ToListAsync();
+                                
                                 statusCode = 200;
 
                                 return Ok(new { data = Post , statusCode = statusCode});
