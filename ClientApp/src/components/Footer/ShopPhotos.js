@@ -1,4 +1,50 @@
 ﻿
+
+export const Shop = [
+
+    {
+        src: "https://blog.abt.com/wp-content/uploads/2013/02/connect-3.jpg",
+        width: 1,
+        height: 1
+    },
+    {
+        src: "https://image.shutterstock.com/image-photo/department-laptops-electronics-store-table-260nw-1288365160.jpg",
+        width: 3,
+        height: 4
+    },
+    {
+        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcr2uP4oNU8lI_Sjqib1J8PwbZoOL8HtZY6hCYXx4X9Cnj6PYoQJPhVs5xMjGNRWujFTI&usqp=CAU",
+        width: 3,
+        height: 4
+    },
+    {
+        src: "https://image.freepik.com/free-photo/department-laptops-tech-store-buy-laptop_245974-2709.jpg",
+        width: 3,
+        height: 4
+    },
+    {
+        src: "https://phoneshopdesign.com/wp-content/uploads/2018/07/037-dell-classic-laptop-boutique-store-2-720x480.jpg",
+        width: 4,
+        height: 3
+    },
+    {
+        src: "https://sc04.alicdn.com/kf/HTB15dh8tuSSBuNjy0Flq6zBpVXae.jpg",
+        width: 3,
+        height: 4
+    },
+    {
+        src: "https://tobuz-dev-bkt.s3.amazonaws.com/1600364890194img_2285_jpg",
+        width: 4,
+        height: 3
+    },
+    {
+        src: "https://financialtribune.com/sites/default/files/11_ns_laptop_600-ed_2.jpg",
+        width: 4,
+        height: 3
+    }
+];
+
+
 export const photos = [
   
   {

@@ -21,9 +21,9 @@ export class Home extends Component {
         PRICE: {
             label: "PRICE",
             min: 0,
-            max: 100000,
+            max: 1000000,
             step: 1,
-            value: { min: 0, max: 100000 },
+            value: { min: 0, max: 1000000 },
            
         },
         title: '',

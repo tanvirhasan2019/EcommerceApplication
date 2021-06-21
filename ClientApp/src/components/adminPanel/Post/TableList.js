@@ -50,14 +50,7 @@ const TableList = (props) => {
                 accessor: 'postId',
 
             },
-            {
-                Header: 'USER',
-                accessor: 'userName',
-                
-
-
-            },
-            {
+ {
                 Header: 'POST DATE',
                 accessor: 'dateTime',
                  Cell: ({ cell }) => (
@@ -66,6 +59,14 @@ const TableList = (props) => {
                 
                 
             },
+            {
+                Header: 'USER',
+                accessor: 'userName',
+                
+
+
+            },
+           
             {
                 Header: 'STATUS',
                 accessor: 'approved',

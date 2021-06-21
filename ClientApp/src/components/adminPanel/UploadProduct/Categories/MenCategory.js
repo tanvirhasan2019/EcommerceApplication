@@ -178,7 +178,7 @@ class MenCategory extends Component {
                 'quantity': Data.Root.user.quantity,
                 'price': Data.Root.user.price, 
                 'category': category,
-                'subcategory': subcategory, 
+                'subcategory': Data.Root.user.subcategory,
                 'Img': ProductImage
             }), 
         })
@@ -248,10 +248,15 @@ class MenCategory extends Component {
                             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
                     >
-                        <Option value="GENTS">GENTS</Option>
-                        <Option value="KIDS">KIDS</Option>
-                        <Option value="LADIES">LADIES</Option>
-                        <Option value="STATIONARY">STATIONARY</Option>
+                        <Option value="DESKTOP">DESKTOP</Option>
+                        <Option value="LAPTOP">LAPTOP</Option>
+                        <Option value="ACCESSORIES">ACCESSORIES</Option>
+                        <Option value="NETWORKING">NETWORKING</Option>
+                        <Option value="MONITOR">MONITOR</Option>
+                        <Option value="SECURITY">SECURITY</Option>
+                        <Option value="GADGET">GADGET</Option>
+                        <Option value="OTHERS">OTHERS</Option>
+                        
                         
                     </Select>
                 </Form.Item>
@@ -269,26 +274,9 @@ class MenCategory extends Component {
                     ]}
                 >
 
-                    <Select
-                        showSearch
-                        
-                        placeholder="Select a subcategory"
-                        optionFilterProp="children"
-                        onChange={onChangeSub}
-                        onFocus={onFocus}
-                        onBlur={onBlur}
-                       
-                        onSearch={onSearch}
-                        filterOption={(input, option) =>
-                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        }
-                    >
-                        <Option value="GENTS1">GENTS1</Option>
-                        <Option value="KIDS1">KIDS1</Option>
-                        <Option value="LADIES1">LADIES1</Option>
-                        <Option value="STATIONARY1">STATIONARY1</Option>
+                    <Input />
 
-                    </Select>
+
                 </Form.Item>
 
 
